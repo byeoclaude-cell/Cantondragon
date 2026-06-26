@@ -1,0 +1,422 @@
+/* ============================================================
+   Canton Dragon Asian Grill & Bar — custom styles
+   Tailwind handles layout/utilities; this file holds brand
+   components, fonts, decorative motifs and animations.
+   ============================================================ */
+
+:root {
+  --lacquer: #7B1113;
+  --lacquer-600: #9B1B1D;
+  --gold: #C8A24B;
+  --gold-400: #D9BC73;
+  --ink: #1A1310;
+  --ivory: #FBF7F0;
+  /* One signature easing curve used across the whole site, so motion feels authored */
+  --ease: cubic-bezier(0.6, 0.01, 0.05, 0.99);
+  --ease-out: cubic-bezier(0.16, 0.84, 0.44, 1);
+}
+
+html { -webkit-tap-highlight-color: transparent; }
+body {
+  overflow-x: hidden;
+  font-feature-settings: "ss01", "cv01";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fraunces is variable — let optical sizing track the type scale, and tune display copy */
+.font-display, .font-serif {
+  font-optical-sizing: auto;
+  letter-spacing: -0.012em;
+}
+h1.font-display, h2.font-display { letter-spacing: -0.02em; }
+
+/* The markup uses font-500…font-900 utilities — make them real weights */
+.font-300 { font-weight: 300; }
+.font-400 { font-weight: 400; }
+.font-500 { font-weight: 500; }
+.font-600 { font-weight: 600; }
+.font-700 { font-weight: 700; }
+.font-800 { font-weight: 800; }
+.font-900 { font-weight: 900; }
+
+/* ---------- Buttons ---------- */
+.btn-gold,
+.btn-ghost,
+.btn-outline,
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  border-radius: 9999px;
+  padding: .8rem 1.6rem;
+  font-size: .9rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+  cursor: pointer;
+  transition: background-color .25s ease, color .25s ease,
+              border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+.btn-gold {
+  background: var(--gold);
+  color: #2a1d05;
+  box-shadow: 0 10px 25px -12px rgba(200,162,75,.7);
+}
+.btn-gold:hover { background: #d9bc73; box-shadow: 0 14px 30px -10px rgba(200,162,75,.85); }
+.btn-gold:active { transform: translateY(1px); }
+
+.btn-ghost {
+  background: rgba(251,247,240,.08);
+  color: var(--ivory);
+  border: 1px solid rgba(251,247,240,.35);
+  backdrop-filter: blur(4px);
+}
+.btn-ghost:hover { background: rgba(251,247,240,.16); border-color: rgba(251,247,240,.6); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--ivory);
+  border: 1px solid rgba(251,247,240,.28);
+}
+.btn-outline:hover { background: var(--ivory); color: var(--ink); border-color: var(--ivory); }
+
+.btn-dark {
+  background: rgba(251,247,240,.06);
+  color: var(--ivory);
+  border: 1px solid rgba(251,247,240,.16);
+}
+.btn-dark:hover { background: var(--gold); color: #2a1d05; border-color: var(--gold); }
+
+/* ---------- Nav ---------- */
+.nav-link {
+  position: relative;
+  font-size: .9rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: var(--ivory);
+  transition: color .3s var(--ease);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  height: 1.5px; width: 100%;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .5s var(--ease);
+}
+.nav-link:hover { color: var(--gold-400); }
+.nav-link:hover::after { transform: scaleX(1); }
+
+/* Navbar scrolled state (toggled via JS) — dark bar to match the logo */
+#navbar.scrolled {
+  top: 0;
+  background: rgba(20,16,14,.88);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(200,162,75,.12), 0 14px 34px -22px rgba(0,0,0,.8);
+}
+#navbar.scrolled .nav-link { color: var(--ivory); }
+#navbar.scrolled .nav-link:hover { color: var(--gold-400); }
+#navbar.scrolled #menuBtn { color: var(--ivory); }
+
+.mobile-link {
+  border-radius: .75rem;
+  padding: .8rem 1rem;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.4rem;
+  color: var(--ivory);
+  transition: background-color .2s var(--ease), color .2s var(--ease);
+}
+.mobile-link:hover { background: rgba(251,247,240,.06); color: var(--gold-400); }
+
+/* ---------- Section helpers ---------- */
+.section-eyebrow {
+  font-size: .78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .32em;
+  color: var(--gold-400);
+}
+
+.info-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  height: 2.75rem; width: 2.75rem;
+  border-radius: 9999px;
+  background: rgba(200,162,75,.12);
+  color: var(--gold-400);
+}
+
+.social-btn {
+  display: grid;
+  place-items: center;
+  height: 2.6rem; width: 2.6rem;
+  border-radius: 9999px;
+  color: var(--gold-400);
+  background: rgba(251,247,240,.07);
+  transition: background-color .3s var(--ease), color .3s var(--ease), transform .3s var(--ease);
+}
+.social-btn:hover { background: var(--gold); color: #2a1d05; transform: translateY(-2px); }
+.social-btn--dark { color: var(--gold-400); background: rgba(251,247,240,.08); }
+.social-btn--dark:hover { background: var(--gold); color: #2a1d05; }
+
+.footer-link { transition: color .2s ease; }
+.footer-link:hover { color: var(--gold-400); }
+
+/* ---------- Menu tabs ---------- */
+.menu-tab {
+  flex: none;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding: .6rem 1.15rem;
+  font-size: .85rem;
+  font-weight: 500;
+  color: rgba(251,247,240,.62);
+  cursor: pointer;
+  transition: background-color .3s var(--ease), color .3s var(--ease);
+}
+.menu-tab:hover { color: var(--ivory); }
+.menu-tab.active { background: var(--lacquer); color: var(--ivory); }
+
+/* Hide scrollbar on the tab strip but keep it scrollable */
+.menu-tabs { scrollbar-width: none; }
+.menu-tabs::-webkit-scrollbar { display: none; }
+
+/* ---------- Menu item rows ---------- */
+.menu-item {
+  display: flex;
+  align-items: baseline;
+  gap: .75rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(251,247,240,.09);
+}
+.menu-item__lead {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  min-width: 0;
+}
+.menu-item__name { font-weight: 600; color: var(--ivory); }
+.menu-item__dots {
+  flex: 1;
+  height: 1px;
+  margin: 0 .3rem;
+  background-image: radial-gradient(currentColor 1px, transparent 1.4px);
+  background-size: 7px 7px;
+  background-position: bottom;
+  background-repeat: repeat-x;
+  color: rgba(251,247,240,.2);
+  transform: translateY(-3px);
+}
+.menu-item__price { font-weight: 600; color: var(--gold-400); white-space: nowrap; }
+.menu-item__desc { margin-top: .25rem; font-size: .9rem; line-height: 1.5; color: var(--ivory); opacity: .55; }
+
+.spice-tag {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #E0857A;
+  border: 1px solid rgba(224,133,122,.4);
+  border-radius: 9999px;
+  padding: .05rem .4rem;
+  transform: translateY(-1px);
+}
+
+/* ---------- Decorative dragon-scale pattern ---------- */
+.scale-pattern {
+  background-image: radial-gradient(circle at 50% 100%, transparent 9px, var(--gold) 9px, var(--gold) 10px, transparent 10px);
+  background-size: 28px 18px;
+  background-position: 0 0, 14px 9px;
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+.reveal-up,
+.reveal-img {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.reveal-up { transform: translateY(28px); }
+.reveal-img { transform: translateY(36px) scale(.98); }
+
+.reveal-up.in,
+.reveal-img.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity .8s cubic-bezier(.16,.84,.44,1) var(--d, 0s),
+              transform .9s cubic-bezier(.16,.84,.44,1) var(--d, 0s);
+}
+
+/* Scroll cue */
+.scroll-cue {
+  animation: cue 1.8s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes cue {
+  0%, 100% { transform: scaleY(.4); opacity: .4; }
+  50%      { transform: scaleY(1);  opacity: 1; }
+}
+
+/* Hero matte "frame" panels — solid charcoal, animated via transform only */
+.hero-matte {
+  background: var(--ink);
+  background: #14100E;
+}
+
+/* Hero content — revealed by scroll progress (driven inline from JS).
+   Starts hidden; JS sets opacity/transform per frame. */
+.hero-anim {
+  opacity: 0;
+  transform: translateY(26px);
+  will-change: opacity, transform;
+}
+
+/* Hero headline / copy: revealed word-by-word as a scroll-driven wave.
+   Text containers stay hidden until JS has split words & taken over. */
+.hero-text { opacity: 0; }
+.hero-text.ready { opacity: 1; }
+.hero-word {
+  display: inline-block;
+  opacity: 0;            /* JS ramps this per word from the reveal "head" */
+  transform: translateY(8px);
+}
+/* The decorative gold dash reveals with the first words. */
+.hero-dash { opacity: 0; }
+
+/* ============================================================
+   Bespoke micro-interactions
+   ============================================================ */
+
+/* Buttons share the signature easing + a subtle spring */
+.btn-gold, .btn-ghost, .btn-outline, .btn-dark {
+  transition: background-color .35s var(--ease), color .35s var(--ease),
+              border-color .35s var(--ease), box-shadow .45s var(--ease),
+              transform .5s var(--ease-out);
+}
+
+/* Magnetic targets: JS nudges --mx/--my toward the cursor; CSS animates the spring back */
+.magnetic { transition: transform .6s var(--ease-out); }
+
+/* Animated link underline for inline / footer links */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  height: 1px; width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .5s var(--ease);
+}
+.link-underline:hover::after { transform-origin: left; transform: scaleX(1); }
+
+.footer-link { position: relative; transition: color .3s var(--ease); }
+.footer-link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  height: 1px; width: 100%;
+  background: var(--gold-400);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .45s var(--ease);
+}
+.footer-link:hover::after { transform-origin: left; transform: scaleX(1); }
+
+/* Sliding indicator behind the menu tabs */
+.menu-tabs { position: relative; }
+.menu-tab-indicator {
+  position: absolute;
+  top: 6px; left: 0;
+  height: calc(100% - 12px);
+  border-radius: 9999px;
+  background: var(--lacquer);
+  transition: transform .5s var(--ease), width .5s var(--ease);
+  z-index: 0;
+  pointer-events: none;
+}
+.menu-tab { position: relative; z-index: 1; }
+.menu-tab.active { background: transparent; color: var(--ivory); }
+.menu-tab.active:hover { background: transparent; }
+
+/* Count-up stats use tabular figures so they don't jitter while animating */
+.stat-num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+
+/* Bar marquee — continuous horizontal scroll of dish photos */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+}
+.marquee-track {
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-item {
+  flex: none;
+  height: 11rem;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0 18px 40px -20px rgba(0,0,0,.8);
+}
+@media (min-width: 768px) { .marquee-item { height: 15rem; } }
+.marquee-item img { height: 100%; width: 100%; object-fit: cover; display: block; }
+/* Alternating tilt for a playful, scattered feel */
+.marquee-item:nth-child(odd)  { transform: rotate(-2deg); }
+.marquee-item:nth-child(even) { transform: rotate(5deg); }
+
+/* Gallery item hover */
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.gallery-item img {
+  height: 100%; width: 100%;
+  object-fit: cover;
+  transition: transform .7s cubic-bezier(.16,.84,.44,1);
+}
+.gallery-item:hover img { transform: scale(1.08); }
+.gallery-item::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(20,16,14,.45), transparent 55%);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.gallery-item:hover::after { opacity: 1; }
+
+/* Signature cards */
+.sig-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: #1C1714;
+  border: 1px solid rgba(251,247,240,.08);
+}
+.sig-card img {
+  height: 14rem; width: 100%;
+  object-fit: cover;
+  transition: transform .8s cubic-bezier(.16,.84,.44,1);
+}
+.sig-card:hover img { transform: scale(1.07); }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal-up, .reveal-img { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .scroll-cue, .hero-bg { animation: none !important; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

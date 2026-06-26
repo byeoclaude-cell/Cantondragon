@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canton Dragon Asian Grill &amp; Bar | American-Style Chinese in Scottsdale, AZ</title>
+  <meta name="description" content="Canton Dragon Asian Grill &amp; Bar serves elevated American-style Chinese cuisine, wok-fired classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Dine in, take out or order online." />
+  <meta name="theme-color" content="#7B1113" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Canton Dragon Asian Grill & Bar — Scottsdale, AZ" />
+  <meta property="og:description" content="Wok-fired American-style Chinese cuisine, fresh seafood and craft cocktails in Scottsdale, Arizona." />
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=1200&q=70" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (Play CDN — see README for production build instructions) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            lacquer:  { DEFAULT: '#7B1113', 600: '#9B1B1D', 700: '#7B1113', 800: '#5E0C0E', 900: '#430809' },
+            gold:     { DEFAULT: '#C8A24B', 400: '#D9BC73', 500: '#C8A24B', 600: '#A9842F' },
+            ink:      { DEFAULT: '#1A1310', soft: '#3A302B', muted: '#6B5D55' },
+            ivory:    { DEFAULT: '#FBF7F0', 100: '#F6EFE3', 200: '#EFE5D4' },
+            charcoal: { DEFAULT: '#14100E', 800: '#1C1714' },
+          },
+          fontFamily: {
+            display: ['Fraunces', 'Georgia', 'serif'],
+            serif:   ['Fraunces', 'Georgia', 'serif'],
+            sans:    ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
+          },
+          maxWidth: { '8xl': '88rem' },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css?v=4" />
+
+  <!-- Structured data for local SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Canton Dragon Asian Grill & Bar",
+    "servesCuisine": ["Chinese", "Asian", "American Chinese"],
+    "priceRange": "$$",
+    "telephone": "+1-480-451-8866",
+    "url": "https://cantondragonscottsdale.com",
+    "image": "https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=1200&q=70",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "10190 N 90th St #101",
+      "addressLocality": "Scottsdale",
+      "addressRegion": "AZ",
+      "postalCode": "85258",
+      "addressCountry": "US"
+    },
+    "openingHours": "Mo-Su 11:00-20:30",
+    "acceptsReservations": "True",
+    "menu": "https://cantondragonscottsdale.com/menu"
+  }
+  </script>
+</head>
+
+<body class="bg-charcoal font-sans text-ivory antialiased selection:bg-gold/30">
+
+  <!-- Skip link -->
+  <a href="#menu" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-lacquer focus:px-5 focus:py-2 focus:text-ivory">Skip to menu</a>
+
+  <!-- ============ NAVBAR ============ -->
+  <header id="navbar" class="fixed inset-x-0 top-0 z-50 transition-all duration-500">
+    <nav class="mx-auto flex max-w-8xl items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+      <a href="#home" class="group flex items-center" aria-label="Canton Dragon Asian Grill &amp; Bar home">
+        <img src="assets/logo/logo4.png" alt="Canton Dragon Asian Grill &amp; Bar"
+             class="h-24 w-auto transition-opacity duration-300 group-hover:opacity-80 sm:h-32" />
+      </a>
+
+      <div class="hidden items-center gap-9 lg:flex">
+        <a href="#about" class="nav-link">Our Story</a>
+        <a href="#signatures" class="nav-link">Signatures</a>
+        <a href="#menu" class="nav-link">Menu</a>
+        <a href="#gallery" class="nav-link">Gallery</a>
+        <a href="#visit" class="nav-link">Visit</a>
+        <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener"
+           class="btn-gold">Order Online</a>
+      </div>
+
+      <button id="menuBtn" class="grid h-11 w-11 place-items-center rounded-full text-ivory lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="fixed inset-0 z-[55] hidden">
+    <div class="absolute inset-0 bg-charcoal/70 backdrop-blur-sm" data-close></div>
+    <div class="absolute right-0 top-0 flex h-full w-[82%] max-w-sm translate-x-full flex-col bg-charcoal text-ivory shadow-2xl transition-transform duration-500 will-change-transform" id="mobilePanel">
+      <div class="flex items-center justify-between border-b border-ivory/10 px-6 py-5">
+        <span class="font-display text-xl font-700 text-ivory">Menu</span>
+        <button class="grid h-10 w-10 place-items-center rounded-full text-ivory" aria-label="Close menu" data-close>
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <nav class="flex flex-col gap-1 px-4 py-6 text-lg">
+        <a href="#about" class="mobile-link" data-close>Our Story</a>
+        <a href="#signatures" class="mobile-link" data-close>Signatures</a>
+        <a href="#menu" class="mobile-link" data-close>Menu</a>
+        <a href="#gallery" class="mobile-link" data-close>Gallery</a>
+        <a href="#visit" class="mobile-link" data-close>Visit</a>
+      </nav>
+      <div class="mt-auto space-y-3 border-t border-ivory/10 px-6 py-6">
+        <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="btn-gold w-full justify-center">Order Online</a>
+        <a href="tel:+14804518866" class="btn-outline w-full justify-center">Call (480) 451-8866</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="home">
+    <!-- ============ HERO (smooth-scroll reveal) ============ -->
+    <section id="heroTrack" class="relative w-full bg-charcoal">
+      <div class="sticky top-0 h-[100svh] w-full overflow-hidden">
+        <!-- full-bleed zooming video -->
+        <video id="heroImg" autoplay muted loop playsinline preload="auto"
+               poster="assets/Entrees/beefchowfun.png" aria-hidden="true"
+               class="absolute inset-0 h-full w-full object-cover"
+               style="object-position: center 72%; transform: scale(1.7);">
+          <source src="assets/video/Video%20Project%2023.mp4" type="video/mp4" />
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/55 to-charcoal/90"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-charcoal/85 via-charcoal/20 to-transparent"></div>
+        <div class="pointer-events-none absolute inset-0 scale-pattern opacity-[0.06]"></div>
+
+        <!-- charcoal matte "frame" that recedes on scroll (GPU transforms only) -->
+        <div id="matteT" class="hero-matte absolute left-0 top-0 z-10 h-1/4 w-full"></div>
+        <div id="matteB" class="hero-matte absolute bottom-0 left-0 z-10 h-1/4 w-full"></div>
+        <div id="matteL" class="hero-matte absolute left-0 top-0 z-10 h-full w-1/4"></div>
+        <div id="matteR" class="hero-matte absolute right-0 top-0 z-10 h-full w-1/4"></div>
+
+        <!-- content layer -->
+        <div class="relative z-20 flex h-full items-center">
+          <div class="mx-auto w-full max-w-8xl px-6 pb-24 pt-36 sm:px-10 lg:px-14">
+            <div class="max-w-2xl">
+              <p class="hero-text flex items-center gap-3 text-sm uppercase tracking-[0.4em] text-gold-400">
+                <span class="hero-dash h-px w-10 bg-gold-500"></span> Scottsdale, Arizona
+              </p>
+              <h1 class="hero-text mt-6 font-display text-[clamp(2.75rem,7vw,5.5rem)] font-700 leading-[0.98] text-ivory">
+                Where the <span class="italic text-gold-400">Wok</span><br />Meets Refinement
+              </h1>
+              <p class="hero-text mt-6 max-w-xl font-serif text-xl leading-relaxed text-ivory/80">
+                Elevated Chinese cuisine—Sizzling wok classics, fresh local produce, and curated
+                cocktails, serving Scottsdale for over twenty years.
+              </p>
+              <div class="hero-anim hero-btns mt-9 flex flex-wrap items-center gap-4">
+                <a href="#menu" class="btn-gold">Explore the Menu</a>
+                <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="btn-ghost">
+                  Order Online
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#about" class="absolute bottom-7 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-2 text-ivory/60 sm:flex" aria-label="Scroll down">
+          <span class="text-[11px] uppercase tracking-[0.3em]">Scroll</span>
+          <span class="scroll-cue h-9 w-[1.5px] bg-gradient-to-b from-gold-400 to-transparent"></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ ACCOLADE STRIP ============ -->
+    <section class="border-y border-ivory/10 bg-charcoal-800">
+      <div class="mx-auto grid max-w-8xl grid-cols-2 divide-x divide-ivory/10 px-6 sm:grid-cols-4">
+        <div class="reveal-up px-4 py-8 text-center">
+          <p class="stat-num font-display text-3xl text-gold-400" data-count="22" data-suffix="+">22+</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/45">Years Serving</p>
+        </div>
+        <div class="reveal-up px-4 py-8 text-center" style="--d:.06s">
+          <p class="stat-num font-display text-3xl text-gold-400" data-count="100" data-suffix="+">100+</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/45">Made-to-Order Dishes</p>
+        </div>
+        <div class="reveal-up px-4 py-8 text-center" style="--d:.12s">
+          <p class="font-display text-3xl text-gold-400">Full</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/45">Grill &amp; Bar</p>
+        </div>
+        <div class="reveal-up px-4 py-8 text-center" style="--d:.18s">
+          <p class="stat-num font-display text-3xl text-gold-400" data-count="4.5" data-prefix="★ " data-decimals="1">★ 4.5</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/45">Guest Rated</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section id="about" class="relative overflow-hidden py-24 sm:py-32">
+      <div class="mx-auto grid max-w-8xl items-center gap-14 px-6 sm:px-10 lg:grid-cols-2 lg:gap-20 lg:px-14">
+        <div class="relative">
+          <div class="reveal-img overflow-hidden rounded-[2rem] shadow-2xl">
+            <img src="assets/others/20250123_183652~2.jpg"
+                 alt="Canton Dragon dining room" loading="lazy"
+                 style="object-position: 15% center;"
+                 class="aspect-[4/5] w-full object-cover transition-transform duration-[1.2s] hover:scale-105" />
+          </div>
+          <div class="reveal-img absolute -bottom-8 -right-4 hidden w-56 overflow-hidden rounded-2xl border-4 border-ivory shadow-xl sm:block" style="--d:.15s">
+            <img src="assets/others/table%20of%20food.png"
+                 alt="A spread of Canton Dragon dishes" loading="lazy"
+                 class="aspect-square w-full object-cover" />
+          </div>
+          <div class="absolute -left-5 -top-5 -z-10 h-40 w-40 rounded-full bg-gold/15 blur-2xl"></div>
+        </div>
+
+        <div>
+          <p class="reveal-up section-eyebrow">Our Story</p>
+          <h2 class="reveal-up mt-4 font-display text-4xl font-700 leading-tight text-ivory sm:text-5xl" style="--d:.06s">
+            A Scottsdale heritage,<br />wok-fired to order.
+          </h2>
+          <div class="reveal-up mt-6 space-y-5 font-serif text-lg leading-relaxed text-ivory/70" style="--d:.12s">
+            <p>
+              Since 2004, Canton Dragon has been a family-owned staple here in Scottsdale—a place
+              built on the idea that great food tastes best in a room where you instantly feel at home.
+            </p>
+            <p>
+              Our kitchen is guided by our head chef, who is deeply rooted in the art of traditional
+              Cantonese cooking. If you ask him, he’ll tell you his secret is simple: step back and let
+              the ingredients do the talking. He obsesses over the quality of our meats and the freshness
+              of our produce, cutting everything by hand and building every single sauce entirely from
+              scratch. You won’t find processed shortcuts or heavy fillers here—just clean, vibrant flavors.
+            </p>
+            <p>
+              He takes Chinese classics you grew up loving and makes them the way they were always meant
+              to be made. Having spent decades perfecting his craft behind the line, watching him command
+              the roaring heat of the wok is pure poetry. Every single plate is cooked to order under his
+              watchful eye, whether you’re craving the familiar comfort of sizzling seafood noodle and
+              crisp General Tso’s, or looking to try one of his personal specialties, like our Mongolian
+              beef and slow-roasted duck.
+            </p>
+            <p>
+              Whether you’re gathering around a big table with family or just pulling up to the bar for a
+              happy hour cocktail, warm sake, or a glass of wine, we’re glad you’re here. Welcome to the family.
+            </p>
+          </div>
+          <div class="reveal-up mt-9 flex flex-wrap gap-4" style="--d:.18s">
+            <a href="#signatures" class="btn-dark">See Our Signatures</a>
+            <a href="#visit" class="btn-outline">Plan Your Visit</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BAR (animated marquee) ============ -->
+    <section class="relative overflow-hidden bg-charcoal px-4 pb-16 pt-28 text-center text-ivory sm:pt-32">
+      <div class="scale-pattern pointer-events-none absolute inset-0 opacity-[0.05]"></div>
+      <div class="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-gold/15 blur-3xl"></div>
+      <div class="pointer-events-none absolute -bottom-10 left-0 h-72 w-72 rounded-full bg-lacquer/25 blur-3xl"></div>
+
+      <div class="relative z-10 mx-auto flex max-w-2xl flex-col items-center">
+        <div class="reveal-up mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-ivory/5 px-4 py-1.5 text-sm font-500 tracking-wide text-gold-400 backdrop-blur-sm">
+          <span class="h-1.5 w-1.5 rounded-full bg-gold"></span> The Bar · Happy Hour Daily
+        </div>
+
+        <h2 class="font-display text-4xl font-700 leading-[1.04] tracking-tight sm:text-6xl">
+          <span class="reveal-up inline-block" style="--d:0s">Pull</span>
+          <span class="reveal-up inline-block" style="--d:.08s">up</span>
+          <span class="reveal-up inline-block" style="--d:.16s">to</span>
+          <span class="reveal-up inline-block" style="--d:.24s">the</span>
+          <span class="reveal-up inline-block italic text-gold-400" style="--d:.32s">bar</span>
+        </h2>
+
+        <p class="reveal-up mt-6 max-w-xl font-serif text-lg leading-relaxed text-ivory/75" style="--d:.42s">
+          Join us Monday–Friday, 12–7pm for <strong class="text-gold-400">$3 off cocktails &amp; wine</strong> —
+          plum wine, warm sake, prosecco, and a curated list from Kim Crawford to DAOU.
+        </p>
+
+        <a href="#visit" class="reveal-up btn-gold mt-8" style="--d:.52s">Plan Your Visit</a>
+      </div>
+
+      <!-- Continuous drink marquee (masked top & bottom) -->
+      <div class="marquee-mask pointer-events-none relative z-0 mt-14 w-full">
+        <div class="marquee-track flex gap-4">
+          <div class="marquee-item"><img src="assets/drinks/lycheemart.png" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/YuzuMarga.png" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/mojitos.png" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/oldfashionfront_genSwap.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/orchid%20(1).jpg" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/pamplemousse.jpeg" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/prickly%20(1).jpg" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/stem.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/Singha.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).png" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/IMG-20260623-WA0008.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
+          <!-- duplicate set for a seamless loop -->
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/lycheemart.png" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/YuzuMarga.png" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/mojitos.png" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/oldfashionfront_genSwap.jpg" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/orchid%20(1).jpg" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/pamplemousse.jpeg" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/prickly%20(1).jpg" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/stem.jpg" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/Singha.jpg" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).png" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/IMG-20260623-WA0008.jpg" alt="" loading="lazy" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SIGNATURE DISHES ============ -->
+    <section id="signatures" class="bg-charcoal py-24 text-ivory sm:py-32">
+      <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="reveal-up section-eyebrow text-gold-400">Chef's Signatures</p>
+          <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">The dishes we're known for</h2>
+          <p class="reveal-up mx-auto mt-4 max-w-lg font-serif text-lg text-ivory/70" style="--d:.12s">
+            A few guest favorites — the full lineup of over 100 dishes lives in the menu below.
+          </p>
+        </div>
+
+        <div id="signatureGrid" class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"><!-- JS injected --></div>
+      </div>
+    </section>
+
+    <!-- ============ MENU ============ -->
+    <section id="menu" class="py-24 sm:py-32">
+      <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
+        <div class="flex flex-col items-center text-center">
+          <p class="reveal-up section-eyebrow">The Menu</p>
+          <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">Cooked to order, every time</h2>
+          <p class="reveal-up mt-4 max-w-xl font-serif text-lg text-ivory/70" style="--d:.12s">
+            Dine in, take out, or order online. Dinner entrées served with steamed white or brown rice.
+          </p>
+        </div>
+
+        <!-- Category tabs -->
+        <div class="reveal-up sticky top-[80px] z-30 mt-10 -mx-6 px-6 sm:mx-0 sm:px-0" style="--d:.16s">
+          <div class="menu-tabs flex gap-2 overflow-x-auto rounded-full border border-ivory/10 bg-charcoal-800/90 p-1.5 backdrop-blur" id="menuTabs" role="tablist" aria-label="Menu categories">
+            <!-- JS injected -->
+          </div>
+        </div>
+
+        <div id="menuPanels" class="mt-12"><!-- JS injected --></div>
+
+        <p class="mt-12 text-center text-sm text-ivory/45">
+          Prices and availability subject to change. Please inform your server of any allergies.
+          <span class="block sm:inline">Substitute fried rice (+$3.99) or soft noodle (+$4.99).</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section id="gallery" class="py-24 sm:py-32">
+      <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
+        <div class="flex flex-col items-end justify-between gap-6 sm:flex-row">
+          <div>
+            <p class="reveal-up section-eyebrow">Gallery</p>
+            <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">A taste of the table</h2>
+          </div>
+          <p class="reveal-up max-w-sm font-serif text-lg text-ivory/70" style="--d:.12s">
+            A glimpse of the wok in action — from sizzling noodles to the dining room. Tap any photo to view it larger.
+          </p>
+        </div>
+
+        <div id="galleryGrid" class="mt-12 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4"><!-- JS injected --></div>
+      </div>
+    </section>
+
+    <!-- ============ VISIT ============ -->
+    <section id="visit" class="bg-charcoal-800 py-24 sm:py-32">
+      <div class="mx-auto grid max-w-8xl gap-12 px-6 sm:px-10 lg:grid-cols-2 lg:gap-16 lg:px-14">
+        <div>
+          <p class="reveal-up section-eyebrow">Visit Us</p>
+          <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">We'd love to host you</h2>
+
+          <dl class="reveal-up mt-10 space-y-7" style="--d:.12s">
+            <div class="flex gap-4">
+              <span class="info-icon"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5.2-7-11a7 7 0 1114 0c0 5.8-7 11-7 11z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <div>
+                <dt class="text-xs uppercase tracking-[0.2em] text-ivory/45">Location</dt>
+                <dd class="mt-1 font-serif text-lg text-ivory">10190 N 90th St #101<br />Scottsdale, AZ 85258</dd>
+                <a href="https://maps.google.com/?q=Canton+Dragon+Asian+Grill+%26+Bar+10190+N+90th+St+Scottsdale+AZ+85258" target="_blank" rel="noopener" class="link-underline mt-1 inline-flex items-center gap-1 text-sm font-500 text-gold-400 hover:text-gold">Get directions →</a>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <span class="info-icon"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 005 5L19 18l-1 3-2 .5C9 21 5 14 4 8L5 4z" stroke-linejoin="round"/></svg></span>
+              <div>
+                <dt class="text-xs uppercase tracking-[0.2em] text-ivory/45">Reservations &amp; Orders</dt>
+                <dd class="mt-1 font-serif text-lg text-ivory"><a href="tel:+14804518866" class="transition-colors hover:text-gold-400">(480) 451-8866</a></dd>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <span class="info-icon"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div>
+                <dt class="text-xs uppercase tracking-[0.2em] text-ivory/45">Hours</dt>
+                <dd class="mt-1 font-serif text-lg text-ivory">
+                  Open Daily · 11:00am – 8:30pm
+                  <span class="mt-1 block text-sm text-ivory/45">Dine-in until 8:00pm · Take-out until close</span>
+                  <span class="mt-1 block text-sm text-gold-600">Happy Hour: Mon–Fri, 12–7pm</span>
+                </dd>
+              </div>
+            </div>
+          </dl>
+
+          <div class="reveal-up mt-10 flex flex-wrap gap-4" style="--d:.18s">
+            <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="btn-gold">Order Online</a>
+            <a href="tel:+14804518866" class="btn-outline">Call to Reserve</a>
+          </div>
+
+          <div class="mt-9 flex items-center gap-3">
+            <a href="https://www.facebook.com/1647028818843850" target="_blank" rel="noopener" class="social-btn" aria-label="Canton Dragon on Facebook">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.45-4.05 4.15v2.3H7.8V13h2.4v8h3.3z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/canton_dragon/" target="_blank" rel="noopener" class="social-btn" aria-label="Canton Dragon on Instagram">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://www.yelp.com/biz/canton-dragon-asian-grill-and-bar-scottsdale-2" target="_blank" rel="noopener" class="social-btn" aria-label="Canton Dragon on Yelp">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor"><path d="M11.2 3.3c.9-.3 1.6.2 1.6 1.1l.2 7.1c0 1-.9 1.5-1.7.9L7.9 9.9c-.6-.5-.6-1.2-.1-1.8l3.4-4.8zM10.4 13.9c.6-.6 1.5-.2 1.6.6l.3 4.9c0 .9-.8 1.4-1.6 1l-2.9-1.6c-.7-.4-.7-1.2-.2-1.8l2.8-3.1zM13.6 13.6c.4-.7 1.3-.6 1.7.1l2.3 3.6c.5.7 0 1.5-.8 1.5l-3.3.1c-.8 0-1.3-.7-1-1.4l1.1-3.9zM14.1 11.6c-.8.2-1.5-.5-1.2-1.3l1.6-4.2c.3-.8 1.2-.9 1.7-.2l1.9 2.7c.5.6.1 1.4-.6 1.6l-3.4 1.4z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="reveal-img overflow-hidden rounded-[2rem] shadow-xl ring-1 ring-ivory/10">
+          <iframe
+            title="Map to Canton Dragon Asian Grill & Bar, Scottsdale"
+            class="h-full min-h-[420px] w-full"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=10190+N+90th+St+%23101,+Scottsdale,+AZ+85258&output=embed"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bg-charcoal text-ivory/70">
+    <div class="mx-auto grid max-w-8xl gap-12 px-6 py-16 sm:px-10 md:grid-cols-[1.4fr_1fr_1fr] lg:px-14">
+      <div>
+        <div class="flex items-center">
+          <img src="assets/logo/logo4.png" alt="Canton Dragon Asian Grill &amp; Bar" class="h-28 w-auto" />
+        </div>
+        <p class="mt-5 max-w-xs font-serif text-lg leading-relaxed text-ivory/60">
+          Elevated American-style Chinese cuisine and a full bar in Scottsdale, Arizona.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-xs uppercase tracking-[0.25em] text-gold-500">Explore</h3>
+        <ul class="mt-5 space-y-3 text-ivory/70">
+          <li><a href="#about" class="footer-link">Our Story</a></li>
+          <li><a href="#menu" class="footer-link">Menu</a></li>
+          <li><a href="#gallery" class="footer-link">Gallery</a></li>
+          <li><a href="#visit" class="footer-link">Visit</a></li>
+          <li><a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="footer-link">Order Online</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-xs uppercase tracking-[0.25em] text-gold-500">Find Us</h3>
+        <address class="mt-5 space-y-3 not-italic text-ivory/70">
+          <p>10190 N 90th St #101<br />Scottsdale, AZ 85258</p>
+          <p><a href="tel:+14804518866" class="footer-link">(480) 451-8866</a></p>
+          <p>Open Daily · 11am – 8:30pm</p>
+        </address>
+        <div class="mt-5 flex gap-3">
+          <a href="https://www.facebook.com/1647028818843850" target="_blank" rel="noopener" class="social-btn social-btn--dark" aria-label="Facebook"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.45-4.05 4.15v2.3H7.8V13h2.4v8h3.3z"/></svg></a>
+          <a href="https://www.instagram.com/canton_dragon/" target="_blank" rel="noopener" class="social-btn social-btn--dark" aria-label="Instagram"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.yelp.com/biz/canton-dragon-asian-grill-and-bar-scottsdale-2" target="_blank" rel="noopener" class="social-btn social-btn--dark" aria-label="Yelp"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M11.2 3.3c.9-.3 1.6.2 1.6 1.1l.2 7.1c0 1-.9 1.5-1.7.9L7.9 9.9c-.6-.5-.6-1.2-.1-1.8l3.4-4.8zM10.4 13.9c.6-.6 1.5-.2 1.6.6l.3 4.9c0 .9-.8 1.4-1.6 1l-2.9-1.6c-.7-.4-.7-1.2-.2-1.8l2.8-3.1zM13.6 13.6c.4-.7 1.3-.6 1.7.1l2.3 3.6c.5.7 0 1.5-.8 1.5l-3.3.1c-.8 0-1.3-.7-1-1.4l1.1-3.9z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-ivory/10">
+      <div class="mx-auto flex max-w-8xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-ivory/40 sm:flex-row sm:px-10 lg:px-14">
+        <p>© <span id="year">2025</span> Canton Dragon Asian Grill &amp; Bar. All rights reserved.</p>
+        <p>Crafted in Scottsdale, Arizona.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 z-[70] hidden items-center justify-center bg-charcoal/90 p-6 backdrop-blur-sm">
+    <button class="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full bg-ivory/10 text-ivory hover:bg-ivory/20" aria-label="Close image" id="lightboxClose">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+    </button>
+    <img id="lightboxImg" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-xl shadow-2xl" />
+  </div>
+
+  <script src="js/menu-data.js"></script>
+  <script src="js/main.js?v=3"></script>
+</body>
+</html>
