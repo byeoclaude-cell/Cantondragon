@@ -150,7 +150,7 @@
 
   /* ---------- Scroll reveal ---------- */
   function observeReveals() {
-    const targets = $$('.reveal-up, .reveal-img');
+    const targets = $$('.reveal-up, .reveal-img, .reveal-clip');
     if (prefersReduced || !('IntersectionObserver' in window)) {
       targets.forEach(t => t.classList.add('in'));
       return;
@@ -164,6 +164,26 @@
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     targets.forEach(t => io.observe(t));
+
+    // Chrome calculates IntersectionObserver against the clipped visual area,
+    // so clip-path: inset(0 0 100% 0) makes the element appear as zero
+    // intersection. Use a scroll-based fallback for .reveal-clip elements.
+    const clipEls = $$('.reveal-clip');
+    if (clipEls.length) {
+      const checkClips = () => {
+        let pending = false;
+        clipEls.forEach(el => {
+          if (el.classList.contains('in')) return;
+          const r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight * 0.92 && r.bottom > 0) {
+            el.classList.add('in');
+          } else { pending = true; }
+        });
+        if (!pending) window.removeEventListener('scroll', checkClips);
+      };
+      window.addEventListener('scroll', checkClips, { passive: true });
+      checkClips();
+    }
   }
 
   /* ---------- Signatures ---------- */
@@ -171,16 +191,14 @@
     const grid = $('#signatureGrid');
     if (!grid || typeof SIGNATURES === 'undefined') return;
     grid.innerHTML = SIGNATURES.map((d, i) => `
-      <article class="sig-card reveal-up group" style="--d:${i * 0.07}s">
-        <div class="overflow-hidden">
-          <img src="${d.img}" alt="${d.name}" loading="lazy" />
-        </div>
-        <div class="p-5">
-          <div class="flex items-baseline justify-between gap-3">
-            <h3 class="font-display text-xl text-ivory">${d.name}</h3>
-            <span class="font-display text-lg text-gold-400">$${d.price}</span>
+      <article class="sig-card reveal-up" style="--d:${i * 0.07}s">
+        <img src="${d.img}" alt="${d.name}" loading="lazy" />
+        <div class="sig-card__overlay">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-display text-xl text-ivory leading-tight">${d.name}</h3>
+            <span class="font-display text-lg text-gold-400 flex-none">$${d.price}</span>
           </div>
-          <p class="mt-2 text-sm leading-relaxed text-ivory/55">${d.note}</p>
+          <p class="mt-1.5 text-sm leading-relaxed text-ivory/70">${d.note}</p>
         </div>
       </article>`).join('');
   }
@@ -278,8 +296,9 @@
     const spans = ['row-span-2', '', '', 'row-span-2', '', 'row-span-2', '', ''];
     grid.classList.add('auto-rows-[170px]', 'sm:auto-rows-[210px]');
     grid.innerHTML = GALLERY.map((g, i) => `
-      <button class="gallery-item reveal-img ${spans[i % spans.length]}" style="--d:${(i % 4) * 0.06}s" data-src="${g.img.replace('w=700', 'w=1400')}" aria-label="View larger: ${g.alt}">
+      <button class="gallery-item reveal-img ${spans[i % spans.length]}" style="--d:${(i % 4) * 0.06}s" data-src="${g.img}" aria-label="View larger: ${g.alt}">
         <img src="${g.img}" alt="${g.alt}" loading="lazy" />
+        <span class="gallery-caption" aria-hidden="true">${g.alt.split(' — ')[0]}</span>
       </button>`).join('');
 
     const lightbox = $('#lightbox');
@@ -361,7 +380,19 @@
         const eased = 1 - Math.pow(1 - p, 3);
         render(el, target * eased);
         if (p < 1) requestAnimationFrame(tick);
-        else render(el, target);
+        else {
+          render(el, target);
+          if (!prefersReduced) {
+            el.style.transition = 'transform .15s var(--ease-out), text-shadow .15s ease';
+            el.style.transform = 'scale(1.06)';
+            el.style.textShadow = '0 0 24px rgba(200,162,75,.65)';
+            setTimeout(() => {
+              el.style.transition = 'transform .45s var(--ease-out), text-shadow .45s ease';
+              el.style.transform = '';
+              el.style.textShadow = '';
+            }, 150);
+          }
+        }
       };
       requestAnimationFrame(tick);
     };
@@ -371,10 +402,49 @@
     nums.forEach(el => { render(el, 0); io.observe(el); });
   }
 
+  /* ---------- Interactive map ---------- */
+  function initMap() {
+    const el = document.getElementById('visitMap');
+    if (!el || typeof L === 'undefined') return;
+
+    const lat = 33.5952, lng = -111.8560;
+    const map = L.map(el, {
+      center: [lat, lng],
+      zoom: 15,
+      scrollWheelZoom: false,
+      zoomControl: true
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    const icon = L.divIcon({
+      className: '',
+      html: '<div style="width:16px;height:16px;background:#C8A24B;border-radius:50%;border:2.5px solid #FBF7F0;box-shadow:0 0 0 5px rgba(200,162,75,.28),0 4px 16px rgba(0,0,0,.7)"></div>',
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+      popupAnchor: [0, -14]
+    });
+
+    L.marker([lat, lng], { icon })
+      .addTo(map)
+      .bindPopup(
+        '<strong style="font-size:13px">Canton Dragon</strong><br>' +
+        '<span style="font-size:12px">10190 N 90th St #101<br>Scottsdale, AZ 85258</span><br>' +
+        '<a style="font-size:12px;color:#C8A24B" href="https://maps.google.com/?q=Canton+Dragon+Asian+Grill+%26+Bar+10190+N+90th+St+Scottsdale+AZ+85258" target="_blank" rel="noopener">Get directions →</a>',
+        { maxWidth: 190 }
+      )
+      .openPopup();
+  }
+
   /* ---------- Init ---------- */
   renderSignatures();
   renderMenu();
   renderGallery();
+  initMap();
   setupAnchors();
   setupMagnetic();
   setupCounters();

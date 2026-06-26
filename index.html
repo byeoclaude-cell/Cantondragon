@@ -3,44 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Canton Dragon Asian Grill &amp; Bar | American-Style Chinese in Scottsdale, AZ</title>
-  <meta name="description" content="Canton Dragon Asian Grill &amp; Bar serves elevated American-style Chinese cuisine, wok-fired classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Dine in, take out or order online." />
+  <title>Canton Dragon Asian Grill &amp; Bar | Chinese Cuisine &amp; Full Bar in Scottsdale, AZ</title>
+  <meta name="description" content="Canton Dragon Asian Grill &amp; Bar serves wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Family-owned since 2004. Dine in, take out or order online." />
   <meta name="theme-color" content="#7B1113" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Canton Dragon Asian Grill & Bar — Scottsdale, AZ" />
-  <meta property="og:description" content="Wok-fired American-style Chinese cuisine, fresh seafood and craft cocktails in Scottsdale, Arizona." />
+  <meta property="og:description" content="Wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Family-owned since 2004." />
   <meta property="og:type" content="restaurant" />
-  <meta property="og:image" content="https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=1200&q=70" />
+  <meta property="og:image" content="https://cantondragonscottsdale.com/assets/others/table%20of%20food.webp" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind (Play CDN — see README for production build instructions) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            lacquer:  { DEFAULT: '#7B1113', 600: '#9B1B1D', 700: '#7B1113', 800: '#5E0C0E', 900: '#430809' },
-            gold:     { DEFAULT: '#C8A24B', 400: '#D9BC73', 500: '#C8A24B', 600: '#A9842F' },
-            ink:      { DEFAULT: '#1A1310', soft: '#3A302B', muted: '#6B5D55' },
-            ivory:    { DEFAULT: '#FBF7F0', 100: '#F6EFE3', 200: '#EFE5D4' },
-            charcoal: { DEFAULT: '#14100E', 800: '#1C1714' },
-          },
-          fontFamily: {
-            display: ['Fraunces', 'Georgia', 'serif'],
-            serif:   ['Fraunces', 'Georgia', 'serif'],
-            sans:    ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
-          },
-          maxWidth: { '8xl': '88rem' },
-        }
-      }
-    }
-  </script>
+  <link rel="stylesheet" href="css/tailwind-compiled.css" />
   <link rel="stylesheet" href="css/styles.css?v=4" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <!-- Structured data for local SEO -->
   <script type="application/ld+json">
@@ -52,7 +31,7 @@
     "priceRange": "$$",
     "telephone": "+1-480-451-8866",
     "url": "https://cantondragonscottsdale.com",
-    "image": "https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=1200&q=70",
+    "image": "https://cantondragonscottsdale.com/assets/others/table%20of%20food.webp",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "10190 N 90th St #101",
@@ -77,7 +56,7 @@
   <header id="navbar" class="fixed inset-x-0 top-0 z-50 transition-all duration-500">
     <nav class="mx-auto flex max-w-8xl items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
       <a href="#home" class="group flex items-center" aria-label="Canton Dragon Asian Grill &amp; Bar home">
-        <img src="assets/logo/logo4.png" alt="Canton Dragon Asian Grill &amp; Bar"
+        <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar"
              class="h-24 w-auto transition-opacity duration-300 group-hover:opacity-80 sm:h-32" />
       </a>
 
@@ -129,7 +108,7 @@
       <div class="sticky top-0 h-[100svh] w-full overflow-hidden">
         <!-- full-bleed zooming video -->
         <video id="heroImg" autoplay muted loop playsinline preload="auto"
-               poster="assets/Entrees/beefchowfun.png" aria-hidden="true"
+               poster="assets/Entrees/beefchowfun.webp" aria-hidden="true"
                class="absolute inset-0 h-full w-full object-cover"
                style="object-position: center 72%; transform: scale(1.7);">
           <source src="assets/video/Video%20Project%2023.mp4" type="video/mp4" />
@@ -155,8 +134,7 @@
                 Where the <span class="italic text-gold-400">Wok</span><br />Meets Refinement
               </h1>
               <p class="hero-text mt-6 max-w-xl font-serif text-xl leading-relaxed text-ivory/80">
-                Elevated Chinese cuisine—Sizzling wok classics, fresh local produce, and curated
-                cocktails, serving Scottsdale for over twenty years.
+                Wok-fired Chinese classics, fresh local produce, and craft cocktails — serving Scottsdale since 2004.
               </p>
               <div class="hero-anim hero-btns mt-9 flex flex-wrap items-center gap-4">
                 <a href="#menu" class="btn-gold">Explore the Menu</a>
@@ -202,23 +180,22 @@
     <section id="about" class="relative overflow-hidden py-24 sm:py-32">
       <div class="mx-auto grid max-w-8xl items-center gap-14 px-6 sm:px-10 lg:grid-cols-2 lg:gap-20 lg:px-14">
         <div class="relative">
-          <div class="reveal-img overflow-hidden rounded-[2rem] shadow-2xl">
-            <img src="assets/others/20250123_183652~2.jpg"
+          <div class="reveal-clip overflow-hidden rounded-[2rem] shadow-2xl">
+            <img src="assets/others/interior.webp"
                  alt="Canton Dragon dining room" loading="lazy"
                  style="object-position: 15% center;"
                  class="aspect-[4/5] w-full object-cover transition-transform duration-[1.2s] hover:scale-105" />
           </div>
           <div class="reveal-img absolute -bottom-8 -right-4 hidden w-56 overflow-hidden rounded-2xl border-4 border-ivory shadow-xl sm:block" style="--d:.15s">
-            <img src="assets/others/table%20of%20food.png"
+            <img src="assets/others/table%20of%20food.webp"
                  alt="A spread of Canton Dragon dishes" loading="lazy"
                  class="aspect-square w-full object-cover" />
           </div>
-          <div class="absolute -left-5 -top-5 -z-10 h-40 w-40 rounded-full bg-gold/15 blur-2xl"></div>
         </div>
 
         <div>
           <p class="reveal-up section-eyebrow">Our Story</p>
-          <h2 class="reveal-up mt-4 font-display text-4xl font-700 leading-tight text-ivory sm:text-5xl" style="--d:.06s">
+          <h2 class="reveal-clip mt-4 font-display text-4xl font-700 leading-tight text-ivory sm:text-5xl" style="--d:.06s">
             A Scottsdale heritage,<br />wok-fired to order.
           </h2>
           <div class="reveal-up mt-6 space-y-5 font-serif text-lg leading-relaxed text-ivory/70" style="--d:.12s">
@@ -256,10 +233,6 @@
 
     <!-- ============ BAR (animated marquee) ============ -->
     <section class="relative overflow-hidden bg-charcoal px-4 pb-16 pt-28 text-center text-ivory sm:pt-32">
-      <div class="scale-pattern pointer-events-none absolute inset-0 opacity-[0.05]"></div>
-      <div class="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-gold/15 blur-3xl"></div>
-      <div class="pointer-events-none absolute -bottom-10 left-0 h-72 w-72 rounded-full bg-lacquer/25 blur-3xl"></div>
-
       <div class="relative z-10 mx-auto flex max-w-2xl flex-col items-center">
         <div class="reveal-up mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-ivory/5 px-4 py-1.5 text-sm font-500 tracking-wide text-gold-400 backdrop-blur-sm">
           <span class="h-1.5 w-1.5 rounded-full bg-gold"></span> The Bar · Happy Hour Daily
@@ -284,29 +257,29 @@
       <!-- Continuous drink marquee (masked top & bottom) -->
       <div class="marquee-mask pointer-events-none relative z-0 mt-14 w-full">
         <div class="marquee-track flex gap-4">
-          <div class="marquee-item"><img src="assets/drinks/lycheemart.png" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/YuzuMarga.png" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/mojitos.png" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/oldfashionfront_genSwap.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/orchid%20(1).jpg" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/pamplemousse.jpeg" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/prickly%20(1).jpg" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/stem.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/Singha.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).png" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/IMG-20260623-WA0008.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/lycheemart.webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/YuzuMarga.webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/mojitos.webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/oldfashionfront_genSwap.webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/orchid%20(1).webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/pamplemousse.webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/prickly%20(1).webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/stem.webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/Singha.webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).webp" alt="" aria-hidden="true" loading="lazy" /></div>
+          <div class="marquee-item"><img src="assets/drinks/IMG-20260623-WA0008.webp" alt="" aria-hidden="true" loading="lazy" /></div>
           <!-- duplicate set for a seamless loop -->
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/lycheemart.png" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/YuzuMarga.png" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/mojitos.png" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/oldfashionfront_genSwap.jpg" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/orchid%20(1).jpg" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/pamplemousse.jpeg" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/prickly%20(1).jpg" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/stem.jpg" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/Singha.jpg" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).png" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/IMG-20260623-WA0008.jpg" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/lycheemart.webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/YuzuMarga.webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/mojitos.webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/oldfashionfront_genSwap.webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/orchid%20(1).webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/pamplemousse.webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/prickly%20(1).webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/stem.webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/Singha.webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).webp" alt="" loading="lazy" /></div>
+          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/IMG-20260623-WA0008.webp" alt="" loading="lazy" /></div>
         </div>
       </div>
     </section>
@@ -316,7 +289,7 @@
       <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
         <div class="mx-auto max-w-2xl text-center">
           <p class="reveal-up section-eyebrow text-gold-400">Chef's Signatures</p>
-          <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">The dishes we're known for</h2>
+          <h2 class="reveal-clip mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">The dishes we're known for</h2>
           <p class="reveal-up mx-auto mt-4 max-w-lg font-serif text-lg text-ivory/70" style="--d:.12s">
             A few guest favorites — the full lineup of over 100 dishes lives in the menu below.
           </p>
@@ -359,7 +332,7 @@
         <div class="flex flex-col items-end justify-between gap-6 sm:flex-row">
           <div>
             <p class="reveal-up section-eyebrow">Gallery</p>
-            <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">A taste of the table</h2>
+            <h2 class="reveal-clip mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">A taste of the table</h2>
           </div>
           <p class="reveal-up max-w-sm font-serif text-lg text-ivory/70" style="--d:.12s">
             A glimpse of the wok in action — from sizzling noodles to the dining room. Tap any photo to view it larger.
@@ -425,11 +398,7 @@
         </div>
 
         <div class="reveal-img overflow-hidden rounded-[2rem] shadow-xl ring-1 ring-ivory/10">
-          <iframe
-            title="Map to Canton Dragon Asian Grill & Bar, Scottsdale"
-            class="h-full min-h-[420px] w-full"
-            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=10190+N+90th+St+%23101,+Scottsdale,+AZ+85258&output=embed"></iframe>
+          <div id="visitMap" class="h-full min-h-[420px] w-full"></div>
         </div>
       </div>
     </section>
@@ -440,10 +409,10 @@
     <div class="mx-auto grid max-w-8xl gap-12 px-6 py-16 sm:px-10 md:grid-cols-[1.4fr_1fr_1fr] lg:px-14">
       <div>
         <div class="flex items-center">
-          <img src="assets/logo/logo4.png" alt="Canton Dragon Asian Grill &amp; Bar" class="h-28 w-auto" />
+          <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar" class="h-28 w-auto" />
         </div>
         <p class="mt-5 max-w-xs font-serif text-lg leading-relaxed text-ivory/60">
-          Elevated American-style Chinese cuisine and a full bar in Scottsdale, Arizona.
+          Wok-fired Chinese cuisine and a full bar in Scottsdale, Arizona. Family-owned since 2004.
         </p>
       </div>
 
@@ -489,6 +458,7 @@
     <img id="lightboxImg" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-xl shadow-2xl" />
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/menu-data.js"></script>
   <script src="js/main.js?v=3"></script>
 </body>

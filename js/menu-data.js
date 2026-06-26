@@ -4,27 +4,24 @@
    Edit prices / descriptions here; the page renders from this.
    ============================================================ */
 
-const IMG = (id, w = 700) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=70`;
-
 /* Featured signature dishes (replace images with real plating photos). */
 const SIGNATURES = [
-  { name: 'BBQ Pork Fried Rice', price: '14.99', note: 'Wok-fried with egg, soy & scallions',          img: 'assets/Entrees/porkfriedrice.png' },
-  { name: 'Shrimp Lo Mein',      price: '15.99', note: 'Soft noodles, shrimp, onion & bean sprouts',    img: 'assets/Entrees/Shrimp%20lomein.png' },
-  { name: 'Beef Chow Fun',       price: '18.99', note: 'Wide rice noodles, beef, onion & bean sprouts', img: 'assets/Entrees/beefchowfun.png' },
-  { name: 'Kung Pao Shrimp',     price: '18.99', note: 'Zucchini, bell pepper & peanuts — spicy',       img: 'assets/Entrees/brocolishrimp.png' },
+  { name: 'BBQ Pork Fried Rice', price: '14.99', note: 'Wok-fried with egg, soy & scallions',          img: 'assets/Entrees/porkfriedrice.webp' },
+  { name: 'Shrimp Lo Mein',      price: '15.99', note: 'Soft noodles, shrimp, onion & bean sprouts',    img: 'assets/Entrees/shrimplomein.webp' },
+  { name: 'Beef Chow Fun',       price: '18.99', note: 'Wide rice noodles, beef, onion & bean sprouts', img: 'assets/Entrees/beefchowfun.webp' },
+  { name: 'Kung Pao Shrimp',     price: '18.99', note: 'Zucchini, bell pepper & peanuts — spicy',       img: 'assets/Entrees/shrimpbrocolli.webp' },
 ];
 
-/* Gallery (replace with the restaurant's own photography). */
+/* Gallery — real Canton Dragon photography. */
 const GALLERY = [
-  { img: IMG('photo-1617093727343-374698b1b08d'), alt: 'Assorted wok-fired Chinese dishes on a table' },
-  { img: IMG('photo-1582878826629-29b7ad1cdc43'), alt: 'Stir-fried noodles with vegetables' },
-  { img: IMG('photo-1541544741938-0af808871cc0'), alt: 'Steamed dumplings ready to serve' },
-  { img: IMG('photo-1559314809-0d155014e29e'),    alt: 'Bowl of hot and sour soup' },
-  { img: IMG('photo-1626804475297-41608ea09aeb'), alt: 'Crispy shrimp dish plated' },
-  { img: IMG('photo-1455619452474-d2be8b1e70cd'), alt: 'Shared family-style dinner spread' },
-  { img: IMG('photo-1552566626-52f8b828add9'),    alt: 'Warm restaurant dining room' },
-  { img: IMG('photo-1525755662778-989d0524087e'), alt: 'Bowl of noodles in broth' },
+  { img: 'assets/Entrees/beefchowfun.webp',        alt: 'Beef chow fun — wide rice noodles with beef and bean sprouts' },
+  { img: 'assets/Entrees/mongolianbeef.webp',       alt: 'Mongolian beef with scallions in a rich savory sauce' },
+  { img: 'assets/Entrees/lemonchx.webp',            alt: 'Lemon chicken — crispy chicken in bright lemon glaze' },
+  { img: 'assets/Entrees/thaicurrynoodle.webp',     alt: 'Thai curry noodle bowl with fragrant coconut broth' },
+  { img: 'assets/Entrees/tofuveg.webp',             alt: 'Tofu vegetable stir-fry' },
+  { img: 'assets/Entrees/teriyakichx.webp',         alt: 'Teriyaki chicken glazed and plated' },
+  { img: 'assets/others/table%20of%20food.webp',    alt: 'A full spread of Canton Dragon dishes family-style' },
+  { img: 'assets/others/interior.webp',             alt: 'Canton Dragon dining room' },
 ];
 
 /* Full menu, grouped by tab. spice:true adds a chili tag. */
