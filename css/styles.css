@@ -524,6 +524,32 @@ dl .flex:hover .info-icon {
 .reveal-img.absolute img { transition: transform .7s var(--ease-out); }
 .reveal-img.absolute:hover img { transform: scale(1.07); }
 
+/* ── About / Our Story — cursor micro-interactions ──────────── */
+
+/* Ambient golden glow orb: created + positioned by JS, follows cursor with lerp lag */
+.about-glow {
+  position: absolute;
+  pointer-events: none;
+  width: 720px;
+  height: 720px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(155,30,30,.08) 0%, rgba(123,17,19,.03) 40%, transparent 68%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity .65s ease;
+  z-index: 0;
+}
+
+/* Warm shimmer overlay in the text column: JS updates background on mousemove */
+.about-text-shimmer {
+  position: absolute;
+  inset: -1rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .45s ease;
+  z-index: 0;
+}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

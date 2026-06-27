@@ -440,6 +440,112 @@
       .openPopup();
   }
 
+  /* ---------- About / Our Story — cursor micro-interactions ---------- */
+  function setupAboutMicro() {
+    if (prefersReduced) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const section = document.getElementById('about');
+    if (!section) return;
+    const grid = section.querySelector(':scope > div');
+    if (!grid || grid.children.length < 2) return;
+
+    const imgCol    = grid.children[0];
+    const textCol   = grid.children[1];
+    const clipDiv   = imgCol.querySelector('.reveal-clip');
+    const floatCard = imgCol.querySelector('.reveal-img.absolute');
+
+    // Inject ambient glow orb
+    const glow = document.createElement('div');
+    glow.className = 'about-glow';
+    section.appendChild(glow);
+
+    // Inject text column shimmer
+    const shimmer = document.createElement('div');
+    shimmer.className = 'about-text-shimmer';
+    shimmer.setAttribute('aria-hidden', 'true');
+    textCol.style.position = 'relative';
+    textCol.insertBefore(shimmer, textCol.firstChild);
+
+    // Lagged glow spring (lerp)
+    let gx = 0, gy = 0, tgx = 0, tgy = 0, rafG = null;
+    const lerpGlow = () => {
+      rafG = null;
+      gx += (tgx - gx) * 0.075;
+      gy += (tgy - gy) * 0.075;
+      glow.style.left = gx.toFixed(0) + 'px';
+      glow.style.top  = gy.toFixed(0) + 'px';
+      if (Math.abs(tgx - gx) > 0.4 || Math.abs(tgy - gy) > 0.4)
+        rafG = requestAnimationFrame(lerpGlow);
+    };
+
+    const TILT  = 4.5;  // max tilt, degrees
+    const FLOAT = 15;   // max float card travel, px
+    const EASE  = 'cubic-bezier(.16,.84,.44,1)';
+    const clamp = v => Math.max(-1, Math.min(1, v));
+    let entered = false;
+
+    section.addEventListener('mousemove', (e) => {
+      const sr = section.getBoundingClientRect();
+
+      // Lagged glow follows cursor
+      tgx = e.clientX - sr.left;
+      tgy = e.clientY - sr.top;
+      if (!rafG) rafG = requestAnimationFrame(lerpGlow);
+
+      if (!entered) {
+        entered = true;
+        glow.style.opacity = '1';
+        shimmer.style.opacity = '1';
+        // Enable transitions now (avoids fighting the scroll-reveal on page load)
+        if (clipDiv)   { clipDiv.style.willChange   = 'transform, box-shadow'; clipDiv.style.transition   = `transform .5s ${EASE}, box-shadow .5s ${EASE}`; }
+        if (floatCard) { floatCard.style.willChange = 'transform';             floatCard.style.transition = `transform .4s ${EASE}`; }
+      }
+
+      // 3-D perspective tilt on the main image
+      if (clipDiv) {
+        const ir  = clipDiv.getBoundingClientRect();
+        const nx  = (e.clientX - (ir.left + ir.width  * .5)) / (ir.width  * .5);
+        const ny  = (e.clientY - (ir.top  + ir.height * .5)) / (ir.height * .5);
+        const rx  = (clamp(ny) * TILT).toFixed(2);
+        const ry  = (-clamp(nx) * TILT).toFixed(2);
+        // Shadow shifts opposite to tilt direction, reinforcing depth
+        const shx = (-clamp(nx) * 14).toFixed(0);
+        const shy = (-clamp(ny) * 10).toFixed(0);
+        clipDiv.style.transform  = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+        clipDiv.style.boxShadow  = `${shx}px ${shy}px 55px -8px rgba(0,0,0,.75), 0 2px 4px rgba(0,0,0,.4)`;
+      }
+
+      // Float card: counter-direction parallax at a different speed → depth illusion
+      if (floatCard) {
+        const nx = (e.clientX - (sr.left + sr.width  * .5)) / (sr.width  * .5);
+        const ny = (e.clientY - (sr.top  + sr.height * .5)) / (sr.height * .5);
+        floatCard.style.transform = `translate(${(-clamp(nx) * FLOAT).toFixed(1)}px, ${(-clamp(ny) * FLOAT * .6).toFixed(1)}px)`;
+      }
+
+      // Warm shimmer follows cursor within text column
+      const tr = textCol.getBoundingClientRect();
+      const tx = ((e.clientX - tr.left) / tr.width  * 100).toFixed(1);
+      const ty = ((e.clientY - tr.top)  / tr.height * 100).toFixed(1);
+      shimmer.style.background = `radial-gradient(ellipse 260px 210px at ${tx}% ${ty}%, rgba(200,162,75,.06) 0%, transparent 75%)`;
+    }, { passive: true });
+
+    section.addEventListener('mouseleave', () => {
+      entered = false;
+      glow.style.opacity = '0';
+      shimmer.style.opacity = '0';
+      if (clipDiv) {
+        clipDiv.style.transition  = `transform .72s ${EASE}, box-shadow .72s ease`;
+        clipDiv.style.transform   = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
+        clipDiv.style.boxShadow   = '';
+      }
+      if (floatCard) {
+        floatCard.style.transition = `transform .62s ${EASE}`;
+        floatCard.style.transform  = 'translate(0px, 0px)';
+      }
+    });
+  }
+
   /* ---------- Init ---------- */
   renderSignatures();
   renderMenu();
@@ -448,5 +554,6 @@
   setupAnchors();
   setupMagnetic();
   setupCounters();
+  setupAboutMicro();
   observeReveals(); // after dynamic content is in the DOM
 })();
