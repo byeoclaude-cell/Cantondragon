@@ -440,6 +440,148 @@
       .openPopup();
   }
 
+  /* ---------- Shared: inject a lerp-lagged cursor glow orb ---------- */
+  function makeCursorGlow(parent, { bg, w = 640, h = 640, lerpF = 0.075 } = {}) {
+    if (prefersReduced) return null;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return null;
+    if (getComputedStyle(parent).position === 'static') parent.style.position = 'relative';
+    const el = document.createElement('div');
+    el.className = 'section-glow';
+    el.style.width  = w + 'px';
+    el.style.height = h + 'px';
+    if (bg) el.style.background = bg;
+    parent.appendChild(el);
+    let gx = 0, gy = 0, tx = 0, ty = 0, raf = null;
+    const tick = () => {
+      raf = null;
+      gx += (tx - gx) * lerpF; gy += (ty - gy) * lerpF;
+      el.style.left = gx.toFixed(0) + 'px';
+      el.style.top  = gy.toFixed(0) + 'px';
+      if (Math.abs(tx - gx) > 0.3 || Math.abs(ty - gy) > 0.3) raf = requestAnimationFrame(tick);
+    };
+    parent.addEventListener('mousemove', e => {
+      const r = parent.getBoundingClientRect();
+      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      if (!raf) raf = requestAnimationFrame(tick);
+      el.style.opacity = '1';
+    }, { passive: true });
+    parent.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
+    return el;
+  }
+
+  /* ---------- Accolade strip — hover lift + number glow ---------- */
+  function setupAccolades() {
+    if (prefersReduced) return;
+    const section = document.getElementById('accolades');
+    if (!section) return;
+    const grid = section.querySelector(':scope > div');
+    if (!grid) return;
+    Array.from(grid.children).forEach(cell => cell.classList.add('accolade-cell'));
+  }
+
+  /* ---------- Bar section — badge glint + word float + cursor glow ---------- */
+  function setupBarSection() {
+    if (prefersReduced) return;
+    const section = document.getElementById('bar');
+    if (!section) return;
+
+    // Badge glint (CSS handles the sweep, just add the class)
+    const badge = section.querySelector('div.rounded-full');
+    if (badge) badge.classList.add('bar-badge');
+
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    // Headline words — add bar-word to each word span for the float effect
+    $$('h2 span.reveal-up', section).forEach(span => span.classList.add('bar-word'));
+
+    // Cursor glow — warm gold to match the cocktail mood
+    makeCursorGlow(section, {
+      bg: 'radial-gradient(circle, rgba(200,162,75,.07) 0%, rgba(200,162,75,.025) 45%, transparent 70%)',
+      w: 700, h: 700, lerpF: 0.065
+    });
+  }
+
+  /* ---------- Signatures — per-card 3-D tilt ---------- */
+  function setupSignatureTilt() {
+    if (prefersReduced) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const cards = $$('.sig-card');
+    if (!cards.length) return;
+    const TILT = 6, EASE = 'cubic-bezier(.16,.84,.44,1)';
+    const clamp = v => Math.max(-1, Math.min(1, v));
+    cards.forEach(card => {
+      let entered = false;
+      card.addEventListener('mousemove', e => {
+        const r  = card.getBoundingClientRect();
+        const nx = (e.clientX - (r.left + r.width  * .5)) / (r.width  * .5);
+        const ny = (e.clientY - (r.top  + r.height * .5)) / (r.height * .5);
+        if (!entered) {
+          entered = true;
+          card.style.willChange = 'transform';
+          card.style.transition = `transform .4s ${EASE}`;
+        }
+        card.style.transform = `perspective(600px) rotateX(${(clamp(ny)*TILT).toFixed(2)}deg) rotateY(${(-clamp(nx)*TILT).toFixed(2)}deg) scale(1.015)`;
+      }, { passive: true });
+      card.addEventListener('mouseleave', () => {
+        entered = false;
+        card.style.transition = `transform .6s ${EASE}`;
+        card.style.transform  = 'perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)';
+      });
+    });
+  }
+
+  /* ---------- Menu — cursor glow (lacquer red, very subtle) ---------- */
+  function setupMenuGlow() {
+    const section = document.getElementById('menu');
+    if (!section) return;
+    makeCursorGlow(section, {
+      bg: 'radial-gradient(circle, rgba(123,17,19,.065) 0%, rgba(123,17,19,.02) 45%, transparent 68%)',
+      w: 560, h: 560, lerpF: 0.06
+    });
+  }
+
+  /* ---------- Gallery — cursor spotlight (mix-blend-mode: soft-light) ---------- */
+  function setupGallerySpotlight() {
+    if (prefersReduced) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const grid = document.getElementById('galleryGrid');
+    if (!grid) return;
+    grid.style.position = 'relative';
+    grid.style.overflow = 'hidden';
+    const spot = document.createElement('div');
+    spot.className = 'gallery-spotlight';
+    grid.appendChild(spot);
+    let gx = 0, gy = 0, tx = 0, ty = 0, raf = null;
+    const tick = () => {
+      raf = null;
+      gx += (tx - gx) * 0.1; gy += (ty - gy) * 0.1;
+      spot.style.left = gx.toFixed(0) + 'px';
+      spot.style.top  = gy.toFixed(0) + 'px';
+      if (Math.abs(tx - gx) > 0.3 || Math.abs(ty - gy) > 0.3) raf = requestAnimationFrame(tick);
+    };
+    grid.addEventListener('mousemove', e => {
+      const r = grid.getBoundingClientRect();
+      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      if (!raf) raf = requestAnimationFrame(tick);
+      spot.style.opacity = '1';
+    }, { passive: true });
+    grid.addEventListener('mouseleave', () => { spot.style.opacity = '0'; });
+  }
+
+  /* ---------- Visit — cursor glow + map ring ---------- */
+  function setupVisitSection() {
+    const section = document.getElementById('visit');
+    if (!section) return;
+    section.style.overflow = 'hidden';
+    makeCursorGlow(section, {
+      bg: 'radial-gradient(circle, rgba(200,162,75,.055) 0%, rgba(200,162,75,.018) 42%, transparent 68%)',
+      w: 620, h: 620, lerpF: 0.07
+    });
+    // Map container hover ring
+    const mapWrap = section.querySelector('.reveal-img');
+    if (mapWrap) mapWrap.classList.add('visit-map-wrap');
+  }
+
   /* ---------- About / Our Story — cursor micro-interactions ---------- */
   function setupAboutMicro() {
     if (prefersReduced) return;
@@ -459,13 +601,6 @@
     const glow = document.createElement('div');
     glow.className = 'about-glow';
     section.appendChild(glow);
-
-    // Inject text column shimmer
-    const shimmer = document.createElement('div');
-    shimmer.className = 'about-text-shimmer';
-    shimmer.setAttribute('aria-hidden', 'true');
-    textCol.style.position = 'relative';
-    textCol.insertBefore(shimmer, textCol.firstChild);
 
     // Lagged glow spring (lerp)
     let gx = 0, gy = 0, tgx = 0, tgy = 0, rafG = null;
@@ -496,7 +631,6 @@
       if (!entered) {
         entered = true;
         glow.style.opacity = '1';
-        shimmer.style.opacity = '1';
         // Enable transitions now (avoids fighting the scroll-reveal on page load)
         if (clipDiv)   { clipDiv.style.willChange   = 'transform, box-shadow'; clipDiv.style.transition   = `transform .5s ${EASE}, box-shadow .5s ${EASE}`; }
         if (floatCard) { floatCard.style.willChange = 'transform';             floatCard.style.transition = `transform .4s ${EASE}`; }
@@ -523,17 +657,11 @@
         floatCard.style.transform = `translate(${(-clamp(nx) * FLOAT).toFixed(1)}px, ${(-clamp(ny) * FLOAT * .6).toFixed(1)}px)`;
       }
 
-      // Warm shimmer follows cursor within text column
-      const tr = textCol.getBoundingClientRect();
-      const tx = ((e.clientX - tr.left) / tr.width  * 100).toFixed(1);
-      const ty = ((e.clientY - tr.top)  / tr.height * 100).toFixed(1);
-      shimmer.style.background = `radial-gradient(ellipse 260px 210px at ${tx}% ${ty}%, rgba(200,162,75,.06) 0%, transparent 75%)`;
     }, { passive: true });
 
     section.addEventListener('mouseleave', () => {
       entered = false;
       glow.style.opacity = '0';
-      shimmer.style.opacity = '0';
       if (clipDiv) {
         clipDiv.style.transition  = `transform .72s ${EASE}, box-shadow .72s ease`;
         clipDiv.style.transform   = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
@@ -548,12 +676,18 @@
 
   /* ---------- Init ---------- */
   renderSignatures();
+  setupSignatureTilt();    // must follow renderSignatures (cards exist in DOM)
   renderMenu();
+  setupMenuGlow();
   renderGallery();
+  setupGallerySpotlight(); // must follow renderGallery (grid exists in DOM)
   initMap();
   setupAnchors();
   setupMagnetic();
   setupCounters();
+  setupAccolades();
+  setupBarSection();
   setupAboutMicro();
+  setupVisitSection();
   observeReveals(); // after dynamic content is in the DOM
 })();
