@@ -186,21 +186,194 @@
     }
   }
 
-  /* ---------- Signatures ---------- */
-  function renderSignatures() {
-    const grid = $('#signatureGrid');
-    if (!grid || typeof SIGNATURES === 'undefined') return;
-    grid.innerHTML = SIGNATURES.map((d, i) => `
-      <article class="sig-card reveal-up" style="--d:${i * 0.07}s">
-        <img src="${d.img}" alt="${d.name}" loading="lazy" />
-        <div class="sig-card__overlay">
-          <div class="flex items-baseline justify-between gap-2">
-            <h3 class="font-display text-xl text-ivory leading-tight">${d.name}</h3>
-            <span class="font-display text-lg text-gold-400 flex-none">$${d.price}</span>
+  /* ---------- Featured 3-panel section (Bar · Desserts · Signatures) ---------- */
+  function renderFeatured() {
+    const slider = document.getElementById('featuredSlider');
+    if (!slider || typeof FEATURED === 'undefined') return;
+    const total = FEATURED.length;
+    slider.innerHTML = FEATURED.map((d, i) => {
+      const num  = String(i + 1).padStart(2, '0');
+      const imgs = d.images || [];
+
+      const infoCol = `
+        <div class="pin-info">
+          <div class="flex items-start justify-between">
+            <span class="section-eyebrow text-ivory/25">N° ${num} / 0${total}</span>
+            <span class="section-eyebrow text-gold-400">${d.tag}</span>
           </div>
-          <p class="mt-1.5 text-sm leading-relaxed text-ivory/70">${d.note}</p>
-        </div>
-      </article>`).join('');
+          <div class="pin-ghost">${d.label.toUpperCase()}</div>
+          <div class="max-w-xl relative z-10">
+            <p class="section-eyebrow text-gold-400 mb-3">${d.label}</p>
+            <h3 class="font-display text-3xl xl:text-4xl text-ivory leading-tight mb-4">${d.name}</h3>
+            <p class="font-serif text-lg text-ivory/55 leading-relaxed">${d.desc}</p>
+          </div>
+        </div>`;
+
+      const stackCol = `
+        <div class="pin-img card-stack-host">
+          ${imgs.map((src, j) => `
+            <div class="card-stack-item" data-idx="${j}">
+              <img src="${src}" alt="${d.label}" loading="${j < 2 ? 'eager' : 'lazy'}" draggable="false" />
+            </div>`).join('')}
+          <div class="card-stack-dots">
+            ${imgs.map((_, j) => `<button class="card-dot" data-goto="${j}" aria-label="Image ${j + 1}"></button>`).join('')}
+          </div>
+        </div>`;
+
+      return `<div class="pin-panel">${infoCol}${stackCol}</div>`;
+    }).join('');
+
+    // Mobile pagination — reuses the card-stack's elongating-dot language for cohesion.
+    const track = document.getElementById('featuredTrack');
+    if (track && !track.querySelector('.pin-pagination')) {
+      const nav = document.createElement('div');
+      nav.className = 'pin-pagination';
+      nav.innerHTML = FEATURED.map((d, i) =>
+        `<button class="pin-dot${i === 0 ? ' active' : ''}" data-goto="${i}" aria-label="Go to ${d.label}"></button>`
+      ).join('');
+      track.appendChild(nav);
+    }
+  }
+
+  /* ---------- Scroll driver for the featured pin section ---------- */
+  function setupFeaturedScroll() {
+    const pin    = document.getElementById('featuredPin');
+    const track  = document.getElementById('featuredTrack');
+    const slider = document.getElementById('featuredSlider');
+    if (!pin || !track || !slider) return;
+    if (prefersReduced || window.innerWidth < 768) return;
+
+    const panels = Array.from(slider.querySelectorAll('.pin-panel'));
+    const count  = panels.length;
+    if (!count) return;
+
+    // Force panel widths to the track's exact pixel width (bypasses 100vw/scrollbar quirks)
+    let panelW = 0;
+    function syncPanelWidths() {
+      panelW = track.offsetWidth;
+      panels.forEach(p => { p.style.width = panelW + 'px'; p.style.flexBasis = panelW + 'px'; });
+    }
+    syncPanelWidths();
+
+    function setHeight() { pin.style.height = (count * window.innerHeight) + 'px'; }
+    setHeight();
+
+    let rafId = null;
+    function update() {
+      rafId = null;
+      const scrolledPast = -pin.getBoundingClientRect().top;
+      const range = pin.offsetHeight - window.innerHeight;
+      const t = Math.max(0, Math.min(1, scrolledPast / range));
+      slider.style.transform = `translateX(${(-(count - 1) * panelW * t).toFixed(1)}px)`;
+    }
+
+    window.addEventListener('scroll', () => { if (!rafId) rafId = requestAnimationFrame(update); }, { passive: true });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        pin.style.height = '';
+        slider.style.transform = '';
+        panels.forEach(p => { p.style.width = ''; p.style.flexBasis = ''; });
+      } else {
+        syncPanelWidths();
+        setHeight();
+        update();
+      }
+    });
+    update();
+  }
+
+  /* ---------- Featured pagination (mobile swipe carousel) ---------- */
+  function setupFeaturedPagination() {
+    const slider = document.getElementById('featuredSlider');
+    const nav    = document.querySelector('.pin-pagination');
+    if (!slider || !nav) return;
+    const panels = Array.from(slider.querySelectorAll('.pin-panel'));
+    const dots   = Array.from(nav.querySelectorAll('.pin-dot'));
+    if (panels.length < 2 || dots.length !== panels.length) return;
+
+    const setActive = (idx) => dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+
+    // Highlight the panel whose centre is nearest the scroller's centre.
+    const sync = () => {
+      const sr = slider.getBoundingClientRect();
+      const mid = sr.left + sr.width / 2;
+      let best = 0, bestD = Infinity;
+      panels.forEach((p, i) => {
+        const r = p.getBoundingClientRect();
+        const d = Math.abs((r.left + r.width / 2) - mid);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      setActive(best);
+    };
+    slider.addEventListener('scroll', sync, { passive: true });
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const i = +dot.dataset.goto;
+        panels[i].scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
+        setActive(i);
+      });
+    });
+    sync();
+  }
+
+  /* ---------- Card stacks (vertical image cycling) ---------- */
+  function setupCardStacks() {
+    const hosts = document.querySelectorAll('.card-stack-host');
+    if (!hosts.length) return;
+
+    function cardStyle(diff) {
+      if (diff ===  0) return { y:    0, scale: 1.00, opacity: 1.0, z: 5, rx:   0 };
+      if (diff === -1) return { y: -165, scale: 0.84, opacity: 0.6, z: 4, rx:   6 };
+      if (diff === -2) return { y: -295, scale: 0.70, opacity: 0.3, z: 3, rx:  12 };
+      if (diff ===  1) return { y:  165, scale: 0.84, opacity: 0.6, z: 4, rx:  -6 };
+      if (diff ===  2) return { y:  295, scale: 0.70, opacity: 0.3, z: 3, rx: -12 };
+      return { y: diff > 0 ? 480 : -480, scale: 0.6, opacity: 0, z: 0, rx: diff > 0 ? -20 : 20 };
+    }
+
+    hosts.forEach(host => {
+      const cards = Array.from(host.querySelectorAll('.card-stack-item'));
+      const dots  = Array.from(host.querySelectorAll('.card-dot'));
+      const total = cards.length;
+      let cur = 0;
+      let timer = null;
+
+      function render(idx) {
+        cards.forEach((card, i) => {
+          let d = i - idx;
+          if (d >  total / 2) d -= total;
+          if (d < -total / 2) d += total;
+          const s = cardStyle(d);
+          card.style.zIndex   = s.z;
+          card.style.opacity  = s.opacity;
+          card.style.transform = `translateY(${s.y}px) scale(${s.scale}) rotateX(${s.rx}deg)`;
+        });
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+      }
+
+      function advance() {
+        cur = (cur + 1) % total;
+        render(cur);
+      }
+
+      function startTimer() { timer = setInterval(advance, 2200); }
+      function stopTimer()  { clearInterval(timer); timer = null; }
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          cur = +dot.dataset.goto;
+          render(cur);
+          stopTimer(); startTimer();
+        });
+      });
+
+      // Pause on hover
+      host.addEventListener('mouseenter', stopTimer);
+      host.addEventListener('mouseleave', startTimer);
+
+      render(0);
+      startTimer();
+    });
   }
 
   /* ---------- Menu tabs + panels ---------- */
@@ -345,7 +518,8 @@
   function setupMagnetic() {
     if (prefersReduced) return;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    const targets = $$('.btn-gold, .btn-outline, .btn-dark, .btn-ghost');
+    // Magnetism only on the primary gold CTA — a single intentional moment, not a site-wide tic.
+    const targets = $$('.btn-gold');
     const STRENGTH = 0.28, MAX = 7;
     targets.forEach(el => {
       el.addEventListener('mousemove', (e) => {
@@ -440,35 +614,6 @@
       .openPopup();
   }
 
-  /* ---------- Shared: inject a lerp-lagged cursor glow orb ---------- */
-  function makeCursorGlow(parent, { bg, w = 640, h = 640, lerpF = 0.075 } = {}) {
-    if (prefersReduced) return null;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return null;
-    if (getComputedStyle(parent).position === 'static') parent.style.position = 'relative';
-    const el = document.createElement('div');
-    el.className = 'section-glow';
-    el.style.width  = w + 'px';
-    el.style.height = h + 'px';
-    if (bg) el.style.background = bg;
-    parent.appendChild(el);
-    let gx = 0, gy = 0, tx = 0, ty = 0, raf = null;
-    const tick = () => {
-      raf = null;
-      gx += (tx - gx) * lerpF; gy += (ty - gy) * lerpF;
-      el.style.left = gx.toFixed(0) + 'px';
-      el.style.top  = gy.toFixed(0) + 'px';
-      if (Math.abs(tx - gx) > 0.3 || Math.abs(ty - gy) > 0.3) raf = requestAnimationFrame(tick);
-    };
-    parent.addEventListener('mousemove', e => {
-      const r = parent.getBoundingClientRect();
-      tx = e.clientX - r.left; ty = e.clientY - r.top;
-      if (!raf) raf = requestAnimationFrame(tick);
-      el.style.opacity = '1';
-    }, { passive: true });
-    parent.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
-    return el;
-  }
-
   /* ---------- Accolade strip — hover lift + number glow ---------- */
   function setupAccolades() {
     if (prefersReduced) return;
@@ -477,28 +622,6 @@
     const grid = section.querySelector(':scope > div');
     if (!grid) return;
     Array.from(grid.children).forEach(cell => cell.classList.add('accolade-cell'));
-  }
-
-  /* ---------- Bar section — badge glint + word float + cursor glow ---------- */
-  function setupBarSection() {
-    if (prefersReduced) return;
-    const section = document.getElementById('bar');
-    if (!section) return;
-
-    // Badge glint (CSS handles the sweep, just add the class)
-    const badge = section.querySelector('div.rounded-full');
-    if (badge) badge.classList.add('bar-badge');
-
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-    // Headline words — add bar-word to each word span for the float effect
-    $$('h2 span.reveal-up', section).forEach(span => span.classList.add('bar-word'));
-
-    // Cursor glow — warm gold to match the cocktail mood
-    makeCursorGlow(section, {
-      bg: 'radial-gradient(circle, rgba(200,162,75,.07) 0%, rgba(200,162,75,.025) 45%, transparent 70%)',
-      w: 700, h: 700, lerpF: 0.065
-    });
   }
 
   /* ---------- Signatures — per-card 3-D tilt ---------- */
@@ -530,54 +653,10 @@
     });
   }
 
-  /* ---------- Menu — cursor glow (lacquer red, very subtle) ---------- */
-  function setupMenuGlow() {
-    const section = document.getElementById('menu');
-    if (!section) return;
-    makeCursorGlow(section, {
-      bg: 'radial-gradient(circle, rgba(123,17,19,.065) 0%, rgba(123,17,19,.02) 45%, transparent 68%)',
-      w: 560, h: 560, lerpF: 0.06
-    });
-  }
-
-  /* ---------- Gallery — cursor spotlight (mix-blend-mode: soft-light) ---------- */
-  function setupGallerySpotlight() {
-    if (prefersReduced) return;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    const grid = document.getElementById('galleryGrid');
-    if (!grid) return;
-    grid.style.position = 'relative';
-    grid.style.overflow = 'hidden';
-    const spot = document.createElement('div');
-    spot.className = 'gallery-spotlight';
-    grid.appendChild(spot);
-    let gx = 0, gy = 0, tx = 0, ty = 0, raf = null;
-    const tick = () => {
-      raf = null;
-      gx += (tx - gx) * 0.1; gy += (ty - gy) * 0.1;
-      spot.style.left = gx.toFixed(0) + 'px';
-      spot.style.top  = gy.toFixed(0) + 'px';
-      if (Math.abs(tx - gx) > 0.3 || Math.abs(ty - gy) > 0.3) raf = requestAnimationFrame(tick);
-    };
-    grid.addEventListener('mousemove', e => {
-      const r = grid.getBoundingClientRect();
-      tx = e.clientX - r.left; ty = e.clientY - r.top;
-      if (!raf) raf = requestAnimationFrame(tick);
-      spot.style.opacity = '1';
-    }, { passive: true });
-    grid.addEventListener('mouseleave', () => { spot.style.opacity = '0'; });
-  }
-
-  /* ---------- Visit — cursor glow + map ring ---------- */
+  /* ---------- Visit — map container hover ring ---------- */
   function setupVisitSection() {
     const section = document.getElementById('visit');
     if (!section) return;
-    section.style.overflow = 'hidden';
-    makeCursorGlow(section, {
-      bg: 'radial-gradient(circle, rgba(200,162,75,.055) 0%, rgba(200,162,75,.018) 42%, transparent 68%)',
-      w: 620, h: 620, lerpF: 0.07
-    });
-    // Map container hover ring
     const mapWrap = section.querySelector('.reveal-img');
     if (mapWrap) mapWrap.classList.add('visit-map-wrap');
   }
@@ -597,23 +676,6 @@
     const clipDiv   = imgCol.querySelector('.reveal-clip');
     const floatCard = imgCol.querySelector('.reveal-img.absolute');
 
-    // Inject ambient glow orb
-    const glow = document.createElement('div');
-    glow.className = 'about-glow';
-    section.appendChild(glow);
-
-    // Lagged glow spring (lerp)
-    let gx = 0, gy = 0, tgx = 0, tgy = 0, rafG = null;
-    const lerpGlow = () => {
-      rafG = null;
-      gx += (tgx - gx) * 0.075;
-      gy += (tgy - gy) * 0.075;
-      glow.style.left = gx.toFixed(0) + 'px';
-      glow.style.top  = gy.toFixed(0) + 'px';
-      if (Math.abs(tgx - gx) > 0.4 || Math.abs(tgy - gy) > 0.4)
-        rafG = requestAnimationFrame(lerpGlow);
-    };
-
     const TILT  = 4.5;  // max tilt, degrees
     const FLOAT = 15;   // max float card travel, px
     const EASE  = 'cubic-bezier(.16,.84,.44,1)';
@@ -623,14 +685,8 @@
     section.addEventListener('mousemove', (e) => {
       const sr = section.getBoundingClientRect();
 
-      // Lagged glow follows cursor
-      tgx = e.clientX - sr.left;
-      tgy = e.clientY - sr.top;
-      if (!rafG) rafG = requestAnimationFrame(lerpGlow);
-
       if (!entered) {
         entered = true;
-        glow.style.opacity = '1';
         // Enable transitions now (avoids fighting the scroll-reveal on page load)
         if (clipDiv)   { clipDiv.style.willChange   = 'transform, box-shadow'; clipDiv.style.transition   = `transform .5s ${EASE}, box-shadow .5s ${EASE}`; }
         if (floatCard) { floatCard.style.willChange = 'transform';             floatCard.style.transition = `transform .4s ${EASE}`; }
@@ -661,7 +717,6 @@
 
     section.addEventListener('mouseleave', () => {
       entered = false;
-      glow.style.opacity = '0';
       if (clipDiv) {
         clipDiv.style.transition  = `transform .72s ${EASE}, box-shadow .72s ease`;
         clipDiv.style.transform   = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
@@ -674,19 +729,46 @@
     });
   }
 
+  /* ---------- Specials / Promotions ---------- */
+  function renderPromos() {
+    const grid = $('#promosGrid');
+    if (!grid || typeof PROMOS === 'undefined' || !PROMOS.length) return;
+
+    const badgeClass = {
+      gold:    'promo-badge--gold',
+      lacquer: 'promo-badge--lacquer',
+      neutral: 'promo-badge--neutral',
+    };
+
+    grid.innerHTML = PROMOS.map(p => `
+      <article class="promo-card reveal-img group">
+        <div class="relative overflow-hidden rounded-2xl" style="aspect-ratio:3/4">
+          <img src="${p.img}" alt="${p.label}" loading="lazy"
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/20 to-transparent"></div>
+          <span class="promo-badge ${badgeClass[p.badgeStyle] || badgeClass.neutral}">${p.badge}</span>
+          <div class="absolute bottom-0 left-0 right-0 p-6">
+            <h3 class="font-display text-2xl text-ivory leading-tight">${p.label}</h3>
+            <p class="mt-2 font-serif text-sm text-ivory/65 leading-relaxed">${p.desc}</p>
+          </div>
+        </div>
+      </article>
+    `).join('');
+  }
+
   /* ---------- Init ---------- */
-  renderSignatures();
-  setupSignatureTilt();    // must follow renderSignatures (cards exist in DOM)
+  renderFeatured();
+  setupFeaturedScroll();
+  setupFeaturedPagination();
+  setupCardStacks();
   renderMenu();
-  setupMenuGlow();
+  renderPromos();
   renderGallery();
-  setupGallerySpotlight(); // must follow renderGallery (grid exists in DOM)
   initMap();
   setupAnchors();
   setupMagnetic();
   setupCounters();
   setupAccolades();
-  setupBarSection();
   setupAboutMicro();
   setupVisitSection();
   observeReveals(); // after dynamic content is in the DOM

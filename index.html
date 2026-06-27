@@ -6,19 +6,33 @@
   <title>Canton Dragon Asian Grill &amp; Bar | Chinese Cuisine &amp; Full Bar in Scottsdale, AZ</title>
   <meta name="description" content="Canton Dragon Asian Grill &amp; Bar serves wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Family-owned since 2004. Dine in, take out or order online." />
   <meta name="theme-color" content="#7B1113" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://cantondragonscottsdale.com/" />
+
+  <!-- Icons (logo doubles as the favicon; modern browsers support WebP icons) -->
+  <link rel="icon" type="image/webp" href="assets/logo/logo4.webp" />
+  <link rel="apple-touch-icon" href="assets/logo/logo4.webp" />
 
   <!-- Open Graph -->
+  <meta property="og:site_name" content="Canton Dragon Asian Grill & Bar" />
+  <meta property="og:url" content="https://cantondragonscottsdale.com/" />
   <meta property="og:title" content="Canton Dragon Asian Grill & Bar — Scottsdale, AZ" />
   <meta property="og:description" content="Wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Family-owned since 2004." />
   <meta property="og:type" content="restaurant" />
   <meta property="og:image" content="https://cantondragonscottsdale.com/assets/others/table%20of%20food.webp" />
 
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Canton Dragon Asian Grill & Bar — Scottsdale, AZ" />
+  <meta name="twitter:description" content="Wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Family-owned since 2004." />
+  <meta name="twitter:image" content="https://cantondragonscottsdale.com/assets/others/table%20of%20food.webp" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tailwind-compiled.css" />
-  <link rel="stylesheet" href="css/styles.css?v=4" />
+  <link rel="stylesheet" href="css/styles.css?v=11" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <!-- Structured data for local SEO -->
@@ -62,8 +76,9 @@
 
       <div class="hidden items-center gap-9 lg:flex">
         <a href="#about" class="nav-link">Our Story</a>
-        <a href="#signatures" class="nav-link">Signatures</a>
+        <a href="#signatures" class="nav-link">Highlights</a>
         <a href="#menu" class="nav-link">Menu</a>
+        <a href="#specials" class="nav-link">Specials</a>
         <a href="#gallery" class="nav-link">Gallery</a>
         <a href="#visit" class="nav-link">Visit</a>
         <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener"
@@ -90,8 +105,9 @@
       </div>
       <nav class="flex flex-col gap-1 px-4 py-6 text-lg">
         <a href="#about" class="mobile-link" data-close>Our Story</a>
-        <a href="#signatures" class="mobile-link" data-close>Signatures</a>
+        <a href="#signatures" class="mobile-link" data-close>Highlights</a>
         <a href="#menu" class="mobile-link" data-close>Menu</a>
+        <a href="#specials" class="mobile-link" data-close>Specials</a>
         <a href="#gallery" class="mobile-link" data-close>Gallery</a>
         <a href="#visit" class="mobile-link" data-close>Visit</a>
       </nav>
@@ -106,15 +122,15 @@
     <!-- ============ HERO (smooth-scroll reveal) ============ -->
     <section id="heroTrack" class="relative w-full bg-charcoal">
       <div class="sticky top-0 h-[100svh] w-full overflow-hidden">
-        <!-- full-bleed zooming video -->
-        <video id="heroImg" autoplay muted loop playsinline preload="auto"
-               poster="assets/Entrees/beefchowfun.webp" aria-hidden="true"
-               class="absolute inset-0 h-full w-full object-cover"
-               style="object-position: center 72%; transform: scale(1.7);">
-          <source src="assets/video/Video%20Project%2023.mp4" type="video/mp4" />
-        </video>
-        <div class="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/55 to-charcoal/90"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-charcoal/85 via-charcoal/20 to-transparent"></div>
+        <!-- full-bleed duotone hero — charcoal+gold art treatment (zoom driven by JS on scroll) -->
+        <img id="heroImg" src="assets/others/hero-duotone.webp" alt="" aria-hidden="true"
+             fetchpriority="high"
+             class="absolute inset-0 h-full w-full object-cover"
+             style="object-position: center 58%; transform: scale(1.7);" />
+        <div class="absolute inset-0 bg-gradient-to-b from-charcoal/65 via-charcoal/45 to-charcoal/90"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/40 to-charcoal/10"></div>
+        <!-- gold wash: warms the highlights and lays a diagonal gold sweep over the duotone -->
+        <div class="hero-goldwash pointer-events-none absolute inset-0" aria-hidden="true"></div>
         <div class="pointer-events-none absolute inset-0 scale-pattern opacity-[0.06]"></div>
 
         <!-- charcoal matte "frame" that recedes on scroll (GPU transforms only) -->
@@ -154,24 +170,48 @@
       </div>
     </section>
 
+    <!-- ============ TICKER ============ -->
+    <div class="ticker-wrap" aria-hidden="true">
+      <div class="ticker-inner">
+        <div class="ticker-track">
+          <span class="ticker-item">Cantonese Classics</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Wok-Fired Daily</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Est. 2004</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Scottsdale, Arizona</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Family Owned</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Full Bar &amp; Dining</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Fresh Seafood</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Craft Cocktails</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Cantonese Classics</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Wok-Fired Daily</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Est. 2004</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Scottsdale, Arizona</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Family Owned</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Full Bar &amp; Dining</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Fresh Seafood</span><span class="ticker-sep">✦</span>
+          <span class="ticker-item">Craft Cocktails</span><span class="ticker-sep">✦</span>
+        </div>
+      </div>
+    </div>
+
     <!-- ============ ACCOLADE STRIP ============ -->
     <section id="accolades" class="border-y border-ivory/10 bg-charcoal-800">
       <div class="mx-auto grid max-w-8xl grid-cols-2 divide-x divide-ivory/10 px-6 sm:grid-cols-4">
         <div class="reveal-up px-4 py-8 text-center">
           <p class="stat-num font-display text-3xl text-gold-400" data-count="22" data-suffix="+">22+</p>
-          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/45">Years Serving</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/60">Years Serving</p>
         </div>
         <div class="reveal-up px-4 py-8 text-center" style="--d:.06s">
           <p class="stat-num font-display text-3xl text-gold-400" data-count="100" data-suffix="+">100+</p>
-          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/45">Made-to-Order Dishes</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/60">Made-to-Order Dishes</p>
         </div>
         <div class="reveal-up px-4 py-8 text-center" style="--d:.12s">
           <p class="font-display text-3xl text-gold-400">Full</p>
-          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/45">Grill &amp; Bar</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/60">Grill &amp; Bar</p>
         </div>
         <div class="reveal-up px-4 py-8 text-center" style="--d:.18s">
           <p class="stat-num font-display text-3xl text-gold-400" data-count="4.5" data-prefix="★ " data-decimals="1">★ 4.5</p>
-          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/45">Guest Rated</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/60">Guest Rated</p>
         </div>
       </div>
     </section>
@@ -181,9 +221,9 @@
       <div class="mx-auto grid max-w-8xl items-center gap-14 px-6 sm:px-10 lg:grid-cols-2 lg:gap-20 lg:px-14">
         <div class="relative">
           <div class="reveal-clip overflow-hidden rounded-[2rem] shadow-2xl">
-            <img src="assets/others/interior.webp"
+            <img src="assets/others/interiornarrow.webp"
                  alt="Canton Dragon dining room" loading="lazy"
-                 style="object-position: 15% center;"
+                 style="object-position: center 40%;"
                  class="aspect-[4/5] w-full object-cover transition-transform duration-[1.2s] hover:scale-105" />
           </div>
           <div class="reveal-img absolute -bottom-8 -right-4 hidden w-56 overflow-hidden rounded-2xl border-4 border-ivory shadow-xl sm:block" style="--d:.15s">
@@ -195,10 +235,10 @@
 
         <div>
           <p class="reveal-up section-eyebrow">Our Story</p>
-          <h2 class="reveal-clip mt-4 font-display text-4xl font-700 leading-tight text-ivory sm:text-5xl" style="--d:.06s">
-            A Scottsdale heritage,<br />wok-fired to order.
+          <h2 class="reveal-clip mt-4 font-display font-700 leading-[1.02] text-ivory" style="--d:.06s; font-size:clamp(2.75rem,5.2vw,4.5rem)">
+            A Scottsdale heritage,<br /><span class="brush-underline">wok-fired</span> to order.
           </h2>
-          <div class="reveal-up mt-6 space-y-5 font-serif text-lg leading-relaxed text-ivory/70" style="--d:.12s">
+          <div class="mt-6 space-y-5 font-serif text-lg leading-relaxed text-ivory/70">
             <p>
               Since 2004, Canton Dragon has been a family-owned staple here in Scottsdale—a place
               built on the idea that great food tastes best in a room where you instantly feel at home.
@@ -231,71 +271,30 @@
       </div>
     </section>
 
-    <!-- ============ BAR (animated marquee) ============ -->
-    <section id="bar" class="relative overflow-hidden bg-charcoal px-4 pb-16 pt-28 text-center text-ivory sm:pt-32">
-      <div class="relative z-10 mx-auto flex max-w-2xl flex-col items-center">
-        <div class="reveal-up mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-ivory/5 px-4 py-1.5 text-sm font-500 tracking-wide text-gold-400 backdrop-blur-sm">
-          <span class="h-1.5 w-1.5 rounded-full bg-gold"></span> The Bar · Happy Hour Daily
+    <!-- ============ HIGHLIGHTS — Bar · Desserts · Signatures (3-panel) ============ -->
+    <section id="signatures" class="relative bg-charcoal text-ivory">
+      <span id="bar"     style="position:absolute;top:0" aria-hidden="true"></span>
+      <span id="desserts" style="position:absolute;top:0" aria-hidden="true"></span>
+
+      <div class="reveal-up px-6 py-16 sm:px-14 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 border-b border-ivory/10">
+        <div>
+          <p class="section-eyebrow text-gold-400">Highlights</p>
+          <h2 class="mt-3 font-display text-4xl font-700 sm:text-5xl leading-tight">Bar · Desserts · Signatures</h2>
+          <p class="mt-3 max-w-lg font-serif text-lg text-ivory/70">Three reasons to stay a little longer.</p>
         </div>
-
-        <h2 class="font-display text-4xl font-700 leading-[1.04] tracking-tight sm:text-6xl">
-          <span class="reveal-up inline-block" style="--d:0s">Pull</span>
-          <span class="reveal-up inline-block" style="--d:.08s">up</span>
-          <span class="reveal-up inline-block" style="--d:.16s">to</span>
-          <span class="reveal-up inline-block" style="--d:.24s">the</span>
-          <span class="reveal-up inline-block italic text-gold-400" style="--d:.32s">bar</span>
-        </h2>
-
-        <p class="reveal-up mt-6 max-w-xl font-serif text-lg leading-relaxed text-ivory/75" style="--d:.42s">
-          Join us Monday–Friday, 12–7pm for <strong class="text-gold-400">$3 off cocktails &amp; wine</strong> —
-          plum wine, warm sake, prosecco, and a curated list from Kim Crawford to DAOU.
-        </p>
-
-        <a href="#visit" class="reveal-up btn-gold mt-8" style="--d:.52s">Plan Your Visit</a>
-      </div>
-
-      <!-- Continuous drink marquee (masked top & bottom) -->
-      <div class="marquee-mask pointer-events-none relative z-0 mt-14 w-full">
-        <div class="marquee-track flex gap-4">
-          <div class="marquee-item"><img src="assets/drinks/lycheemart.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/YuzuMarga.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/mojitos.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/oldfashionfront_genSwap.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/orchid%20(1).webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/pamplemousse.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/prickly%20(1).webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/stem.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/Singha.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <div class="marquee-item"><img src="assets/drinks/IMG-20260623-WA0008.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-          <!-- duplicate set for a seamless loop -->
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/lycheemart.webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/YuzuMarga.webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/mojitos.webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/oldfashionfront_genSwap.webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/orchid%20(1).webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/pamplemousse.webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/prickly%20(1).webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/stem.webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/Singha.webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).webp" alt="" loading="lazy" /></div>
-          <div class="marquee-item" aria-hidden="true"><img src="assets/drinks/IMG-20260623-WA0008.webp" alt="" loading="lazy" /></div>
+        <div class="hidden md:flex items-center gap-3 section-eyebrow text-ivory/30">
+          <span>SCROLL</span>
+          <svg width="56" height="8" viewBox="0 0 56 8" fill="none" aria-hidden="true">
+            <path d="M0 4 L51 4 M46 0 L51 4 L46 8" stroke="currentColor" stroke-width="1"/>
+          </svg>
+          <span>HORIZONTAL</span>
         </div>
       </div>
-    </section>
 
-    <!-- ============ SIGNATURE DISHES ============ -->
-    <section id="signatures" class="bg-charcoal py-24 text-ivory sm:py-32">
-      <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
-        <div class="mx-auto max-w-2xl text-center">
-          <p class="reveal-up section-eyebrow text-gold-400">Chef's Signatures</p>
-          <h2 class="reveal-clip mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">The dishes we're known for</h2>
-          <p class="reveal-up mx-auto mt-4 max-w-lg font-serif text-lg text-ivory/70" style="--d:.12s">
-            A few guest favorites — the full lineup of over 100 dishes lives in the menu below.
-          </p>
+      <div id="featuredPin">
+        <div id="featuredTrack" class="pin-track">
+          <div id="featuredSlider" class="pin-slider"><!-- JS injected --></div>
         </div>
-
-        <div id="signatureGrid" class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"><!-- JS injected --></div>
       </div>
     </section>
 
@@ -305,7 +304,7 @@
         <div class="flex flex-col items-center text-center">
           <p class="reveal-up section-eyebrow">The Menu</p>
           <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">Cooked to order, every time</h2>
-          <p class="reveal-up mt-4 max-w-xl font-serif text-lg text-ivory/70" style="--d:.12s">
+          <p class="mt-4 max-w-xl font-serif text-lg text-ivory/70">
             Dine in, take out, or order online. Dinner entrées served with steamed white or brown rice.
           </p>
         </div>
@@ -319,23 +318,72 @@
 
         <div id="menuPanels" class="mt-12"><!-- JS injected --></div>
 
-        <p class="mt-12 text-center text-sm text-ivory/45">
+        <p class="mt-12 text-center text-sm text-ivory/60">
           Prices and availability subject to change. Please inform your server of any allergies.
           <span class="block sm:inline">Substitute fried rice (+$3.99) or soft noodle (+$4.99).</span>
         </p>
       </div>
     </section>
 
+    <!-- ============ SPECIALS ============ -->
+    <section id="specials" class="py-24 sm:py-32 bg-charcoal-800">
+      <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
+          <div>
+            <p class="reveal-up section-eyebrow">What's New</p>
+            <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl leading-tight" style="--d:.06s">Seasonal Specials</h2>
+            <p class="mt-4 max-w-lg font-serif text-lg text-ivory/70">New additions and limited-time dishes — fresh from the kitchen.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-start max-w-4xl mx-auto">
+
+          <!-- Summer 2026 cocktail menu -->
+          <article class="promo-card group overflow-hidden rounded-2xl shadow-[0_24px_56px_-8px_rgba(0,0,0,0.55)] ring-1 ring-ivory/10" style="align-self:start">
+            <div class="relative overflow-hidden">
+              <img src="assets/promos/promoart.webp" alt="Summer 2026 Cocktail Menu" loading="lazy"
+                   class="w-full block transition-transform duration-700 group-hover:scale-105" />
+              <span class="promo-badge promo-badge--lacquer">Summer 2026</span>
+            </div>
+            <div class="bg-charcoal p-6" style="display:flex;flex-direction:column;gap:0.5rem">
+              <p class="section-eyebrow text-gold-400">The Bar</p>
+              <h3 class="font-display text-3xl text-ivory leading-tight">Cocktail Menu</h3>
+              <p class="font-serif text-sm text-ivory/65 leading-relaxed">Seasonal sips crafted with fresh ingredients — ask your server for this summer's selections.</p>
+            </div>
+          </article>
+
+          <!-- Wine by the bottle promo card -->
+          <article class="promo-card group overflow-hidden rounded-2xl shadow-[0_24px_56px_-8px_rgba(0,0,0,0.55)] ring-1 ring-ivory/10" style="align-self:start">
+            <div class="relative overflow-hidden" style="aspect-ratio:16/9">
+              <img src="assets/promos/wine.webp"
+                   alt="Wine bottles at Canton Dragon bar" loading="lazy"
+                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <span class="promo-badge promo-badge--gold">Limited Time</span>
+            </div>
+            <div class="bg-charcoal p-6" style="display:flex;flex-direction:column;gap:0.75rem">
+              <p class="section-eyebrow text-gold-400">The Bar</p>
+              <div>
+                <h3 class="font-display text-3xl text-ivory leading-tight">Wine by the Bottle</h3>
+                <p class="font-display text-ivory/50" style="font-size:1rem;margin-top:0.25rem">Any bottle · <span class="text-gold-400 font-700" style="font-size:2.5rem;line-height:1">$35</span></p>
+              </div>
+              <p class="font-serif text-sm text-ivory/65 leading-relaxed">
+                Choose from Kim Crawford, DAOU, Conundrum &amp; more — six hand-picked bottles, one great price. While supplies last.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
     <!-- ============ GALLERY ============ -->
     <section id="gallery" class="py-24 sm:py-32">
       <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
-        <div class="flex flex-col items-end justify-between gap-6 sm:flex-row">
-          <div>
-            <p class="reveal-up section-eyebrow">Gallery</p>
-            <h2 class="reveal-clip mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">A taste of the table</h2>
-          </div>
-          <p class="reveal-up max-w-sm font-serif text-lg text-ivory/70" style="--d:.12s">
-            A glimpse of the wok in action — from sizzling noodles to the dining room. Tap any photo to view it larger.
+        <div>
+          <h2 class="reveal-clip gallery-editorial-head font-display font-700 text-ivory">
+            A taste of<br />the table.
+          </h2>
+          <p class="mt-7 max-w-md font-serif text-lg text-ivory/55">
+            From the wok to the table — a glimpse of what's waiting. Tap any photo to view it larger.
           </p>
         </div>
 
@@ -354,7 +402,7 @@
             <div class="flex gap-4">
               <span class="info-icon"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5.2-7-11a7 7 0 1114 0c0 5.8-7 11-7 11z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5"/></svg></span>
               <div>
-                <dt class="text-xs uppercase tracking-[0.2em] text-ivory/45">Location</dt>
+                <dt class="text-xs uppercase tracking-[0.2em] text-ivory/60">Location</dt>
                 <dd class="mt-1 font-serif text-lg text-ivory">10190 N 90th St #101<br />Scottsdale, AZ 85258</dd>
                 <a href="https://maps.google.com/?q=Canton+Dragon+Asian+Grill+%26+Bar+10190+N+90th+St+Scottsdale+AZ+85258" target="_blank" rel="noopener" class="link-underline mt-1 inline-flex items-center gap-1 text-sm font-500 text-gold-400 hover:text-gold">Get directions →</a>
               </div>
@@ -362,17 +410,17 @@
             <div class="flex gap-4">
               <span class="info-icon"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 005 5L19 18l-1 3-2 .5C9 21 5 14 4 8L5 4z" stroke-linejoin="round"/></svg></span>
               <div>
-                <dt class="text-xs uppercase tracking-[0.2em] text-ivory/45">Reservations &amp; Orders</dt>
+                <dt class="text-xs uppercase tracking-[0.2em] text-ivory/60">Reservations &amp; Orders</dt>
                 <dd class="mt-1 font-serif text-lg text-ivory"><a href="tel:+14804518866" class="transition-colors hover:text-gold-400">(480) 451-8866</a></dd>
               </div>
             </div>
             <div class="flex gap-4">
               <span class="info-icon"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               <div>
-                <dt class="text-xs uppercase tracking-[0.2em] text-ivory/45">Hours</dt>
+                <dt class="text-xs uppercase tracking-[0.2em] text-ivory/60">Hours</dt>
                 <dd class="mt-1 font-serif text-lg text-ivory">
                   Open Daily · 11:00am – 8:30pm
-                  <span class="mt-1 block text-sm text-ivory/45">Dine-in until 8:00pm · Take-out until close</span>
+                  <span class="mt-1 block text-sm text-ivory/60">Dine-in until 8:00pm · Take-out until close</span>
                   <span class="mt-1 block text-sm text-gold-600">Happy Hour: Mon–Fri, 12–7pm</span>
                 </dd>
               </div>
@@ -443,7 +491,7 @@
     </div>
 
     <div class="border-t border-ivory/10">
-      <div class="mx-auto flex max-w-8xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-ivory/40 sm:flex-row sm:px-10 lg:px-14">
+      <div class="mx-auto flex max-w-8xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-ivory/55 sm:flex-row sm:px-10 lg:px-14">
         <p>© <span id="year">2025</span> Canton Dragon Asian Grill &amp; Bar. All rights reserved.</p>
         <p>Crafted in Scottsdale, Arizona.</p>
       </div>
@@ -459,7 +507,7 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/menu-data.js"></script>
-  <script src="js/main.js?v=3"></script>
+  <script src="js/menu-data.js?v=9"></script>
+  <script src="js/main.js?v=8"></script>
 </body>
 </html>

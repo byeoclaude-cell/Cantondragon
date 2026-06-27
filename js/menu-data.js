@@ -4,12 +4,184 @@
    Edit prices / descriptions here; the page renders from this.
    ============================================================ */
 
+/* Three-panel featured section — card stack per category */
+const FEATURED = [
+  {
+    label: 'The Bar',
+    name:  'Craft Cocktails',
+    tag:   'Happy Hour Daily',
+    desc:  'Yuzu margaritas, butterfly pea orchid cocktails and a curated wine list from Kim Crawford to DAOU. Pull up Monday–Friday, 12–7pm — every cocktail and glass of wine is $3 off.',
+    images: [
+      'assets/drinks/orchid (1).webp',
+      'assets/drinks/YuzuMarga.webp',
+      'assets/drinks/lycheemart.webp',
+      'assets/drinks/prickly (1).webp',
+      'assets/drinks/mojitos.webp',
+      'assets/drinks/TokyoGlow.webp',
+      'assets/drinks/pamplemousse.webp',
+      'assets/drinks/oldfashionfront_genSwap.webp',
+      'assets/drinks/pomelli_photoshoot_image_9_16_0609 (4).webp',
+      'assets/drinks/stem.webp',
+    ],
+  },
+  {
+    label: 'Desserts',
+    name:  'A Sweet Finale',
+    tag:   'House-Made',
+    desc:  'Seven house-made and imported desserts — from a velvety New York cheesecake to vibrant ube cake and golden honey banana. The perfect ending to a wok-fired meal.',
+    images: [
+      'assets/Dessert/Ube.webp',
+      'assets/Dessert/cheesecake.webp',
+      'assets/Dessert/HoneyBanana.webp',
+      'assets/Dessert/DarkChoc.webp',
+      'assets/Dessert/WhiteChoc.webp',
+      'assets/Dessert/Fryapple.webp',
+      'assets/Dessert/ICECREAMCAKE.webp',
+    ],
+  },
+  {
+    label: "Chef's Signatures",
+    name:  "The Dishes We're Known For",
+    tag:   'Wok-Fired',
+    desc:  'Four defining dishes — BBQ pork fried rice, shrimp lo mein, beef chow fun and kung pao shrimp. Each one wok-fired to order over screaming-hot fire, each one a reason to come back.',
+    images: [
+      'assets/Entrees/porkfriedrice.webp',
+      'assets/Entrees/beefchowfun.webp',
+      'assets/Entrees/shrimplomein.webp',
+      'assets/Entrees/mongolianbeef.webp',
+      'assets/Entrees/lemonchx.webp',
+      'assets/Entrees/shrimpbrocolli.webp',
+      'assets/Entrees/teriyakichx.webp',
+      'assets/Entrees/thaicurrynoodle.webp',
+      'assets/Entrees/tofuveg.webp',
+    ],
+  },
+];
+
+/* Curated bar — 5 cocktail hero panels */
+const DRINKS = [
+  {
+    name:  'Lychee Martini',
+    tag:   'House Favourite',
+    price: '13.00',
+    note:  'Lychee · vodka · elderflower',
+    desc:  'Delicate and floral — fresh lychee, premium vodka and a touch of elderflower liqueur. The drink that convinced half our regulars to skip beer entirely.',
+    img:   'assets/drinks/lycheemart.webp',
+  },
+  {
+    name:  'Yuzu Margarita',
+    tag:   'The Citrus Hit',
+    price: '13.00',
+    note:  'Yuzu · tequila · triple sec · salt rim',
+    desc:  'Bright, tart and impossible to put down. Fresh yuzu juice, blanco tequila and triple sec over ice, finished with a salted rim. East meets West in a glass.',
+    img:   'assets/drinks/YuzuMarga.webp',
+  },
+  {
+    name:  'Orchid',
+    tag:   'The Showstopper',
+    price: '14.00',
+    note:  'Butterfly pea gin · lemon · honey · tonic',
+    desc:  'Butterfly pea flower gin shifts from deep violet to pink as the citrus hits the glass. Our most photographed drink — and, by a wide margin, the most reordered.',
+    img:   'assets/drinks/orchid (1).webp',
+  },
+  {
+    name:  'Prickly Pear',
+    tag:   'The Wild One',
+    price: '13.00',
+    note:  'Mezcal · prickly pear · lime · chili rim',
+    desc:  'Smoky mezcal meets the vivid crimson of prickly pear, balanced with fresh lime and a house chili-salt rim. For those who need something unexpected.',
+    img:   'assets/drinks/prickly (1).webp',
+  },
+  {
+    name:  'Old Fashioned',
+    tag:   'The Classic',
+    price: '14.00',
+    note:  'Bourbon · Angostura · orange peel · cube',
+    desc:  'Stirred, not shaken. Barrel-aged bourbon, Angostura bitters and a single sugar cube, finished with a flamed orange peel. The way it has always been done.',
+    img:   'assets/drinks/oldfashionfront_genSwap.webp',
+  },
+];
+
 /* Featured signature dishes (replace images with real plating photos). */
 const SIGNATURES = [
-  { name: 'BBQ Pork Fried Rice', price: '14.99', note: 'Wok-fried with egg, soy & scallions',          img: 'assets/Entrees/porkfriedrice.webp' },
-  { name: 'Shrimp Lo Mein',      price: '15.99', note: 'Soft noodles, shrimp, onion & bean sprouts',    img: 'assets/Entrees/shrimplomein.webp' },
-  { name: 'Beef Chow Fun',       price: '18.99', note: 'Wide rice noodles, beef, onion & bean sprouts', img: 'assets/Entrees/beefchowfun.webp' },
-  { name: 'Kung Pao Shrimp',     price: '18.99', note: 'Zucchini, bell pepper & peanuts — spicy',       img: 'assets/Entrees/shrimpbrocolli.webp' },
+  {
+    name:  'BBQ Pork Fried Rice',
+    tag:   'The Classic',
+    price: '14.99',
+    note:  'Wok-fried · egg · scallions · house soy',
+    desc:  'House-marinated BBQ pork tossed with egg, scallions and house-blend soy over screaming-hot wok fire. The dish that built Canton Dragon\'s reputation — unchanged since day one.',
+    img:   'assets/Entrees/porkfriedrice.webp',
+  },
+  {
+    name:  'Shrimp Lo Mein',
+    tag:   'Guest Favourite',
+    price: '15.99',
+    note:  'Soft noodles · jumbo shrimp · bean sprouts',
+    desc:  'Jumbo shrimp and soft egg noodles tossed with caramelised onion and fresh bean sprouts in a silky, savory sauce. Our most reordered dish for a reason.',
+    img:   'assets/Entrees/shrimplomein.webp',
+  },
+  {
+    name:  'Beef Chow Fun',
+    tag:   'The Signature',
+    price: '18.99',
+    note:  'Wide rice noodles · flank steak · onion',
+    desc:  'Premium flank steak and wide rice noodles tossed in a screaming-hot wok with onion and bean sprouts. Requires maximum heat — our chef\'s most demanding dish.',
+    img:   'assets/Entrees/beefchowfun.webp',
+  },
+  {
+    name:  'Kung Pao Shrimp',
+    tag:   'The Bold One',
+    price: '18.99',
+    note:  'Zucchini · bell pepper · peanuts · spicy',
+    desc:  'Jumbo shrimp in a fiery Kung Pao sauce with zucchini, tri-colour pepper, dried chilies and whole roasted peanuts. For those who like it loud.',
+    img:   'assets/Entrees/shrimpbrocolli.webp',
+  },
+];
+
+/* Dessert items */
+const DESSERTS = [
+  {
+    name: 'New York Cheesecake',  tag: 'The Classic',       price: '7.99',
+    note: 'Rich and creamy, classic style',
+    desc: 'Dense, velvety and perfectly balanced — a true New York-style cheesecake on a buttery graham cracker base. Simple, iconic, impossible to share.',
+    img:  'assets/Dessert/cheesecake.webp',
+  },
+  {
+    name: 'Dark Chocolate Cake',  tag: 'For the Bold',      price: '7.99',
+    note: 'Decadent layers of dark chocolate',
+    desc: 'Layers of bittersweet dark chocolate ganache and moist cake for those who don\'t do things by halves. Intensely rich, deeply satisfying.',
+    img:  'assets/Dessert/DarkChoc.webp',
+  },
+  {
+    name: 'White Chocolate Cake', tag: 'Light & Silky',     price: '7.99',
+    note: 'Light, silky white chocolate mousse cake',
+    desc: 'Airy white chocolate mousse between delicate layers of sponge. Light enough to order after a full wok dinner — you\'ll want every single bite.',
+    img:  'assets/Dessert/WhiteChoc.webp',
+  },
+  {
+    name: 'Ube Cake',             tag: 'Asian Classic',     price: '7.99',
+    note: 'Purple yam — a beloved Asian classic',
+    desc: 'Vivid purple from real ube yam, with a subtle earthy sweetness that\'s uniquely its own. A beloved classic from the islands — and instantly one of ours.',
+    img:  'assets/Dessert/Ube.webp',
+  },
+  {
+    name: 'Ice Cream Cake',       tag: 'The Crowd-Pleaser', price: '7.99',
+    note: 'Layers of ice cream and soft cake',
+    desc: 'Creamy ice cream and soft cake in alternating layers, frozen to perfection. The one everyone at the table argues over. Order two.',
+    img:  'assets/Dessert/ICECREAMCAKE.webp',
+  },
+  {
+    name: 'Honey Banana',         tag: 'The Comfort',       price: '6.99',
+    note: 'Golden-fried with a honey drizzle',
+    desc: 'Ripe banana in a crisp golden batter, finished with a warm honey drizzle and sesame seeds. A simple, honest pleasure — perfectly executed.',
+    img:  'assets/Dessert/HoneyBanana.webp',
+  },
+  {
+    name: 'Fried Apple',          tag: 'The Finale',        price: '6.99',
+    note: 'Crispy caramelized apple dessert',
+    desc: 'Caramelized apple wrapped in a shatteringly crisp crust, dusted with cinnamon sugar. The dessert that ends every Canton Dragon experience on the highest note.',
+    img:  'assets/Dessert/Fryapple.webp',
+  },
 ];
 
 /* Gallery — real Canton Dragon photography. */
@@ -21,7 +193,7 @@ const GALLERY = [
   { img: 'assets/Entrees/tofuveg.webp',             alt: 'Tofu vegetable stir-fry' },
   { img: 'assets/Entrees/teriyakichx.webp',         alt: 'Teriyaki chicken glazed and plated' },
   { img: 'assets/others/table%20of%20food.webp',    alt: 'A full spread of Canton Dragon dishes family-style' },
-  { img: 'assets/others/interior.webp',             alt: 'Canton Dragon dining room' },
+  { img: 'assets/others/interiornarrow.webp',       alt: 'Canton Dragon dining room' },
 ];
 
 /* Full menu, grouped by tab. spice:true adds a chili tag. */
@@ -208,5 +380,33 @@ const MENU = [
       { name: 'Well Spirits', price: '6.00' },
       { name: 'Mimosa', price: '5.00', desc: 'Orange, apple, pineapple or grapefruit.' },
     ]
+  },
+];
+
+/* ============================================================
+   Specials / Promotions — edit this to update the What's New section.
+   badgeStyle: 'gold' | 'lacquer' | 'neutral'
+   ============================================================ */
+const PROMOS = [
+  {
+    badge: 'New Item',
+    badgeStyle: 'gold',
+    label: 'Thai Curry Noodle',
+    desc: 'Wok-tossed noodles in a rich coconut-lemongrass broth. Your choice of chicken, shrimp, or tofu.',
+    img: 'assets/Entrees/thaicurrynoodle.webp',
+  },
+  {
+    badge: "Chef's Pick",
+    badgeStyle: 'neutral',
+    label: 'Teriyaki Chicken',
+    desc: 'Tender glazed chicken over steamed rice, finished with a house teriyaki sauce made from scratch every day.',
+    img: 'assets/Entrees/teriyakichx.webp',
+  },
+  {
+    badge: 'Mon–Fri · 12–7pm',
+    badgeStyle: 'lacquer',
+    label: 'Happy Hour',
+    desc: 'Every cocktail and glass of wine is $3 off. Pull up to the bar and stay a while.',
+    img: 'assets/drinks/orchid (1).webp',
   },
 ];

@@ -9,20 +9,25 @@ animations throughout, with full `prefers-reduced-motion` support.
 
 ## Tech
 
-- **Static HTML + Tailwind CSS** (no build step required to run)
+- **Static HTML + Tailwind CSS**, shipped as a precompiled stylesheet
+  (`css/tailwind-compiled.css`) — no build step or CDN required to run
 - Custom CSS in `css/styles.css` for brand components &amp; animations
 - Vanilla JavaScript (no frameworks/dependencies)
-- Google Fonts: Playfair Display (display), Cormorant Garamond (serif), Inter (UI)
+- Google Fonts: Fraunces (display + serif body), Hanken Grotesk (UI/sans)
 
 ## File structure
 
 ```
 canton-dragon/
-├── index.html          # Page markup, SEO meta, JSON-LD, Tailwind config
-├── css/styles.css      # Brand styles, components, animations
+├── index.html                # Page markup, SEO/social meta, JSON-LD
+├── css/
+│   ├── tailwind-compiled.css # Precompiled Tailwind utilities (linked in <head>)
+│   └── styles.css            # Brand styles, components, animations
 ├── js/
-│   ├── menu-data.js    # ALL menu + gallery + signature content (edit here)
-│   └── main.js         # Nav, reveals, parallax, menu tabs, gallery lightbox
+│   ├── menu-data.js          # ALL menu + gallery + signature content (edit here)
+│   └── main.js               # Nav, reveals, hero/pin scroll, menu tabs, lightbox, map
+├── assets/                   # Real photography, logo, promos, hero video
+├── tailwind.config.js        # Theme tokens (colors, fonts) for recompiles
 └── README.md
 ```
 
@@ -46,34 +51,36 @@ python -m http.server 4321
   (e.g. `(480) 451-8866`). Phone appears in the nav drawer, Visit section, footer,
   and the JSON-LD structured data block.
 
-## Replace the placeholder photos
+## Photography
 
-All food/interior images currently load from Unsplash (verified working URLs) as
-**placeholders**. Replace them with the restaurant's own photography for the real launch:
+Food, interior, drink and promo images live in `assets/` (the restaurant's own
+photography, served locally as optimized WebP). To swap an image, drop the new file
+into the matching `assets/` subfolder and update its reference in `js/menu-data.js`
+(menu/gallery/signatures) or the `<img src>` tags in `index.html` (hero poster/video,
+About section, `og:image`/`twitter:image` meta, and JSON-LD `image`).
 
-1. Drop optimized images (WebP/JPEG, ~1600px wide) into an `images/` folder.
-2. Update the `img` URLs in `js/menu-data.js` and the `<img src>` tags in `index.html`
-   (hero, About section, OG/`og:image` meta, and JSON-LD `image`).
+> **Image weights:** all photos are optimized WebP (longest side ≤1600px, card-stack
+> imagery ≤1200px), well under 300 KB each — the full `assets/` folder is ~5 MB.
+> The one remaining heavy file is the hero video (`assets/video/`, ~2.9 MB); re-encode
+> it with ffmpeg (e.g. 720p H.264 CRF 26 + `-movflags +faststart`, or a WebM `<source>`)
+> before launch to fully clear the sub-2s bar on mobile.
 
-## Going to production (recommended)
+## Rebuilding the stylesheet
 
-The site uses the **Tailwind Play CDN** for zero-config editing. That triggers a console
-notice and isn't ideal for production performance. To ship a compiled stylesheet:
+The site links a **precompiled** Tailwind stylesheet (`css/tailwind-compiled.css`) — no
+CDN, no console notice. After changing Tailwind classes in `index.html`/`js/`, or theme
+tokens in `tailwind.config.js`, recompile:
 
 ```bash
 npm install -D tailwindcss
-npx tailwindcss -i ./src/input.css -o ./css/tailwind.css --minify
+npx tailwindcss -i ./css/tailwind-input.css -o ./css/tailwind-compiled.css --minify
 ```
-
-Then replace the `<script src="https://cdn.tailwindcss.com">` + inline `tailwind.config`
-block in `index.html` with `<link rel="stylesheet" href="css/tailwind.css">` and move the
-`theme.extend` config into `tailwind.config.js`. (Optional — the CDN version works as-is.)
 
 ## Integrations / live data
 
 - **Online ordering** buttons link to the existing Heartland system:
   `https://cantondragon.hrpos.heartland.us/menu`
-- **Map** uses a keyless Google Maps embed (no API key needed).
+- **Map** uses Leaflet with dark CARTO/OpenStreetMap tiles (keyless, no API key needed).
 - **JSON-LD `Restaurant`** structured data is included for local SEO / rich results.
 
 ## Accessibility &amp; performance notes

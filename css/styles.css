@@ -14,7 +14,15 @@
   /* One signature easing curve used across the whole site, so motion feels authored */
   --ease: cubic-bezier(0.6, 0.01, 0.05, 0.99);
   --ease-out: cubic-bezier(0.16, 0.84, 0.44, 1);
+  /* Unified warm photographic grade — deepens shadows and pulls the cool fluorescent
+     cast toward the lacquer/gold world so every photo reads as commissioned. */
+  --img-grade: saturate(1.06) contrast(1.05) brightness(0.96) sepia(0.10);
 }
+
+/* Apply the house grade to photographic content (not the logo or promo graphics) */
+#about img,
+.gallery-item img,
+.card-stack-item img { filter: var(--img-grade); }
 
 html { -webkit-tap-highlight-color: transparent; }
 body {
@@ -23,10 +31,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Fraunces is variable — let optical sizing track the type scale, and tune display copy */
+/* Fraunces is variable — let optical sizing track the type scale, and tune display copy.
+   Oldstyle figures + ligatures give running serif text an editorial, set-by-hand feel
+   (stats override back to tabular lining figures via .stat-num). */
 .font-display, .font-serif {
   font-optical-sizing: auto;
   letter-spacing: -0.012em;
+  font-feature-settings: "onum" 1, "liga" 1, "dlig" 1, "calt" 1;
 }
 h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 
@@ -113,7 +124,8 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   top: 0;
   background: rgba(20,16,14,.88);
   backdrop-filter: blur(12px);
-  box-shadow: 0 1px 0 rgba(200,162,75,.12), 0 14px 34px -22px rgba(0,0,0,.8);
+  box-shadow: 0 14px 34px -22px rgba(0,0,0,.8);
+  border-bottom: 1px solid rgba(200,162,75,.16);
 }
 #navbar.scrolled .nav-link { color: var(--ivory); }
 #navbar.scrolled .nav-link:hover { color: var(--gold-400); }
@@ -135,8 +147,11 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .32em;
-  color: var(--gold-400);
+  /* Bumped from .42 → .60 so the eyebrow clears WCAG AA (~4.5:1) on charcoal */
+  color: rgba(251,247,240,.60);
 }
+/* Eyebrows with an explicit gold class keep their color (two-class specificity wins cascade) */
+.section-eyebrow.text-gold-400 { color: var(--gold-400); }
 
 .info-icon {
   display: grid;
@@ -144,8 +159,8 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   flex: none;
   height: 2.75rem; width: 2.75rem;
   border-radius: 9999px;
-  background: rgba(200,162,75,.12);
-  color: var(--gold-400);
+  background: rgba(251,247,240,.06);
+  color: rgba(251,247,240,.38);
 }
 
 .social-btn {
@@ -153,12 +168,12 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   place-items: center;
   height: 2.6rem; width: 2.6rem;
   border-radius: 9999px;
-  color: var(--gold-400);
-  background: rgba(251,247,240,.07);
+  color: rgba(251,247,240,.32);
+  background: rgba(251,247,240,.05);
   transition: background-color .3s var(--ease), color .3s var(--ease), transform .3s var(--ease);
 }
 .social-btn:hover { background: var(--gold); color: #2a1d05; transform: translateY(-2px); }
-.social-btn--dark { color: var(--gold-400); background: rgba(251,247,240,.08); }
+.social-btn--dark { color: rgba(251,247,240,.32); background: rgba(251,247,240,.06); }
 .social-btn--dark:hover { background: var(--gold); color: #2a1d05; }
 
 .footer-link { transition: color .2s ease; }
@@ -396,36 +411,21 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 .gallery-item img {
   height: 100%; width: 100%;
   object-fit: cover;
-  transition: transform .7s cubic-bezier(.16,.84,.44,1);
+  transition: filter .55s ease, transform .65s cubic-bezier(.16,.84,.44,1);
 }
-.gallery-item:hover img { transform: scale(1.08); }
-.gallery-item::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(20,16,14,.45), transparent 55%);
-  opacity: 0;
-  transition: opacity .4s ease;
+/* Spotlight: dim every image when grid is hovered, restore only the hovered item.
+   The house grade is composed in first so it persists through the hover state. */
+#galleryGrid:hover .gallery-item img {
+  filter: var(--img-grade) brightness(0.3) saturate(0.45);
 }
-.gallery-item:hover::after { opacity: 1; }
+#galleryGrid:hover .gallery-item:hover img {
+  filter: var(--img-grade);
+  transform: scale(1.04);
+}
+.gallery-item::after { display: none; }
 
-/* Gallery caption — slides up from the bottom edge on hover */
-.gallery-caption {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: .55rem .75rem;
-  font-size: .68rem;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ivory);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transform: translateY(100%);
-  transition: transform .45s cubic-bezier(.16,.84,.44,1);
-  z-index: 2;
-}
-.gallery-item:hover .gallery-caption { transform: translateY(0); }
+/* Gallery caption — spotlight approach replaces slide-up; caption hidden */
+.gallery-caption { display: none; }
 
 /* Signature cards */
 .sig-card {
@@ -453,6 +453,202 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 .sig-card:hover .sig-card__overlay { transform: translateY(0); }
 @media (hover: none) { .sig-card__overlay { transform: translateY(0); } }
 
+/* ── Horizontal-scroll pin panels — shared by Bar, Desserts, Signatures ── */
+.pin-track {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.pin-slider {
+  display: flex;
+  width: 100%;
+  height: 72svh;
+  will-change: transform;
+}
+.pin-panel {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 72svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: visible;
+}
+.pin-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+  background: var(--pin-bg, #14100E);
+  overflow: visible;
+}
+@media (min-width: 1024px) { .pin-info { padding: 4rem; } }
+.pin-img {
+  position: relative;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+}
+
+/* Card stack layout */
+.card-stack-host { background: transparent; }
+.card-stack-item {
+  position: absolute;
+  width: 260px;
+  height: 365px;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.4s ease;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  box-shadow: 0 20px 50px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+}
+.card-stack-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+.card-stack-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, transparent 40%, rgba(0,0,0,0.3) 100%);
+  border-radius: inherit;
+}
+.card-stack-dots {
+  position: absolute;
+  right: -2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  z-index: 10;
+}
+.card-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.25);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+.card-dot.active {
+  height: 22px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.85);
+}
+.pin-ghost {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(3.5rem, 7vw, 10rem);
+  font-style: italic;
+  line-height: 0.82;
+  color: rgba(255,255,255,.055);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: visible;
+  padding: 0 3rem;
+  letter-spacing: -0.02em;
+  z-index: 0;
+}
+.pin-spec {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 20px;
+  align-items: baseline;
+}
+
+/* Carousel pagination — hidden by default (desktop is scroll-jacked); the mobile
+   query below flips it to flex. Mirrors the card-stack's elongating active dot so
+   the language stays consistent. Defined before the media query so the mobile
+   display:flex override wins on source order. */
+.pin-pagination {
+  display: none;
+  justify-content: center;
+  gap: 9px;
+  margin-top: -0.25rem;
+  padding-bottom: 0.25rem;
+}
+.pin-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: rgba(251,247,240,.22);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width .45s var(--ease), background-color .45s var(--ease);
+}
+.pin-dot.active {
+  width: 24px;
+  background: var(--gold-400);
+}
+
+/* Mobile: native horizontal swipe carousel — each panel is isolated and full
+   width, so the card-stack fan can't bleed into the copy. Scroll-snap gives a
+   designed swipe (not a shrunk desktop), with a peek of the next panel as the
+   affordance. */
+@media (max-width: 767px) {
+  #featuredPin { height: auto !important; }
+  .pin-track {
+    position: static !important;
+    height: auto !important;
+    overflow: visible;
+    display: block;
+  }
+  .pin-slider {
+    flex-direction: row;
+    transform: none !important;
+    height: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding: 0 1.25rem 1.5rem;
+    scrollbar-width: none;
+  }
+  .pin-slider::-webkit-scrollbar { display: none; }
+  .pin-panel {
+    flex: 0 0 85%;
+    width: 85%;
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    scroll-snap-align: center;
+    border-radius: 1.25rem;
+    overflow: hidden;
+  }
+  .pin-info { padding: 1.75rem 1.5rem; }
+  .pin-img {
+    height: 380px;
+    overflow: hidden;
+  }
+  .pin-ghost { font-size: clamp(2.5rem, 12vw, 4.5rem); }
+  /* Keep the cycle dots inside the now-clipped image area */
+  .card-stack-dots { right: 0.6rem; }
+  .pin-pagination { display: flex; }
+}
+
 /* ---------- Additional micro-interactions ---------- */
 
 /* 1. Gold CTA glint sweep */
@@ -474,7 +670,7 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   position: absolute;
   bottom: -4px; left: 0;
   height: 1px; width: 0;
-  background: linear-gradient(90deg, var(--gold-400), transparent);
+  background: linear-gradient(90deg, rgba(251,247,240,.3), transparent);
   transition: width .9s var(--ease-out) .3s;
 }
 .section-eyebrow.in::after { width: 100%; }
@@ -494,10 +690,12 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 }
 .menu-item:hover::before { transform: translateY(-50%) scaleY(1); }
 .menu-item:hover { background: rgba(200,162,75,.05); }
-.menu-item__name,
-.menu-item__price { transition: color .3s var(--ease); }
-.menu-item:hover .menu-item__name { color: var(--gold-400); }
-.menu-item:hover .menu-item__price { color: var(--gold); }
+.menu-item__name { transition: color .3s var(--ease), transform .3s var(--ease); }
+.menu-item__price { transition: color .3s var(--ease), transform .35s var(--ease-out); }
+/* Name stays ivory on hover — the gold accent bar is the single gold cue, so gold
+   stays rare and the row reads as a quiet shift rather than a colour change. */
+.menu-item:hover .menu-item__name { color: var(--ivory); transform: translateX(3px); }
+.menu-item:hover .menu-item__price { transform: translateY(-2px); }
 
 /* 4. Cocktail marquee — pause on hover; item straightens + lifts */
 .marquee-item { transition: transform .45s var(--ease-out), box-shadow .45s ease; }
@@ -515,7 +713,8 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
               box-shadow .3s var(--ease);
 }
 dl .flex:hover .info-icon {
-  background: rgba(200,162,75,.22);
+  background: rgba(200,162,75,.18);
+  color: var(--gold-400);
   transform: scale(1.1);
   box-shadow: 0 0 0 5px rgba(200,162,75,.1);
 }
@@ -555,29 +754,28 @@ dl .flex:hover .info-icon {
 .reveal-up.in.bar-word { transition: transform .4s var(--ease-out), color .35s ease; }
 .bar-word:hover { transform: translateY(-6px) !important; color: var(--gold-400); }
 
-/* ── Generic cursor glow (shared by bar / menu / visit) ─────── */
-.section-glow {
-  position: absolute;
-  pointer-events: none;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity .65s ease;
-  z-index: 0;
+/* ── Signature: hand-painted brush underline ─────────────────
+   One bespoke, brand-tied moment — a tapered gold ink stroke that
+   paints itself left-to-right after the heading wipes in. Tied to
+   the Cantonese / calligraphic heritage, used exactly once. */
+.brush-underline {
+  position: relative;
+  display: inline-block;
+  color: var(--gold-400);
 }
-
-/* ── Gallery cursor spotlight ────────────────────────────────── */
-.gallery-spotlight {
+.brush-underline::after {
+  content: "";
   position: absolute;
+  left: -3%; right: -3%;
+  bottom: -0.16em;
+  height: 0.34em;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%2022'%20preserveAspectRatio='none'%3E%3Cpath%20d='M2,12%20C40,5%2082,5%20130,8%20C180,11%20232,5%20280,7%20C290,7.5%20297,9%20298,11%20C297,14.5%20290,15.5%20280,14%20C232,16.5%20180,11.5%20130,14.5%20C82,17.5%2040,17.5%202,12%20Z'%20fill='%23D9BC73'/%3E%3C/svg%3E") no-repeat left center / 100% 100%;
+  clip-path: inset(0 100% 0 0);
   pointer-events: none;
-  width: 400px; height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,248,210,.14) 0%, rgba(200,162,75,.06) 45%, transparent 72%);
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity .45s ease;
-  mix-blend-mode: soft-light;
-  z-index: 1;
+}
+.reveal-clip.in .brush-underline::after {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path .72s var(--ease-out) .6s;
 }
 
 /* ── Visit map container hover ring ─────────────────────────── */
@@ -590,30 +788,38 @@ dl .flex:hover .info-icon {
               0 28px 70px -20px rgba(200,162,75,.22);
 }
 
-/* ── About / Our Story — cursor micro-interactions ──────────── */
-
-/* Ambient golden glow orb: created + positioned by JS, follows cursor with lerp lag */
-.about-glow {
-  position: absolute;
-  pointer-events: none;
-  width: 460px;
-  height: 460px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(155,30,30,.11) 0%, rgba(123,17,19,.04) 28%, transparent 52%);
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity .65s ease;
-  z-index: 0;
+/* ---------- Specials / Promo cards ---------- */
+.promo-card > div {
+  box-shadow: 0 20px 40px -8px rgba(0,0,0,0.5);
+  outline: 1px solid rgba(255,255,255,0.07);
+  transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.4s ease, outline-color 0.3s ease;
 }
-
-/* Warm shimmer overlay in the text column: JS updates background on mousemove */
-.about-text-shimmer {
+.promo-card:hover > div {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 54px -8px rgba(0,0,0,0.65), 0 0 0 1px rgba(200,162,75,0.22);
+  outline-color: rgba(200,162,75,0.22);
+}
+.promo-badge {
   position: absolute;
-  inset: -1rem;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .45s ease;
-  z-index: 0;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.22rem 0.75rem;
+  font-family: var(--font-sans, 'Hanken Grotesk', system-ui, sans-serif);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  border-radius: 9999px;
+  line-height: 1.7;
+  z-index: 10;
+}
+.promo-badge--gold    { background: rgba(200,162,75,0.92); color: #14100E; }
+.promo-badge--lacquer { background: rgba(123,17,19,0.90);  color: #FBF7F0; }
+.promo-badge--neutral {
+  background: rgba(251,247,240,0.10);
+  border: 1px solid rgba(251,247,240,0.28);
+  color: #FBF7F0;
+  backdrop-filter: blur(4px);
 }
 
 /* ---------- Reduced motion ---------- */
@@ -622,5 +828,49 @@ dl .flex:hover .info-icon {
   .reveal-up, .reveal-img { opacity: 1 !important; transform: none !important; transition: none !important; }
   .reveal-clip { clip-path: none !important; }
   .scroll-cue, .hero-bg { animation: none !important; }
+  .ticker-track { animation: none !important; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* ── Hero ticker marquee ────────────────────────────────── */
+.ticker-wrap {
+  overflow: hidden;
+  background: #0f0c0a;
+  border-bottom: 1px solid rgba(251,247,240,.07);
+}
+.ticker-inner {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+.ticker-track {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: ticker-scroll 60s linear infinite;
+}
+.ticker-item {
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: rgba(251,247,240,.22);
+  padding: 0 2rem;
+}
+.ticker-sep {
+  color: rgba(200,162,75,.35);
+  font-size: .6rem;
+  flex: none;
+}
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Gallery editorial heading ──────────────────────────── */
+.gallery-editorial-head {
+  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-style: italic;
+  line-height: 0.88;
+  letter-spacing: -0.025em;
 }
