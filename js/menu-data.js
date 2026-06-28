@@ -194,6 +194,12 @@ const GALLERY = [
   { img: 'assets/Entrees/teriyakichx.webp',         alt: 'Teriyaki chicken glazed and plated' },
   { img: 'assets/others/table%20of%20food.webp',    alt: 'A full spread of Canton Dragon dishes family-style' },
   { img: 'assets/others/interiornarrow.webp',       alt: 'Canton Dragon dining room' },
+  { img: 'assets/promos/mocktailflight.jpeg',       alt: 'A flight of house mocktails' },
+  { img: 'assets/drinks/pamplemousse.webp',         alt: 'Pamplemousse — a bright grapefruit cocktail' },
+  { img: 'assets/drinks/Singha.webp',               alt: 'Singha — Thai lager served ice-cold' },
+  { img: 'assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).webp', alt: 'Pomelli — a craft cocktail at the bar' },
+  { img: 'assets/appertizers/onionrings.webp',      alt: 'Golden crispy onion rings' },
+  { img: 'assets/appertizers/shrimptoast.webp',     alt: 'Shrimp toast — crisp golden appetizer' },
 ];
 
 /* Full menu, grouped by tab. spice:true adds a chili tag. */

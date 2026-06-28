@@ -305,6 +305,14 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 .hero-text { opacity: 0; text-shadow: 0 1px 22px rgba(0, 0, 0, .45); }
 .hero-text.ready { opacity: 1; }
 
+/* The accented headline word sits over the gold-washed duotone, where a muted
+   gold (--gold-400) sinks into the background. Use a brighter champagne gold and
+   a darker halo so the word reads as the clear focal point of the line. */
+.hero-accent {
+  color: #F2D88A;
+  text-shadow: 0 2px 10px rgba(20, 16, 14, .85), 0 1px 26px rgba(0, 0, 0, .5);
+}
+
 /* Left-anchored scrim that protects the headline once the (lighter) image is
    fully revealed. Strong on the left where the copy sits, fully clear on the
    right so the food photography stays bright. */
