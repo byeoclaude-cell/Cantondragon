@@ -14,6 +14,39 @@
   const yearEl = $('#year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* ---------- Focus trap (for modal overlays: drawer + lightbox) ----------
+     Keeps Tab/Shift-Tab inside the open overlay, moves focus in on open,
+     and restores it to the trigger on close — keyboard/SR parity for modals. */
+  const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), textarea, select, [tabindex]:not([tabindex="-1"])';
+  function createFocusTrap(container) {
+    let lastFocused = null;
+    const visibleItems = () =>
+      $$(FOCUSABLE, container).filter(el => el.getClientRects().length > 0);
+    function onKey(e) {
+      if (e.key !== 'Tab') return;
+      const items = visibleItems();
+      if (!items.length) { e.preventDefault(); return; }
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    return {
+      activate(focusTarget) {
+        lastFocused = document.activeElement;
+        container.addEventListener('keydown', onKey);
+        requestAnimationFrame(() => {
+          const target = focusTarget || visibleItems()[0];
+          if (target) target.focus();
+        });
+      },
+      release() {
+        container.removeEventListener('keydown', onKey);
+        if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+        lastFocused = null;
+      }
+    };
+  }
+
   /* ---------- Navbar scrolled state ---------- */
   const navbar = $('#navbar');
   const onScroll = () => {
@@ -28,16 +61,22 @@
   const overlay   = $('#mobileMenu');
   const panel     = $('#mobilePanel');
 
+  const menuTrap = createFocusTrap(panel);
+
   function openMenu() {
     overlay.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     requestAnimationFrame(() => panel.classList.remove('translate-x-full'));
     menuBtn.setAttribute('aria-expanded', 'true');
+    // Send focus to the drawer's close button and trap it inside the panel.
+    menuTrap.activate($('[data-close]', panel));
   }
   function closeMenu() {
+    if (overlay.classList.contains('hidden')) return;
     panel.classList.add('translate-x-full');
     document.body.style.overflow = '';
     menuBtn.setAttribute('aria-expanded', 'false');
+    menuTrap.release(); // restores focus to the trigger (menu button)
     setTimeout(() => overlay.classList.add('hidden'), 450);
   }
   menuBtn.addEventListener('click', openMenu);
@@ -485,6 +524,7 @@
     const lightbox = $('#lightbox');
     const lightboxImg = $('#lightboxImg');
     const closeBtn = $('#lightboxClose');
+    const lbTrap = createFocusTrap(lightbox);
 
     function open(src, alt) {
       lightboxImg.src = src;
@@ -492,12 +532,15 @@
       lightbox.classList.remove('hidden');
       lightbox.classList.add('flex');
       document.body.style.overflow = 'hidden';
+      lbTrap.activate(closeBtn); // focus close button, trap inside the lightbox
     }
     function close() {
+      if (lightbox.classList.contains('hidden')) return;
       lightbox.classList.add('hidden');
       lightbox.classList.remove('flex');
       lightboxImg.src = '';
       document.body.style.overflow = '';
+      lbTrap.release(); // restore focus to the gallery thumbnail that opened it
     }
     $$('.gallery-item', grid).forEach(btn => {
       btn.addEventListener('click', () => open(btn.dataset.src, btn.querySelector('img').alt));
@@ -584,11 +627,45 @@
     nums.forEach(el => { render(el, 0); io.observe(el); });
   }
 
-  /* ---------- Interactive map ---------- */
+  /* ---------- Interactive map (Leaflet lazy-loaded on demand) ---------- */
+  const LEAFLET_CSS = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+  const LEAFLET_JS  = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+  const loadStyle = (href) => new Promise(res => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet'; link.href = href;
+    link.onload = link.onerror = res;
+    document.head.appendChild(link);
+  });
+  const loadScript = (src) => new Promise(res => {
+    const s = document.createElement('script');
+    s.src = src; s.async = true;
+    s.onload = s.onerror = res;
+    document.body.appendChild(s);
+  });
+
   function initMap() {
     const el = document.getElementById('visitMap');
-    if (!el || typeof L === 'undefined') return;
+    if (!el) return;
 
+    let started = false;
+    async function build() {
+      if (started) return;
+      started = true;
+      await loadStyle(LEAFLET_CSS);
+      await loadScript(LEAFLET_JS);
+      if (typeof L === 'undefined') return; // offline / blocked — leave the container empty
+      buildMap(el);
+    }
+
+    // Defer the third-party fetch until the Visit section is within ~300px of view.
+    if (!('IntersectionObserver' in window)) { build(); return; }
+    const io = new IntersectionObserver((entries, obs) => {
+      if (entries.some(e => e.isIntersecting)) { obs.disconnect(); build(); }
+    }, { rootMargin: '300px' });
+    io.observe(el);
+  }
+
+  function buildMap(el) {
     const lat = 33.5952, lng = -111.8560;
     const map = L.map(el, {
       center: [lat, lng],

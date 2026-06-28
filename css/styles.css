@@ -854,43 +854,7 @@ dl .flex:hover .info-icon {
   .reveal-up, .reveal-img { opacity: 1 !important; transform: none !important; transition: none !important; }
   .reveal-clip { clip-path: none !important; }
   .scroll-cue, .hero-bg { animation: none !important; }
-  .ticker-track { animation: none !important; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-}
-
-/* ── Hero ticker marquee ────────────────────────────────── */
-.ticker-wrap {
-  overflow: hidden;
-  background: #0f0c0a;
-  border-bottom: 1px solid rgba(251,247,240,.07);
-}
-.ticker-inner {
-  display: flex;
-  align-items: center;
-  height: 40px;
-}
-.ticker-track {
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-  animation: ticker-scroll 60s linear infinite;
-}
-.ticker-item {
-  font-size: .68rem;
-  font-weight: 500;
-  letter-spacing: .26em;
-  text-transform: uppercase;
-  color: rgba(251,247,240,.22);
-  padding: 0 2rem;
-}
-.ticker-sep {
-  color: rgba(200,162,75,.35);
-  font-size: .6rem;
-  flex: none;
-}
-@keyframes ticker-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
 }
 
 /* ── Gallery editorial heading ──────────────────────────── */

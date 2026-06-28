@@ -13,7 +13,9 @@ animations throughout, with full `prefers-reduced-motion` support.
   (`css/tailwind-compiled.css`) — no build step or CDN required to run
 - Custom CSS in `css/styles.css` for brand components &amp; animations
 - Vanilla JavaScript (no frameworks/dependencies)
-- Google Fonts: Fraunces (display + serif body), Hanken Grotesk (UI/sans)
+- **Self-hosted fonts** (latin-subset variable woff2 in `assets/fonts/`, ~179 KB) —
+  Fraunces (display + serif body), Hanken Grotesk (UI/sans); no third-party
+  render-blocking request. Regenerate with `python scripts/bundle_fonts.py`.
 
 ## File structure
 
@@ -88,11 +90,15 @@ npx tailwindcss -i ./css/tailwind-input.css -o ./css/tailwind-compiled.css --min
 - **Online ordering** buttons link to the existing Heartland system:
   `https://cantondragon.hrpos.heartland.us/menu`
 - **Map** uses Leaflet with dark CARTO/OpenStreetMap tiles (keyless, no API key needed).
+  Leaflet's CSS + JS are **lazy-loaded** by `main.js` only when the Visit section nears
+  the viewport, so they stay off the initial render path.
 - **JSON-LD `Restaurant`** structured data is included for local SEO / rich results.
 
 ## Accessibility &amp; performance notes
 
 - Semantic landmarks, skip link, labeled icon buttons, visible focus states.
+- Modal overlays (mobile drawer, image lightbox) **trap focus**, move focus in on
+  open, and restore it to the trigger on close; `Esc` closes both.
 - Lazy-loaded images; hero image is `fetchpriority="high"`.
 - All motion respects `prefers-reduced-motion`.
 - Verified responsive at 375 / 768 / 1024 / 1440px.

@@ -27,13 +27,15 @@
   <meta name="twitter:description" content="Wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Family-owned since 2004." />
   <meta name="twitter:image" content="https://cantondragonscottsdale.com/assets/others/table%20of%20food.webp" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Self-hosted fonts (latin subset, variable woff2) — no third-party render-blocking request -->
+  <link rel="preload" href="assets/fonts/fraunces-39ce2001.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/hanken-60503460.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
 
   <link rel="stylesheet" href="css/tailwind-compiled.css" />
-  <link rel="stylesheet" href="css/styles.css?v=13" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/styles.css?v=14" />
+  <!-- Leaflet CSS is lazy-loaded by main.js when the Visit section nears the viewport -->
+
 
   <!-- Structured data for local SEO -->
   <script type="application/ld+json">
@@ -171,30 +173,6 @@
         </a>
       </div>
     </section>
-
-    <!-- ============ TICKER ============ -->
-    <div class="ticker-wrap" aria-hidden="true">
-      <div class="ticker-inner">
-        <div class="ticker-track">
-          <span class="ticker-item">Cantonese Classics</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Wok-Fired Daily</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Est. 2004</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Scottsdale, Arizona</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Family Owned</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Full Bar &amp; Dining</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Fresh Seafood</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Craft Cocktails</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Cantonese Classics</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Wok-Fired Daily</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Est. 2004</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Scottsdale, Arizona</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Family Owned</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Full Bar &amp; Dining</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Fresh Seafood</span><span class="ticker-sep">✦</span>
-          <span class="ticker-item">Craft Cocktails</span><span class="ticker-sep">✦</span>
-        </div>
-      </div>
-    </div>
 
     <!-- ============ ACCOLADE STRIP ============ -->
     <section id="accolades" class="border-y border-ivory/10 bg-charcoal-800">
@@ -494,7 +472,7 @@
 
     <div class="border-t border-ivory/10">
       <div class="mx-auto flex max-w-8xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-ivory/55 sm:flex-row sm:px-10 lg:px-14">
-        <p>© <span id="year">2025</span> Canton Dragon Asian Grill &amp; Bar. All rights reserved.</p>
+        <p>© <span id="year">2026</span> Canton Dragon Asian Grill &amp; Bar. All rights reserved.</p>
         <p>Crafted in Scottsdale, Arizona.</p>
       </div>
     </div>
@@ -508,8 +486,8 @@
     <img id="lightboxImg" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-xl shadow-2xl" />
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Leaflet JS is lazy-loaded by main.js when the Visit section nears the viewport -->
   <script src="js/menu-data.js?v=9"></script>
-  <script src="js/main.js?v=10"></script>
+  <script src="js/main.js?v=11"></script>
 </body>
 </html>
