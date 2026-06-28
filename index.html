@@ -32,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tailwind-compiled.css" />
-  <link rel="stylesheet" href="css/styles.css?v=11" />
+  <link rel="stylesheet" href="css/styles.css?v=13" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <!-- Structured data for local SEO -->
@@ -126,9 +126,11 @@
         <img id="heroImg" src="assets/others/hero-duotone.webp" alt="" aria-hidden="true"
              fetchpriority="high"
              class="absolute inset-0 h-full w-full object-cover"
-             style="object-position: center 58%; transform: scale(1.7);" />
+             style="object-position: 28% 42%; transform: scale(1.7);" />
         <div class="absolute inset-0 bg-gradient-to-b from-charcoal/65 via-charcoal/45 to-charcoal/90"></div>
         <div class="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/40 to-charcoal/10"></div>
+        <!-- text scrim: localized darken behind the headline so copy stays legible over the lighter image -->
+        <div class="hero-textscrim pointer-events-none absolute inset-0 z-[5]" aria-hidden="true"></div>
         <!-- gold wash: warms the highlights and lays a diagonal gold sweep over the duotone -->
         <div class="hero-goldwash pointer-events-none absolute inset-0" aria-hidden="true"></div>
         <div class="pointer-events-none absolute inset-0 scale-pattern opacity-[0.06]"></div>
@@ -508,6 +510,6 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/menu-data.js?v=9"></script>
-  <script src="js/main.js?v=8"></script>
+  <script src="js/main.js?v=10"></script>
 </body>
 </html>

@@ -302,8 +302,21 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 
 /* Hero headline / copy: revealed word-by-word as a scroll-driven wave.
    Text containers stay hidden until JS has split words & taken over. */
-.hero-text { opacity: 0; }
+.hero-text { opacity: 0; text-shadow: 0 1px 22px rgba(0, 0, 0, .45); }
 .hero-text.ready { opacity: 1; }
+
+/* Left-anchored scrim that protects the headline once the (lighter) image is
+   fully revealed. Strong on the left where the copy sits, fully clear on the
+   right so the food photography stays bright. */
+.hero-textscrim {
+  background: linear-gradient(
+    90deg,
+    rgba(20, 16, 14, .92) 0%,
+    rgba(20, 16, 14, .70) 30%,
+    rgba(20, 16, 14, .35) 48%,
+    transparent 64%
+  );
+}
 .hero-word {
   display: inline-block;
   opacity: 0;            /* JS ramps this per word from the reveal "head" */
@@ -311,6 +324,16 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 }
 /* The decorative gold dash reveals with the first words. */
 .hero-dash { opacity: 0; }
+
+/* Duotone hero — gold wash: a static diagonal gold sweep + corner glow laid over the
+   charcoal/gold duotone image. Screen blend lifts the gold in shadow areas without a
+   video. No animation here; the hero's motion is the JS-driven scale + matte reveal. */
+.hero-goldwash {
+  background:
+    radial-gradient(115% 85% at 84% 14%, rgba(217,188,115,.20), transparent 55%),
+    linear-gradient(116deg, transparent 52%, rgba(200,162,75,.12) 78%, rgba(244,224,164,.05) 100%);
+  mix-blend-mode: screen;
+}
 
 /* ============================================================
    Bespoke micro-interactions
@@ -363,7 +386,10 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   height: calc(100% - 12px);
   border-radius: 9999px;
   background: var(--lacquer);
-  transition: transform .5s var(--ease), width .5s var(--ease);
+  /* Positioned via `left` (layout) rather than `transform`. A transform-based pill can
+     stick on some renderers (the composited layer doesn't repaint from script-set
+     transforms); animating `left` is reliable for a click-triggered indicator. */
+  transition: left .45s var(--ease), width .45s var(--ease);
   z-index: 0;
   pointer-events: none;
 }

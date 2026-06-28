@@ -86,7 +86,7 @@
 
   if (heroTrack && heroImg && matteT && matteB && matteL && matteR) {
     if (prefersReduced) {
-      // No choreography: full-bleed media, frame removed, track collapsed, video paused, text shown.
+      // No choreography: full-bleed image, frame removed, track collapsed, text shown.
       heroTrack.style.height = '100svh';
       heroImg.style.transform = 'none';
       if (typeof heroImg.pause === 'function') { heroImg.removeAttribute('autoplay'); heroImg.pause(); }
@@ -412,8 +412,12 @@
     tabsEl.appendChild(indicator);
     const moveIndicator = (tab) => {
       if (!tab) return;
+      // The indicator is absolutely positioned INSIDE the scrolling strip, so it scrolls
+      // with the tabs automatically — position it at the tab's offset only. Use `left`
+      // (not `transform`): a composited transform pill can stick on some renderers, and
+      // subtracting scrollLeft would double-count the scroll once the strip scrolls.
       indicator.style.width = tab.offsetWidth + 'px';
-      indicator.style.transform = `translateX(${tab.offsetLeft - tabsEl.scrollLeft}px)`;
+      indicator.style.left = tab.offsetLeft + 'px';
     };
     const activeTab = () => $('.menu-tab.active', tabsEl);
     const seat = () => moveIndicator(activeTab());
@@ -454,9 +458,13 @@
             });
           }
         }
-        // keep active tab in view on mobile, then re-seat the indicator
-        tab.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
-        setTimeout(() => moveIndicator(tab), prefersReduced ? 0 : 350);
+        // Centre the active tab within the horizontally-scrollable strip. Explicit
+        // scrollLeft is far more reliable than scrollIntoView for a nested horizontal
+        // scroller. The indicator is absolutely positioned inside the strip, so it
+        // rides along with the content as it scrolls — no re-seat needed.
+        const targetLeft = tab.offsetLeft - (tabsEl.clientWidth - tab.offsetWidth) / 2;
+        const maxLeft = tabsEl.scrollWidth - tabsEl.clientWidth;
+        tabsEl.scrollTo({ left: Math.max(0, Math.min(targetLeft, maxLeft)), behavior: prefersReduced ? 'auto' : 'smooth' });
       });
     });
   }
