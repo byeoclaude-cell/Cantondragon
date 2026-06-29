@@ -49,9 +49,12 @@
 
   /* ---------- Navbar scrolled state ---------- */
   const navbar = $('#navbar');
+  const navLogo = navbar.querySelector('img');
+  if (navLogo) navLogo.style.transition = 'max-height 0.5s cubic-bezier(0.6,0.01,0.05,0.95)';
   const onScroll = () => {
-    if (window.scrollY > 40) navbar.classList.add('scrolled');
-    else navbar.classList.remove('scrolled');
+    const scrolled = window.scrollY > 20;
+    navbar.classList.toggle('scrolled', scrolled);
+    if (navLogo) navLogo.style.maxHeight = scrolled ? '3.25rem' : '';
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -135,29 +138,28 @@
       if (heroBtns) { heroBtns.style.opacity = '1'; heroBtns.style.transform = 'none'; }
     } else {
       // Reveal completes over ~90% of a viewport; track adds a pinned viewport.
-      const setHeight = () => { heroTrack.style.height = Math.round(window.innerHeight * 1.9) + 'px'; };
+      // After the intro animation finishes, we collapse the scroll range so the
+      // user only needs a single short scroll to exit — not a full viewport's worth.
+      let introComplete = false;
+      const SCROLL_MULTIPLIER_INTRO = 1.9;
+      const SCROLL_MULTIPLIER_DONE  = 1.2;
+      const setHeight = () => {
+        const m = introComplete ? SCROLL_MULTIPLIER_DONE : SCROLL_MULTIPLIER_INTRO;
+        heroTrack.style.height = Math.round(window.innerHeight * m) + 'px';
+      };
 
-      // Word wave: a soft "head" sweeps across the text. FEATHER spans several words
-      // so many are mid-fade at once — a continuous gradient rather than blocks popping.
       const FEATHER = 0.26;
-      const TEXT_END = 0.85;   // words fully revealed by this hero progress
+      const TEXT_END = 0.85;
       const N = heroWords.length;
 
-      let ticking = false;
-      const update = () => {
-        ticking = false;
-        const reveal = window.innerHeight * 0.9;
-        const p = clamp01(window.scrollY / reveal);
-        // Image zoom 1.7 -> 1.0
+      // All hero state lives here — called by both the intro animation and the scroll handler.
+      const applyHeroP = (p) => {
         heroImg.style.transform = `scale(${(1.7 - 0.7 * p).toFixed(4)})`;
-        // Frame panels slide fully out of view as p -> 1 (each is 25% of the side)
         const off = (100 * p).toFixed(2);
         matteT.style.transform = `translateY(-${off}%)`;
         matteB.style.transform = `translateY(${off}%)`;
         matteL.style.transform = `translateX(-${off}%)`;
         matteR.style.transform = `translateX(${off}%)`;
-
-        // Reveal "head" travels from -FEATHER to 1 across the text-reveal window.
         const tp = clamp01(p / TEXT_END);
         const head = tp * (1 + FEATHER) - FEATHER;
         if (heroDash) heroDash.style.opacity = clamp01((head + FEATHER) / FEATHER).toFixed(3);
@@ -168,18 +170,53 @@
           w.style.opacity = o.toFixed(3);
           w.style.transform = `translateY(${((1 - o) * 8).toFixed(1)}px)`;
         }
-        // Buttons ease in once the copy is mostly revealed.
         if (heroBtns) {
           const b = easeOut(clamp01((p - 0.6) / 0.3));
           heroBtns.style.opacity = b.toFixed(3);
           heroBtns.style.transform = `translateY(${((1 - b) * 18).toFixed(1)}px)`;
         }
-        // Fade the scroll cue out as the reveal gets underway.
         if (heroCue) heroCue.style.opacity = Math.max(0, 1 - p * 2.5).toFixed(3);
       };
 
+      // Entrance animation: auto-reveals the hero on load so the page never starts
+      // in the closed matte-frame state. introP ratchets to 1 and never goes back,
+      // so max(scrollP, introP) keeps the hero open even when scrollY is 0.
+      let introP = 0;
+      const INTRO_DUR = 1800;
+      let introStart = null;
+      const easeIntro = (x) => 1 - Math.pow(1 - x, 3);
+      const finishIntro = () => {
+        if (introComplete) return;
+        introComplete = true;
+        introP = 1;
+        applyHeroP(Math.max(clamp01(window.scrollY / (window.innerHeight * 0.9)), 1));
+        setHeight();
+      };
+
+      requestAnimationFrame(function runIntro(ts) {
+        if (!introStart) introStart = ts;
+        const t = Math.min((ts - introStart) / INTRO_DUR, 1);
+        introP = easeIntro(t);
+        applyHeroP(Math.max(clamp01(window.scrollY / (window.innerHeight * 0.9)), introP));
+        if (t < 1) {
+          requestAnimationFrame(runIntro);
+        } else {
+          finishIntro();
+        }
+      });
+
+      // Safety net: if rAF is throttled (background tab), collapse after the intro
+      // duration plus a small buffer so the layout never stays in the 1.9× state.
+      setTimeout(finishIntro, INTRO_DUR + 400);
+
+      let ticking = false;
+      const update = () => {
+        ticking = false;
+        const p = Math.max(clamp01(window.scrollY / (window.innerHeight * 0.9)), introP);
+        applyHeroP(p);
+      };
+
       setHeight();
-      update();
       window.addEventListener('scroll', () => {
         if (!ticking) { ticking = true; requestAnimationFrame(update); }
       }, { passive: true });
@@ -235,13 +272,13 @@
       const imgs = d.images || [];
 
       const infoCol = `
-        <div class="pin-info">
-          <div class="flex items-start justify-between">
-            <span class="section-eyebrow text-ivory/25">N° ${num} / 0${total}</span>
-            <span class="section-eyebrow text-gold-400">${d.tag}</span>
-          </div>
+        <div class="pin-info" style="justify-content:flex-end;">
           <div class="pin-ghost">${d.label.toUpperCase()}</div>
           <div class="max-w-xl relative z-10">
+            <div class="flex items-center justify-between mb-5">
+              <span class="section-eyebrow text-ivory/30">N° ${num} / 0${total}</span>
+              <span class="section-eyebrow text-gold-400">${d.tag}</span>
+            </div>
             <p class="section-eyebrow text-gold-400 mb-3">${d.label}</p>
             <h3 class="font-display text-3xl xl:text-4xl text-ivory leading-tight mb-4">${d.name}</h3>
             <p class="font-serif text-lg text-ivory/55 leading-relaxed">${d.desc}</p>
@@ -297,6 +334,8 @@
     function setHeight() { pin.style.height = (count * window.innerHeight) + 'px'; }
     setHeight();
 
+    const progressBar = document.getElementById('featuredProgress');
+
     let rafId = null;
     function update() {
       rafId = null;
@@ -304,6 +343,11 @@
       const range = pin.offsetHeight - window.innerHeight;
       const t = Math.max(0, Math.min(1, scrolledPast / range));
       slider.style.transform = `translateX(${(-(count - 1) * panelW * t).toFixed(1)}px)`;
+      if (progressBar) {
+        const inZone = scrolledPast > 0 && scrolledPast < range;
+        progressBar.classList.toggle('visible', inZone);
+        progressBar.style.width = (t * 100).toFixed(1) + '%';
+      }
     }
 
     window.addEventListener('scroll', () => { if (!rafId) rafId = requestAnimationFrame(update); }, { passive: true });

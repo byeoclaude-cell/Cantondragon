@@ -98,6 +98,24 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 .btn-dark:hover { background: var(--gold); color: #2a1d05; border-color: var(--gold); }
 
 /* ---------- Nav ---------- */
+
+/* Option B — always-glass elevated full-width nav */
+#navbar {
+  background: rgba(20,16,14,.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(200,162,75,.10);
+}
+
+/* Logo shrinks smoothly on scroll to stop blocking content */
+#navbar img {
+  max-height: 8rem;
+  transition: max-height 0.5s var(--ease);
+}
+#navbar.scrolled img {
+  max-height: 3.25rem;
+}
+
 .nav-link {
   position: relative;
   font-size: .9rem;
@@ -119,13 +137,11 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 .nav-link:hover { color: var(--gold-400); }
 .nav-link:hover::after { transform: scaleX(1); }
 
-/* Navbar scrolled state (toggled via JS) — dark bar to match the logo */
+/* Scrolled state — deepens the glass as you move down the page */
 #navbar.scrolled {
-  top: 0;
-  background: rgba(20,16,14,.88);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 14px 34px -22px rgba(0,0,0,.8);
-  border-bottom: 1px solid rgba(200,162,75,.16);
+  background: rgba(20,16,14,.94);
+  border-bottom: 1px solid rgba(200,162,75,.22);
+  box-shadow: 0 8px 32px -8px rgba(0,0,0,.75);
 }
 #navbar.scrolled .nav-link { color: var(--ivory); }
 #navbar.scrolled .nav-link:hover { color: var(--gold-400); }
@@ -447,14 +463,15 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   object-fit: cover;
   transition: filter .55s ease, transform .65s cubic-bezier(.16,.84,.44,1);
 }
-/* Spotlight: dim every image when grid is hovered, restore only the hovered item.
-   The house grade is composed in first so it persists through the hover state. */
-#galleryGrid:hover .gallery-item img {
-  filter: var(--img-grade) brightness(0.3) saturate(0.45);
-}
-#galleryGrid:hover .gallery-item:hover img {
-  filter: var(--img-grade);
-  transform: scale(1.04);
+/* Spotlight: pointer devices only — touch grids must never get stuck in the dimmed state */
+@media (hover: hover) and (pointer: fine) {
+  #galleryGrid:hover .gallery-item img {
+    filter: var(--img-grade) brightness(0.3) saturate(0.45);
+  }
+  #galleryGrid:hover .gallery-item:hover img {
+    filter: var(--img-grade);
+    transform: scale(1.04);
+  }
 }
 .gallery-item::after { display: none; }
 
@@ -500,13 +517,13 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 .pin-slider {
   display: flex;
   width: 100%;
-  height: 72svh;
+  height: 62svh;
   will-change: transform;
 }
 .pin-panel {
   flex: 0 0 auto;
   width: 100%;
-  height: 72svh;
+  height: 62svh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   overflow: visible;
@@ -536,12 +553,15 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   position: absolute;
   width: 260px;
   height: 365px;
-  border-radius: 1.25rem;
+  border-radius: 1.5rem;       /* outer shell radius */
   overflow: hidden;
   transition: transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.4s ease;
   transform-style: preserve-3d;
   will-change: transform, opacity;
-  box-shadow: 0 20px 50px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+  background: rgba(22,18,15,.98); /* warm dark frame — shows as ~4px around the photo */
+  padding: 4px;
+  border: 1px solid rgba(251,247,240,.09);
+  box-shadow: 0 20px 50px -10px rgba(0,0,0,0.65), 0 0 0 1px rgba(200,162,75,.07);
 }
 .card-stack-item img {
   width: 100%;
@@ -550,13 +570,15 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   display: block;
   pointer-events: none;
   user-select: none;
+  border-radius: calc(1.5rem - 5px); /* inner concentric radius */
 }
 .card-stack-item::after {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 4px; right: 4px; bottom: 4px; left: 4px; /* align with inner image area */
   background: linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, transparent 40%, rgba(0,0,0,0.3) 100%);
-  border-radius: inherit;
+  border-radius: calc(1.5rem - 5px);
+  pointer-events: none;
 }
 .card-stack-dots {
   position: absolute;
@@ -597,7 +619,7 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   font-size: clamp(3.5rem, 7vw, 10rem);
   font-style: italic;
   line-height: 0.82;
-  color: rgba(255,255,255,.055);
+  color: rgba(255,255,255,.10);
   font-weight: 600;
   white-space: nowrap;
   overflow: visible;
@@ -649,6 +671,7 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
     height: auto !important;
     overflow: visible;
     display: block;
+    padding-top: 0;
   }
   .pin-slider {
     flex-direction: row;
@@ -674,7 +697,7 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   }
   .pin-info { padding: 1.75rem 1.5rem; }
   .pin-img {
-    height: 380px;
+    height: 280px;
     overflow: hidden;
   }
   .pin-ghost { font-size: clamp(2.5rem, 12vw, 4.5rem); }
@@ -819,20 +842,56 @@ dl .flex:hover .info-icon {
 }
 .visit-map-wrap:hover {
   box-shadow: 0 0 0 2px rgba(200,162,75,.4),
-              0 28px 70px -20px rgba(200,162,75,.22);
+              0 28px 70px -20px rgba(200,162,75,.22),
+              0 32px 64px -12px rgba(0,0,0,.65); /* preserve bezel ambient shadow */
+}
+
+/* ── Double-Bezel Card System ─────────────────────────────────
+   Outer shell: hairline border + barely-there tint + deep shadow.
+   Inner core: concentric radius + subtle top-edge highlight.
+   ─────────────────────────────────────────────────────────── */
+.bezel-outer {
+  padding: 0.375rem;
+  border-radius: 1.75rem;
+  background: rgba(251,247,240,.025);
+  border: 1px solid rgba(251,247,240,.07);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    0 32px 64px -12px rgba(0,0,0,.65),
+    0 0 0 1px rgba(200,162,75,.05);
+  transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1),
+              box-shadow 0.4s var(--ease);
+}
+/* Lift only when wrapping a promo card */
+.bezel-outer:has(.promo-card):hover {
+  transform: translateY(-6px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 44px 72px -12px rgba(0,0,0,.75),
+    0 0 0 1px rgba(200,162,75,.14);
+}
+.bezel-inner {
+  border-radius: calc(1.75rem - 0.375rem); /* ≈1.375rem — concentric */
+  overflow: hidden;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.05);
+}
+
+/* Ivory photo-mat bezel (About floating card) */
+.bezel-photo {
+  padding: 4px;
+  border-radius: 1.25rem;
+  background: rgba(251,247,240,.88);
+  box-shadow: 0 24px 56px -8px rgba(0,0,0,.82),
+              inset 0 1px 0 rgba(255,255,255,.5),
+              0 0 0 1px rgba(251,247,240,.12);
+}
+.bezel-photo-inner {
+  border-radius: calc(1.25rem - 4px); /* ≈0.875rem */
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.22);
 }
 
 /* ---------- Specials / Promo cards ---------- */
-.promo-card > div {
-  box-shadow: 0 20px 40px -8px rgba(0,0,0,0.5);
-  outline: 1px solid rgba(255,255,255,0.07);
-  transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.4s ease, outline-color 0.3s ease;
-}
-.promo-card:hover > div {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 54px -8px rgba(0,0,0,0.65), 0 0 0 1px rgba(200,162,75,0.22);
-  outline-color: rgba(200,162,75,0.22);
-}
 .promo-badge {
   position: absolute;
   top: 1rem;
@@ -856,6 +915,39 @@ dl .flex:hover .info-icon {
   backdrop-filter: blur(4px);
 }
 
+/* Accolade strip — fix divide-x behaviour in 2-col mobile grid.
+   Tailwind's divide-x adds border-left to every sibling after the first,
+   which in a 2-col grid gives the bottom-left cell an unwanted left border.
+   Override: remove all dividers, then re-apply the right column separator
+   for row 1 and a top border for both cells in row 2. */
+@media (max-width: 639px) {
+  #accolades > div > * + * { border-left-width: 0; }
+  #accolades > div > *:nth-child(2)  { border-left: 1px solid rgba(251,247,240,.1); }
+  #accolades > div > *:nth-child(3),
+  #accolades > div > *:nth-child(4)  { border-top: 1px solid rgba(251,247,240,.1); }
+  #accolades > div > *:nth-child(4)  { border-left: 1px solid rgba(251,247,240,.1); }
+}
+
+/* ── Featured scroll progress bar ───────────────────────────
+   A thin gold line pinned to the bottom of the viewport that
+   fills left-to-right as the user scrolls through the three
+   horizontal highlight panels. Appears only while pinned. */
+.featured-progress-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--gold);
+  box-shadow: 0 0 10px rgba(200,162,75,.55);
+  z-index: 45;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s var(--ease);
+  will-change: width, opacity;
+}
+.featured-progress-bar.visible { opacity: 1; }
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -867,7 +959,7 @@ dl .flex:hover .info-icon {
 
 /* ── Gallery editorial heading ──────────────────────────── */
 .gallery-editorial-head {
-  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-size: clamp(2rem, 8vw, 6.5rem);
   font-style: italic;
   line-height: 0.88;
   letter-spacing: -0.025em;

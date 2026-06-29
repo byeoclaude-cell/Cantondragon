@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
 
   <link rel="stylesheet" href="css/tailwind-compiled.css" />
-  <link rel="stylesheet" href="css/styles.css?v=15" />
+  <link rel="stylesheet" href="css/styles.css?v=16" />
   <!-- Leaflet CSS is lazy-loaded by main.js when the Visit section nears the viewport -->
 
 
@@ -88,9 +88,11 @@
       </div>
 
       <button id="menuBtn" class="grid h-11 w-11 place-items-center rounded-full text-ivory lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-          <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/>
-        </svg>
+        <span class="ham-icon" aria-hidden="true">
+          <span class="ham-bar"></span>
+          <span class="ham-bar"></span>
+          <span class="ham-bar"></span>
+        </span>
       </button>
     </nav>
   </header>
@@ -145,15 +147,15 @@
 
         <!-- content layer -->
         <div class="relative z-20 flex h-full items-center">
-          <div class="mx-auto w-full max-w-8xl px-6 pb-24 pt-36 sm:px-10 lg:px-14">
+          <div class="mx-auto w-full max-w-8xl px-6 pb-12 pt-20 sm:pb-24 sm:pt-36 sm:px-10 lg:px-14">
             <div class="max-w-2xl">
               <p class="hero-text flex items-center gap-3 text-sm uppercase tracking-[0.4em] text-gold-400">
                 <span class="hero-dash h-px w-10 bg-gold-500"></span> Scottsdale, Arizona
               </p>
-              <h1 class="hero-text mt-6 font-display text-[clamp(2.75rem,7vw,5.5rem)] font-700 leading-[0.98] text-ivory">
+              <h1 class="hero-text mt-4 sm:mt-6 font-display text-[clamp(2.75rem,7vw,5.5rem)] font-800 text-ivory" style="line-height: 0.98;">
                 Where the <span class="italic hero-accent">Wok</span><br />Meets Refinement
               </h1>
-              <p class="hero-text mt-6 max-w-xl font-serif text-xl leading-relaxed text-ivory/80">
+              <p class="hero-text mt-4 sm:mt-6 max-w-xl font-serif text-xl leading-relaxed text-ivory/80">
                 Wok-fired Chinese classics, fresh local produce, and craft cocktails — serving Scottsdale since 2004.
               </p>
               <div class="hero-anim hero-btns mt-9 flex flex-wrap items-center gap-4">
@@ -206,16 +208,18 @@
                  style="object-position: center 40%;"
                  class="aspect-[4/5] w-full object-cover transition-transform duration-[1.2s] hover:scale-105" />
           </div>
-          <div class="reveal-img absolute -bottom-8 -right-4 hidden w-56 overflow-hidden rounded-2xl border-4 border-ivory shadow-xl sm:block" style="--d:.15s">
-            <img src="assets/others/table%20of%20food.webp"
-                 alt="A spread of Canton Dragon dishes" loading="lazy"
-                 class="aspect-square w-full object-cover" />
+          <div class="reveal-img absolute -bottom-8 -right-4 hidden w-56 sm:block bezel-photo" style="--d:.15s">
+            <div class="bezel-photo-inner">
+              <img src="assets/others/table%20of%20food.webp"
+                   alt="A spread of Canton Dragon dishes" loading="lazy"
+                   class="aspect-square w-full object-cover" />
+            </div>
           </div>
         </div>
 
         <div>
           <p class="reveal-up section-eyebrow">Our Story</p>
-          <h2 class="reveal-clip mt-4 font-display font-700 leading-[1.02] text-ivory" style="--d:.06s; font-size:clamp(2.75rem,5.2vw,4.5rem)">
+          <h2 class="reveal-clip mt-4 font-display font-700 text-ivory" style="--d:.06s; font-size:clamp(2.75rem,5.2vw,4.5rem); line-height:1.02;">
             A Scottsdale heritage,<br /><span class="brush-underline">wok-fired</span> to order.
           </h2>
           <div class="mt-6 space-y-5 font-serif text-lg leading-relaxed text-ivory/70">
@@ -223,14 +227,14 @@
               Since 2004, Canton Dragon has been a family-owned staple here in Scottsdale—a place
               built on the idea that great food tastes best in a room where you instantly feel at home.
             </p>
-            <p>
+            <p class="hidden sm:block">
               Our kitchen is guided by our head chef, who is deeply rooted in the art of traditional
               Cantonese cooking. If you ask him, he’ll tell you his secret is simple: step back and let
               the ingredients do the talking. He obsesses over the quality of our meats and the freshness
               of our produce, cutting everything by hand and building every single sauce entirely from
               scratch. You won’t find processed shortcuts or heavy fillers here—just clean, vibrant flavors.
             </p>
-            <p>
+            <p class="hidden sm:block">
               He takes Chinese classics you grew up loving and makes them the way they were always meant
               to be made. Having spent decades perfecting his craft behind the line, watching him command
               the roaring heat of the wok is pure poetry. Every single plate is cooked to order under his
@@ -250,6 +254,13 @@
         </div>
       </div>
     </section>
+
+    <!-- Cultural accent divider — dragon-scale pattern strip with edge fades -->
+    <div class="relative h-10 overflow-hidden bg-charcoal" aria-hidden="true">
+      <div class="scale-pattern absolute inset-0 opacity-[0.18]"></div>
+      <div class="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-charcoal to-transparent"></div>
+      <div class="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-charcoal to-transparent"></div>
+    </div>
 
     <!-- ============ HIGHLIGHTS — Bar · Desserts · Signatures (3-panel) ============ -->
     <section id="signatures" class="relative bg-charcoal text-ivory">
@@ -308,7 +319,7 @@
     <!-- ============ SPECIALS ============ -->
     <section id="specials" class="py-24 sm:py-32 bg-charcoal-800">
       <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
-        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16 sm:mb-20">
           <div>
             <p class="reveal-up section-eyebrow">What's New</p>
             <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl leading-tight" style="--d:.06s">Seasonal Specials</h2>
@@ -318,38 +329,42 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-start max-w-4xl mx-auto">
 
           <!-- Summer 2026 cocktail menu -->
-          <article class="promo-card group overflow-hidden rounded-2xl shadow-[0_24px_56px_-8px_rgba(0,0,0,0.55)] ring-1 ring-ivory/10" style="align-self:start">
-            <div class="relative overflow-hidden">
-              <img src="assets/promos/promoart.webp" alt="Summer 2026 Cocktail Menu" loading="lazy"
-                   class="w-full block transition-transform duration-700 group-hover:scale-105" />
-              <span class="promo-badge promo-badge--lacquer">Summer 2026</span>
-            </div>
-            <div class="bg-charcoal p-6" style="display:flex;flex-direction:column;gap:0.5rem">
-              <p class="section-eyebrow text-gold-400">The Bar</p>
-              <h3 class="font-display text-3xl text-ivory leading-tight">Cocktail Menu</h3>
-              <p class="font-serif text-sm text-ivory/65 leading-relaxed">Seasonal sips crafted with fresh ingredients — ask your server for this summer's selections.</p>
-            </div>
-          </article>
+          <div class="bezel-outer" style="align-self:start">
+            <article class="promo-card bezel-inner group">
+              <div class="relative overflow-hidden">
+                <img src="assets/promos/promoart.webp" alt="Summer 2026 Cocktail Menu" loading="lazy"
+                     class="w-full block transition-transform duration-700 group-hover:scale-105" />
+                <span class="promo-badge promo-badge--lacquer">Summer 2026</span>
+              </div>
+              <div class="bg-charcoal p-6" style="display:flex;flex-direction:column;gap:0.5rem">
+                <p class="section-eyebrow text-gold-400">The Bar</p>
+                <h3 class="font-display text-3xl text-ivory leading-tight">Cocktail Menu</h3>
+                <p class="font-serif text-sm text-ivory/65 leading-relaxed">Seasonal sips crafted with fresh ingredients — ask your server for this summer's selections.</p>
+              </div>
+            </article>
+          </div>
 
           <!-- Wine by the bottle promo card -->
-          <article class="promo-card group overflow-hidden rounded-2xl shadow-[0_24px_56px_-8px_rgba(0,0,0,0.55)] ring-1 ring-ivory/10" style="align-self:start">
-            <div class="relative overflow-hidden" style="aspect-ratio:16/9">
-              <img src="assets/promos/wine.webp"
-                   alt="Wine bottles at Canton Dragon bar" loading="lazy"
-                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <span class="promo-badge promo-badge--gold">Limited Time</span>
-            </div>
-            <div class="bg-charcoal p-6" style="display:flex;flex-direction:column;gap:0.75rem">
-              <p class="section-eyebrow text-gold-400">The Bar</p>
-              <div>
-                <h3 class="font-display text-3xl text-ivory leading-tight">Wine by the Bottle</h3>
-                <p class="font-display text-ivory/50" style="font-size:1rem;margin-top:0.25rem">Any bottle · <span class="text-gold-400 font-700" style="font-size:2.5rem;line-height:1">$35</span></p>
+          <div class="bezel-outer" style="align-self:start">
+            <article class="promo-card bezel-inner group">
+              <div class="relative overflow-hidden" style="aspect-ratio:16/9">
+                <img src="assets/promos/wine.webp"
+                     alt="Wine bottles at Canton Dragon bar" loading="lazy"
+                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <span class="promo-badge promo-badge--gold">Limited Time</span>
               </div>
-              <p class="font-serif text-sm text-ivory/65 leading-relaxed">
-                Choose from Kim Crawford, DAOU, Conundrum &amp; more — six hand-picked bottles, one great price. While supplies last.
-              </p>
-            </div>
-          </article>
+              <div class="bg-charcoal p-6" style="display:flex;flex-direction:column;gap:0.75rem">
+                <p class="section-eyebrow text-gold-400">The Bar</p>
+                <div>
+                  <h3 class="font-display text-3xl text-ivory leading-tight">Wine by the Bottle</h3>
+                  <p class="font-display text-ivory/50" style="font-size:1rem;margin-top:0.25rem">Any bottle · <span class="text-gold-400 font-700" style="font-size:2.5rem;line-height:1">$35</span></p>
+                </div>
+                <p class="font-serif text-sm text-ivory/65 leading-relaxed">
+                  Choose from Kim Crawford, DAOU, Conundrum &amp; more — six hand-picked bottles, one great price. While supplies last.
+                </p>
+              </div>
+            </article>
+          </div>
 
         </div>
       </div>
@@ -425,8 +440,10 @@
           </div>
         </div>
 
-        <div class="reveal-img overflow-hidden rounded-[2rem] shadow-xl ring-1 ring-ivory/10">
-          <div id="visitMap" class="h-full min-h-[420px] w-full"></div>
+        <div class="reveal-img bezel-outer">
+          <div class="bezel-inner">
+            <div id="visitMap" class="min-h-[260px] sm:min-h-[420px] w-full"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -434,10 +451,10 @@
 
   <!-- ============ FOOTER ============ -->
   <footer class="bg-charcoal text-ivory/70">
-    <div class="mx-auto grid max-w-8xl gap-12 px-6 py-16 sm:px-10 md:grid-cols-[1.4fr_1fr_1fr] lg:px-14">
+    <div class="mx-auto grid max-w-8xl gap-10 px-6 py-10 sm:gap-12 sm:py-16 sm:px-10 md:grid-cols-[1.4fr_1fr_1fr] lg:px-14">
       <div>
         <div class="flex items-center">
-          <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar" class="h-28 w-auto" />
+          <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar" class="h-16 w-auto sm:h-28" />
         </div>
         <p class="mt-5 max-w-xs font-serif text-lg leading-relaxed text-ivory/60">
           Wok-fired Chinese cuisine and a full bar in Scottsdale, Arizona. Family-owned since 2004.
@@ -487,7 +504,10 @@
   </div>
 
   <!-- Leaflet JS is lazy-loaded by main.js when the Visit section nears the viewport -->
+  <!-- Scroll progress bar for the horizontal pin section -->
+  <div id="featuredProgress" class="featured-progress-bar" aria-hidden="true"></div>
+
   <script src="js/menu-data.js?v=10"></script>
-  <script src="js/main.js?v=11"></script>
+  <script src="js/main.js?v=12"></script>
 </body>
 </html>
