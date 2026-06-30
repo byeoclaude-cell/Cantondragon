@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
 
   <link rel="stylesheet" href="css/tailwind-compiled.css" />
-  <link rel="stylesheet" href="css/styles.css?v=16" />
+  <link rel="stylesheet" href="css/styles.css?v=17" />
   <!-- Leaflet CSS is lazy-loaded by main.js when the Visit section nears the viewport -->
 
 
@@ -97,25 +97,40 @@
     </nav>
   </header>
 
-  <!-- Mobile menu -->
-  <div id="mobileMenu" class="fixed inset-0 z-[55] hidden">
-    <div class="absolute inset-0 bg-charcoal/70 backdrop-blur-sm" data-close></div>
-    <div class="absolute right-0 top-0 flex h-full w-[82%] max-w-sm translate-x-full flex-col bg-charcoal text-ivory shadow-2xl transition-transform duration-500 will-change-transform" id="mobilePanel">
-      <div class="flex items-center justify-between border-b border-ivory/10 px-6 py-5">
-        <span class="font-display text-xl font-700 text-ivory">Menu</span>
-        <button class="grid h-10 w-10 place-items-center rounded-full text-ivory" aria-label="Close menu" data-close>
-          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+  <!-- Mobile nav: dimmed backdrop + right-slide panel -->
+  <div id="mobileMenu" class="fixed inset-0 z-[55] hidden" role="dialog" aria-modal="true" aria-label="Site navigation">
+    <!-- Tap-to-close backdrop -->
+    <div id="mobileBackdrop" class="absolute inset-0" data-close aria-hidden="true"></div>
+
+    <!-- Slide panel (right edge) -->
+    <div id="mobilePanel" class="absolute right-0 top-0 flex h-full flex-col px-7 pt-7 pb-10">
+      <!-- Gold hairline on left edge -->
+      <div class="absolute left-0 inset-y-0 w-px pointer-events-none" style="background:linear-gradient(180deg,transparent,rgba(200,162,75,.35) 20%,rgba(200,162,75,.25) 80%,transparent)" aria-hidden="true"></div>
+      <!-- Scale texture -->
+      <div class="scale-pattern absolute inset-0 pointer-events-none" style="opacity:.035;border-radius:inherit" aria-hidden="true"></div>
+
+      <!-- Top: logo + close -->
+      <div class="relative flex items-center justify-between">
+        <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar" class="h-12 w-auto" style="opacity:.75" />
+        <button id="mobileClose" class="mobile-overlay-close" aria-label="Close navigation" data-close>
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+          </svg>
         </button>
       </div>
-      <nav class="flex flex-col gap-1 px-4 py-6 text-lg">
-        <a href="#about" class="mobile-link" data-close>Our Story</a>
-        <a href="#signatures" class="mobile-link" data-close>Highlights</a>
-        <a href="#menu" class="mobile-link" data-close>Menu</a>
-        <a href="#specials" class="mobile-link" data-close>Specials</a>
-        <a href="#gallery" class="mobile-link" data-close>Gallery</a>
-        <a href="#visit" class="mobile-link" data-close>Visit</a>
+
+      <!-- Staggered nav links -->
+      <nav class="relative mt-9 flex flex-col" aria-label="Primary navigation">
+        <a href="#about"      class="mobile-overlay-link" data-close style="--d:.05s">Our Story</a>
+        <a href="#signatures" class="mobile-overlay-link" data-close style="--d:.10s">Highlights</a>
+        <a href="#menu"       class="mobile-overlay-link" data-close style="--d:.15s">Menu</a>
+        <a href="#specials"   class="mobile-overlay-link" data-close style="--d:.20s">Specials</a>
+        <a href="#gallery"    class="mobile-overlay-link" data-close style="--d:.25s">Gallery</a>
+        <a href="#visit"      class="mobile-overlay-link" data-close style="--d:.30s">Visit</a>
       </nav>
-      <div class="mt-auto space-y-3 border-t border-ivory/10 px-6 py-6">
+
+      <!-- CTA group -->
+      <div class="mobile-cta-group relative mt-auto flex flex-col gap-3" style="--d:.36s">
         <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="btn-gold w-full justify-center">Order Online</a>
         <a href="tel:+14804518866" class="btn-outline w-full justify-center">Call (480) 451-8866</a>
       </div>
@@ -189,7 +204,7 @@
         </div>
         <div class="reveal-up px-4 py-8 text-center" style="--d:.12s">
           <p class="font-display text-3xl text-gold-400">Full</p>
-          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/60">Grill &amp; Bar</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/60">Bar</p>
         </div>
         <div class="reveal-up px-4 py-8 text-center" style="--d:.18s">
           <p class="stat-num font-display text-3xl text-gold-400" data-count="4.5" data-prefix="★ " data-decimals="1">★ 4.5</p>
@@ -270,8 +285,8 @@
       <div class="reveal-up px-6 py-16 sm:px-14 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 border-b border-ivory/10">
         <div>
           <p class="section-eyebrow text-gold-400">Highlights</p>
-          <h2 class="mt-3 font-display text-4xl font-700 sm:text-5xl leading-tight">Bar · Desserts · Signatures</h2>
-          <p class="mt-3 max-w-lg font-serif text-lg text-ivory/70">Three reasons to stay a little longer.</p>
+          <h2 class="mt-3 font-display text-4xl font-700 sm:text-5xl leading-tight">Cocktails & Wine · Beer · Desserts · The Kitchen</h2>
+          <p class="mt-3 max-w-lg font-serif text-lg text-ivory/70">Four reasons to stay a little longer.</p>
         </div>
         <div class="hidden md:flex items-center gap-3 section-eyebrow text-ivory/30">
           <span>SCROLL</span>
@@ -507,7 +522,7 @@
   <!-- Scroll progress bar for the horizontal pin section -->
   <div id="featuredProgress" class="featured-progress-bar" aria-hidden="true"></div>
 
-  <script src="js/menu-data.js?v=10"></script>
+  <script src="js/menu-data.js?v=11"></script>
   <script src="js/main.js?v=12"></script>
 </body>
 </html>

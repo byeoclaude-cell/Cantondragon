@@ -60,27 +60,40 @@
   onScroll();
 
   /* ---------- Mobile menu ---------- */
-  const menuBtn   = $('#menuBtn');
-  const overlay   = $('#mobileMenu');
-  const panel     = $('#mobilePanel');
-
+  const menuBtn  = $('#menuBtn');
+  const overlay  = $('#mobileMenu');
+  const panel    = $('#mobilePanel');
+  const backdrop = $('#mobileBackdrop');
   const menuTrap = createFocusTrap(panel);
+
+  function overlayAnimEls() {
+    return [...$$('.mobile-overlay-link', overlay), ...$$('.mobile-cta-group', overlay)];
+  }
 
   function openMenu() {
     overlay.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      panel.classList.add('is-open');
+      backdrop.classList.add('is-open');
+      menuBtn.classList.add('is-open');
+      overlayAnimEls().forEach(el => el.classList.add('in'));
+    });
     document.body.style.overflow = 'hidden';
-    requestAnimationFrame(() => panel.classList.remove('translate-x-full'));
     menuBtn.setAttribute('aria-expanded', 'true');
-    // Send focus to the drawer's close button and trap it inside the panel.
-    menuTrap.activate($('[data-close]', panel));
+    overlay.classList.add('is-open');
+    menuTrap.activate($('#mobileClose'));
   }
   function closeMenu() {
-    if (overlay.classList.contains('hidden')) return;
-    panel.classList.add('translate-x-full');
+    if (!panel.classList.contains('is-open')) return;
+    panel.classList.remove('is-open');
+    backdrop.classList.remove('is-open');
+    menuBtn.classList.remove('is-open');
+    overlayAnimEls().forEach(el => el.classList.remove('in'));
     document.body.style.overflow = '';
     menuBtn.setAttribute('aria-expanded', 'false');
-    menuTrap.release(); // restores focus to the trigger (menu button)
-    setTimeout(() => overlay.classList.add('hidden'), 450);
+    overlay.classList.remove('is-open');
+    menuTrap.release();
+    setTimeout(() => overlay.classList.add('hidden'), 480);
   }
   menuBtn.addEventListener('click', openMenu);
   $$('[data-close]', overlay).forEach(el => el.addEventListener('click', closeMenu));

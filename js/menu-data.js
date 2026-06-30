@@ -7,10 +7,10 @@
 /* Three-panel featured section — card stack per category */
 const FEATURED = [
   {
-    label: 'The Bar',
-    name:  'Craft Cocktails',
+    label: 'Cocktails & Wine',
+    name:  'Craft Cocktails and Wine',
     tag:   'Happy Hour Daily',
-    desc:  'Yuzu margaritas, butterfly pea orchid cocktails and a curated wine list from Kim Crawford to DAOU. Pull up Monday–Friday, 12–7pm — every cocktail and glass of wine is $3 off.',
+    desc:  'Yuzu margaritas, Pamplemousses spritz and a curated wine list from Kim Crawford to DAOU. Pull up Monday–Friday, 12–7pm — every cocktail or glass of wine is $3 off.',
     images: [
       'assets/drinks/orchid (1).webp',
       'assets/drinks/YuzuMarga.webp',
@@ -25,10 +25,24 @@ const FEATURED = [
     ],
   },
   {
+    label: 'Beer',
+    name:  'Asian Imports, Bottled',
+    tag:   'Cold & Crisp',
+    desc:  'Six imported Asian lagers in the bottle — Tsingtao, Asahi, Kirin Ichiban, Kirin Light, Singha and Lucky Buddha. Light, clean and made to pair with wok fire.',
+    images: [
+      'assets/beer/tsingtao.webp',
+      'assets/beer/Asahi.webp',
+      'assets/beer/kirinichiban.webp',
+      'assets/beer/kirinlight.webp',
+      'assets/beer/Singha.webp',
+      'assets/beer/Luckybuddha.webp',
+    ],
+  },
+  {
     label: 'Desserts',
     name:  'A Sweet Finale',
     tag:   'House-Made',
-    desc:  'Seven house-made and imported desserts — from a velvety New York cheesecake to vibrant ube cake and golden honey banana. The perfect ending to a wok-fired meal.',
+    desc:  'Seven house-made and imported desserts — from a rich lava cheesecake to vibrant ube cake and golden honey banana. The perfect ending to a wok-fired meal.',
     images: [
       'assets/Dessert/Ube.webp',
       'assets/Dessert/cheesecake.webp',
@@ -40,10 +54,10 @@ const FEATURED = [
     ],
   },
   {
-    label: "Chef's Signatures",
+    label: "The Kitchen",
     name:  "The Dishes We're Known For",
-    tag:   'Wok-Fired',
-    desc:  'Four defining dishes — BBQ pork fried rice, shrimp lo mein, beef chow fun and kung pao shrimp. Each one wok-fired to order over screaming-hot fire, each one a reason to come back.',
+    tag:   'House Classics',
+    desc:  'Four defining dishes — Mongolian beef, shrimp lo mein, roast duck and happy family. Each one made to order, each one a reason to come back.',
     images: [
       'assets/Entrees/porkfriedrice.webp',
       'assets/Entrees/beefchowfun.webp',
@@ -277,7 +291,7 @@ const MENU = [
     ]
   },
   {
-    id: 'chef', label: "Chef's Specials",
+    id: 'chef', label: "Chef's Signatures",
     items: [
       { name: 'Beef Mignon', price: '27.99', desc: 'Chunks of tender beef quick-stirred with onion in rich roasted black-pepper sauce.' },
       { name: 'Roast Duck', price: '26.99', desc: 'Boneless duck slowly roasted until crispy and golden in a light sauce.' },
@@ -374,17 +388,6 @@ const MENU = [
       { name: 'Chicken Fried Rice', price: '14.99' },
       { name: 'BBQ Pork Fried Rice', price: '14.99' },
       { name: 'Vegetable Fried Rice', price: '13.99' },
-    ]
-  },
-  {
-    id: 'bar', label: 'Bar',
-    note: 'Happy Hour Mon–Fri 12–7pm: $3 off cocktails & wine. Wines by Kim Crawford, Santa Cristina, Conundrum, DAOU, Kendall-Jackson, J. Lohr & Norton.',
-    items: [
-      { name: 'Gekkeikan Plum Wine', price: '8.00' },
-      { name: 'Prosecco', price: '8.00' },
-      { name: 'Hot Sake', price: '6.00' },
-      { name: 'Well Spirits', price: '6.00' },
-      { name: 'Mimosa', price: '5.00', desc: 'Orange, apple, pineapple or grapefruit.' },
     ]
   },
 ];

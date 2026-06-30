@@ -147,15 +147,96 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 #navbar.scrolled .nav-link:hover { color: var(--gold-400); }
 #navbar.scrolled #menuBtn { color: var(--ivory); }
 
-.mobile-link {
-  border-radius: .75rem;
-  padding: .8rem 1rem;
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 1.4rem;
-  color: var(--ivory);
-  transition: background-color .2s var(--ease), color .2s var(--ease);
+/* ── Hamburger morph ─────────────────────────────────────── */
+.ham-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 22px;
+  height: 22px;
 }
-.mobile-link:hover { background: rgba(251,247,240,.06); color: var(--gold-400); }
+.ham-bar {
+  display: block;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 1px;
+  transform-origin: center;
+  transition: transform .45s var(--ease), opacity .3s ease;
+}
+#menuBtn.is-open .ham-bar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+#menuBtn.is-open .ham-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+#menuBtn.is-open .ham-bar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── Mobile nav: backdrop + right-slide panel ────────────── */
+#mobileMenu {
+  pointer-events: none;
+}
+#mobileMenu.is-open {
+  pointer-events: auto;
+}
+#mobileBackdrop {
+  opacity: 0;
+  background: rgba(14,11,9,.55);
+  transition: opacity .42s var(--ease);
+}
+#mobileBackdrop.is-open { opacity: 1; }
+
+#mobilePanel {
+  width: min(72vw, 320px);
+  background: rgba(14,11,9,.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transform: translateX(100%);
+  transition: transform .46s var(--ease);
+  will-change: transform;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.5rem 1.5rem 2.5rem;
+}
+#mobilePanel.is-open { transform: translateX(0); }
+
+.mobile-overlay-close {
+  display: grid;
+  place-items: center;
+  width: 2.75rem; height: 2.75rem;
+  border-radius: 9999px;
+  background: rgba(251,247,240,.07);
+  border: 1px solid rgba(251,247,240,.14);
+  color: var(--ivory);
+  transition: background .25s ease, transform .35s var(--ease-out);
+}
+.mobile-overlay-close:hover { background: rgba(251,247,240,.14); transform: rotate(90deg); }
+
+/* Large staggered nav links */
+.mobile-overlay-link {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--ivory);
+  padding: .55rem 0;
+  border-bottom: 1px solid rgba(251,247,240,.07);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s var(--ease-out) var(--d, 0s),
+              transform .7s var(--ease-out) var(--d, 0s),
+              color .25s ease;
+}
+nav .mobile-overlay-link:last-child { border-bottom: none; }
+.mobile-overlay-link:hover { color: var(--gold-400); }
+.mobile-overlay-link.in { opacity: 1; transform: translateY(0); }
+
+/* CTA group — same entry animation, no text overrides */
+.mobile-cta-group {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s var(--ease-out) var(--d, 0s),
+              transform .7s var(--ease-out) var(--d, 0s);
+}
+.mobile-cta-group.in { opacity: 1; transform: translateY(0); }
 
 /* ---------- Section helpers ---------- */
 .section-eyebrow {
@@ -209,6 +290,14 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 }
 .menu-tab:hover { color: var(--ivory); }
 .menu-tab.active { background: var(--lacquer); color: var(--ivory); }
+
+/* Shrink the pill to hug the tabs rather than stretching full-width */
+#menuTabs {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* Hide scrollbar on the tab strip but keep it scrollable */
 .menu-tabs { scrollbar-width: none; }
@@ -348,6 +437,45 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 }
 /* The decorative gold dash reveals with the first words. */
 .hero-dash { opacity: 0; }
+
+/* Mobile: strengthen hero text legibility — the food photo sits right behind copy */
+@media (max-width: 1023px) {
+  /* Widen and deepen the scrim so it covers the full text column on narrow screens */
+  .hero-textscrim {
+    background: linear-gradient(
+      90deg,
+      rgba(20, 16, 14, .97) 0%,
+      rgba(20, 16, 14, .90) 40%,
+      rgba(20, 16, 14, .70) 62%,
+      rgba(20, 16, 14, .35) 80%,
+      transparent 100%
+    );
+  }
+  /* Additional bottom scrim: darkens the button/subhead row */
+  #heroTrack .hero-textscrim::after {
+    content: '';
+    position: absolute;
+    inset: 45% 0 0 0;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(20, 16, 14, .72) 80%
+    );
+    pointer-events: none;
+  }
+  /* Text shadow so headlines stay legible even over bright food */
+  #heroTrack h1 {
+    text-shadow: 0 2px 24px rgba(14,11,9,.85), 0 1px 6px rgba(14,11,9,.95);
+  }
+  #heroTrack .hero-text:not(h1):not(p:first-child) {
+    text-shadow: 0 1px 12px rgba(14,11,9,.9);
+  }
+  /* Make ghost button more visible against busy photo */
+  .btn-ghost {
+    background: rgba(251,247,240,.14);
+    border-color: rgba(251,247,240,.55);
+  }
+}
 
 /* Duotone hero — gold wash: a static diagonal gold sweep + corner glow laid over the
    charcoal/gold duotone image. Screen blend lifts the gold in shadow areas without a
@@ -693,12 +821,22 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
     grid-template-rows: auto auto;
     scroll-snap-align: center;
     border-radius: 1.25rem;
+    overflow: visible;
+    /* Bezel outer shell on mobile (overflow:hidden would clip it off) */
+    padding: 4px;
+    background: rgba(22,18,15,.98);
+    border: 1px solid rgba(251,247,240,.09);
+    box-shadow: 0 20px 50px -10px rgba(0,0,0,.65), 0 0 0 1px rgba(200,162,75,.07);
+  }
+  .pin-info {
+    padding: 1.75rem 1.5rem;
+    border-radius: 0 0 calc(1.25rem - 4px) calc(1.25rem - 4px);
     overflow: hidden;
   }
-  .pin-info { padding: 1.75rem 1.5rem; }
   .pin-img {
     height: 280px;
     overflow: hidden;
+    border-radius: calc(1.25rem - 4px) calc(1.25rem - 4px) 0 0;
   }
   .pin-ghost { font-size: clamp(2.5rem, 12vw, 4.5rem); }
   /* Keep the cycle dots inside the now-clipped image area */
@@ -833,6 +971,15 @@ dl .flex:hover .info-icon {
 .reveal-clip.in .brush-underline::after {
   clip-path: inset(0 0 0 0);
   transition: clip-path .72s var(--ease-out) .6s;
+}
+
+/* Map container needs explicit height — min-h-[] arbitrary values aren't in pre-compiled Tailwind */
+#visitMap {
+  min-height: 420px;
+  height: 100%;
+}
+@media (max-width: 639px) {
+  #visitMap { min-height: 260px; }
 }
 
 /* ── Visit map container hover ring ─────────────────────────── */
