@@ -328,7 +328,7 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
 .menu-tab.active { background: var(--lacquer); color: var(--ivory); }
 
 /* Shrink the pill to hug the tabs rather than stretching full-width */
-#menuTabs {
+#menuTabs, #barTabs {
   width: fit-content;
   max-width: 100%;
   margin-left: auto;
@@ -348,11 +348,17 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   border-bottom: 1px solid rgba(251,247,240,.09);
 }
 .menu-item__lead {
-  flex: 1;
+  flex: 2;
   display: flex;
   align-items: baseline;
   gap: .5rem;
   min-width: 0;
+}
+.menu-item__name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 .menu-item__name { font-weight: 600; color: var(--ivory); }
 .menu-item__dots {
@@ -367,7 +373,7 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   transform: translateY(-3px);
 }
 .menu-item__price { font-weight: 600; color: var(--gold-400); white-space: nowrap; }
-.menu-item__desc { margin-top: .25rem; font-size: .9rem; line-height: 1.5; color: var(--ivory); opacity: .55; }
+.menu-item__desc { margin-top: .25rem; font-size: .9rem; line-height: 1.5; color: var(--ivory); opacity: .68; }
 
 .spice-tag {
   font-size: .62rem;
@@ -379,6 +385,44 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   border-radius: 9999px;
   padding: .05rem .4rem;
   transform: translateY(-1px);
+}
+
+.signature-tag {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--gold-400);
+  border: 1px solid rgba(200,162,75,.4);
+  border-radius: 9999px;
+  padding: .05rem .4rem;
+  transform: translateY(-1px);
+}
+
+/* Filled (vs. signature-tag's outline) so "Most Popular" outranks "Signature" at a glance */
+.popular-tag {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #2a1d05;
+  background: var(--gold-400);
+  border-radius: 9999px;
+  padding: .05rem .45rem;
+  white-space: nowrap;
+  transform: translateY(-1px);
+}
+
+/* ---------- Bar menu sub-groups (wine tiers, beer by country, etc.) ---------- */
+.menu-group + .menu-group { margin-top: 2.75rem; }
+.menu-group__label {
+  text-align: center;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--gold-400);
+  margin-bottom: 1rem;
 }
 
 /* ---------- Decorative dragon-scale pattern ---------- */
@@ -675,7 +719,7 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
    panels are always in view. */
 .hl2-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
   gap: 0.75rem;
 }
 .hl2-card {
@@ -846,7 +890,50 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   margin-top: 0.45rem;
   font-size: 0.78rem;
   line-height: 1.55;
-  color: rgba(251,247,240,.48);
+  color: rgba(251,247,240,.58);
+}
+
+.hl2-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-400);
+  transition: color .25s ease;
+}
+.hl2-card__cta:hover { color: var(--ivory); }
+/* Arrow nudges right on hover via transform (no layout thrash) */
+.hl2-card__cta span { display: inline-block; transition: transform .25s var(--ease); }
+.hl2-card__cta:hover span { transform: translateX(4px); }
+
+/* Image-cycling dot controls */
+.hl2-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+.hl2-dot {
+  /* Fixed width; active state uses scaleX to avoid layout-thrash width animation */
+  width: 14px;
+  height: 5px;
+  border-radius: 9999px;
+  background: rgba(251,247,240,.3);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transform: scaleX(0.36);
+  transform-origin: left;
+  transition: background .3s ease, transform .3s ease;
+}
+.hl2-dot.active {
+  transform: scaleX(1);
+  background: var(--gold-400);
 }
 
 .pin-info {

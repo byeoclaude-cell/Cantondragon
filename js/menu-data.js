@@ -10,14 +10,15 @@ const FEATURED = [
     label: 'Cocktails & Wine',
     name:  'Craft Cocktails and Wine',
     tag:   'Happy Hour Daily',
+    link:  'bar', tabId: 'barpanel-cocktails',
     desc:  'Yuzu margaritas, Pamplemousses spritz and a curated wine list from Kim Crawford to DAOU. Pull up Monday–Friday, 12–7pm — every cocktail or glass of wine is $3 off.',
     images: [
+      'assets/drinks/TokyoGlow.webp',
       'assets/drinks/orchid (1).webp',
       'assets/drinks/YuzuMarga.webp',
       'assets/drinks/lycheemart.webp',
       'assets/drinks/prickly (1).webp',
       'assets/drinks/mojitos.webp',
-      'assets/drinks/TokyoGlow.webp',
       'assets/drinks/pamplemousse.webp',
       'assets/drinks/oldfashionfront_genSwap.webp',
       'assets/drinks/pomelli_photoshoot_image_9_16_0609 (4).webp',
@@ -28,6 +29,7 @@ const FEATURED = [
     label: 'Beer',
     name:  'Asian Imports, Bottled',
     tag:   'Cold & Crisp',
+    link:  'bar', tabId: 'barpanel-beer',
     desc:  'Six imported Asian lagers in the bottle — Tsingtao, Asahi, Kirin Ichiban, Kirin Light, Singha and Lucky Buddha. Light, clean and made to pair with wok fire.',
     images: [
       'assets/beer/tsingtao.webp',
@@ -42,10 +44,11 @@ const FEATURED = [
     label: 'Desserts',
     name:  'A Sweet Finale',
     tag:   'Curated',
+    link:  'menu', tabId: 'panel-desserts',
     desc:  'Seven desserts — some house-made from scratch, others curated from the best. From vibrant ube cake and golden honey banana to rich cheesecake and dark chocolate layers.',
     images: [
-      { src: 'assets/Dessert/Ube.webp',          made: 'Curated'    },
       { src: 'assets/Dessert/cheesecake.webp',   made: 'Curated'    },
+      { src: 'assets/Dessert/Ube.webp',          made: 'Curated'    },
       { src: 'assets/Dessert/HoneyBanana.webp',  made: 'House-Made' },
       { src: 'assets/Dessert/DarkChoc.webp',     made: 'Curated'    },
       { src: 'assets/Dessert/WhiteChoc.webp',    made: 'Curated'    },
@@ -57,11 +60,12 @@ const FEATURED = [
     label: "The Kitchen",
     name:  "The Dishes We're Known For",
     tag:   'House Classics',
+    link:  'menu', tabId: 'panel-chef',
     desc:  'Four defining dishes — Mongolian beef, shrimp lo mein, roast duck and happy family. Each one made to order, each one a reason to come back.',
     images: [
+      'assets/Entrees/shrimplomein.webp',
       'assets/Entrees/porkfriedrice.webp',
       'assets/Entrees/beefchowfun.webp',
-      'assets/Entrees/shrimplomein.webp',
       'assets/Entrees/mongolianbeef.webp',
       'assets/Entrees/lemonchx.webp',
       'assets/Entrees/shrimpbrocolli.webp',
@@ -389,6 +393,148 @@ const MENU = [
       { name: 'Chicken Fried Rice', price: '14.99' },
       { name: 'BBQ Pork Fried Rice', price: '14.99' },
       { name: 'Vegetable Fried Rice', price: '13.99' },
+    ]
+  },
+  {
+    id: 'desserts', label: 'Desserts',
+    items: [
+      { name: 'Lava Cheesecake', popular: true, price: '10.00' },
+      { name: 'Ube Cheesecake', price: '9.00' },
+      { name: 'Marquise Mousse Cake', price: '9.00' },
+      { name: 'Triple Chocolate Mousse Cake', price: '9.00' },
+      { name: 'Honey Banana', star: true, desc: 'House-made.', price: '9.00' },
+      { name: 'Honey Apple', star: true, desc: 'House-made.', price: '9.00' },
+      { name: 'Fried Ice Cream', star: true, desc: 'House-made.', price: '9.00' },
+    ]
+  },
+];
+
+/* ============================================================
+   Bar menu — cocktails, beer, wine, spirits, sake & more.
+   Sourced from the restaurant's bar & dessert menu. `groups` (optional)
+   renders sub-headed sections within a tab — e.g. wine by tier, beer by
+   country. `star: true` marks a house-favourite, mirroring the ★ on the
+   printed menu.
+   ============================================================ */
+const BAR = [
+  {
+    id: 'cocktails', label: 'Cocktails',
+    note: 'Happy Hour: $3 off every cocktail, Monday–Friday 12–7pm. All cocktails $15 unless noted.',
+    items: [
+      { name: 'Passion Lover', price: '15.00', desc: 'Absolut Mango vodka, lime juice, peach schnapps & syrup, Chambord raspberry liqueur and Passoã — served frozen.' },
+      { name: 'Paloma', price: '15.00', desc: 'Grapefruit & lime juice, agave nectar, tequila (mezcal or reposado).' },
+      { name: 'Aperol Spritz', price: '15.00', desc: 'Prosecco, Aperol, soda water & orange slice.' },
+      { name: 'Espresso Martini', price: '15.00', star: true, desc: 'Espresso, vodka, maple syrup, Kahlúa & Irish cream.' },
+      { name: 'Yuzu Smash', price: '15.00', desc: 'Tincup bourbon, Giffard Fruit de la Passion liqueur, lime juice & Monin yuzu purée.' },
+      { name: 'Highballer', price: '15.00', desc: 'St. George Baller, Giffard apricot liqueur & soda.' },
+      { name: 'U & Me Old Fashioned', price: '15.00', star: true, desc: 'Yellowstone whiskey, bitters, maple syrup, orange peel & maraschino cherries.' },
+      { name: 'Dragon Spritz', price: '15.00', star: true, desc: 'Breckenridge pear vodka, Choya yuzu liqueur, Re\'al pear, lemon juice & soda.' },
+      { name: 'Canton Collins', price: '15.00', desc: 'Pearl cucumber vodka, lime juice, Mahina coco liqueur & Monin cantaloupe.' },
+      { name: 'Dragon & the Maiden', price: '15.00', desc: 'Zephyr gin, Giffard lychee liqueur, Re\'al raspberry, lemon juice & Snow Maiden Junmai Nigori sake.' },
+      { name: 'Tokyo Margarita', price: '15.00', desc: 'Ghost reposado tequila, lemon juice, Giffard ginger liqueur & Re\'al vanilla purée.' },
+      { name: 'Yuzu Margarita', price: '15.00', desc: 'Azunia blanco tequila, Choya yuzu liqueur, lemon juice & simple syrup.' },
+      { name: 'Dragon Back Daq', price: '15.00', desc: 'Bumbu rum, Re\'al mango & lime juice.' },
+      { name: 'Manhattan', price: '15.00', star: true, desc: 'Bulleit bourbon, sweet vermouth & Angostura bitters.' },
+      { name: 'Hugo Spritz', price: '15.00', desc: 'Elderflower liqueur, Prosecco, lime & mint.' },
+      { name: 'Chocolate Martini', price: '15.00', desc: 'Vanilla vodka, Mahina coco liqueur & espresso liqueur.' },
+      { name: 'Mojito', price: '15.00', star: true, desc: 'Coconut, strawberry or mango — rum, mint & lime juice.' },
+      { name: 'Ghostini', price: '15.00', desc: 'Ghost reposado tequila & espresso liqueur.' },
+      { name: 'Spice in Bloom', price: '15.00', desc: 'Ghost blanco tequila, elderflower liqueur, lime & cucumber.' },
+      { name: 'Mai Tai', price: '15.00', desc: 'Bacardi rum, orange curaçao, orgeat, pineapple juice, sweet & sour and Trader Vic\'s dark rum.' },
+      { name: 'Prickly Cactus', price: '15.00', star: true, desc: 'Ghost blanco tequila & prickly pear syrup.' },
+    ]
+  },
+  {
+    id: 'beer', label: 'Beer',
+    note: 'All bottles $6 — all day, every day.',
+    groups: [
+      { label: 'United States', items: [
+        { name: 'Lagunitas IPA', price: '6.00' },
+        { name: 'Blue Moon', price: '6.00' },
+        { name: 'Miller Lite', price: '6.00' },
+        { name: 'Coors Light', price: '6.00' },
+      ]},
+      { label: 'Mexico', items: [
+        { name: 'Corona', price: '6.00' },
+        { name: 'Dos Equis', price: '6.00' },
+      ]},
+      { label: 'China', items: [
+        { name: 'Tsingtao', price: '6.00' },
+        { name: 'Tsingtao 0.0', price: '6.00', desc: 'Non-alcoholic.' },
+        { name: 'Lucky Buddha', price: '6.00' },
+      ]},
+      { label: 'Japan', items: [
+        { name: 'Kirin', price: '6.00' },
+        { name: 'Kirin Light', price: '6.00' },
+        { name: 'Sapporo', price: '6.00' },
+        { name: 'Asahi', price: '6.00' },
+      ]},
+      { label: 'Thailand', items: [
+        { name: 'Singha', price: '6.00' },
+      ]},
+    ]
+  },
+  {
+    id: 'wine', label: 'Wine',
+    note: 'Happy Hour: $3 off every glass, Monday–Friday 12–7pm.',
+    groups: [
+      { label: 'White Wine', items: [
+        { name: 'House White — Chardonnay / Pinot Grigio', price: 'Glass 8 · Bottle 20' },
+        { name: 'Santa Cristina Pinot Grigio · Château St. Michelle Riesling · Kendall-Jackson Chardonnay', price: 'Glass 12 · Bottle 38' },
+        { name: 'Kim Crawford Sauvignon Blanc · DAOU Rosé', price: 'Glass 15 · Bottle 40' },
+        { name: 'Stella Rosa Prosecco', price: 'Bottle 8', desc: '187ml.' },
+      ]},
+      { label: 'Red Wine', items: [
+        { name: 'House Red — Cabernet / Merlot', price: 'Glass 8 · Bottle 20' },
+        { name: 'J. Lohr Pinot Noir · Conundrum Red Blend · Mark West Pinot Noir', price: 'Glass 14 · Bottle 38' },
+        { name: 'DAOU Cabernet Sauvignon', price: 'Glass 16 · Bottle 40' },
+      ]},
+    ]
+  },
+  {
+    id: 'spirits', label: 'Spirits',
+    note: 'Ask your server for pricing — well spirits $6.',
+    groups: [
+      { label: 'Vodka', items: [
+        { name: 'Stolichnaya' }, { name: 'Grey Goose' }, { name: 'Belvedere' }, { name: 'Tito\'s' }, { name: 'Ketel One' },
+      ]},
+      { label: 'Gin', items: [
+        { name: 'Tanqueray' }, { name: 'Hendrick\'s' },
+      ]},
+      { label: 'Tequila & Mezcal', items: [
+        { name: 'Don Julio' }, { name: 'Mezcal' }, { name: '1800 Reposado' },
+      ]},
+      { label: 'Whiskey · Bourbon · Scotch', items: [
+        { name: 'Jack Daniel\'s' }, { name: 'Yellowstone' }, { name: 'Maker\'s Mark' }, { name: 'Crown Royal' }, { name: 'Chivas' }, { name: 'Johnnie Walker' },
+      ]},
+      { label: 'Rum', items: [
+        { name: 'Captain Morgan' }, { name: 'Blue Chair Bay Coconut' },
+      ]},
+      { label: 'Brandy', items: [
+        { name: 'Torres' },
+      ]},
+    ]
+  },
+  {
+    id: 'sake', label: 'Sake & More',
+    groups: [
+      { label: 'Sake & Plum Wine', items: [
+        { name: 'Tozai Junmai Nigori Sake', price: '15.00' },
+        { name: 'House Sake Bomber', price: '15.00' },
+        { name: 'Sho Chiku Bai Nigori Sake', price: '8.00' },
+        { name: 'Kinsen Plum Wine', price: '8.00' },
+        { name: 'House Hot Sake', price: '6.00' },
+      ]},
+      { label: 'Mimosas', items: [
+        { name: 'Mimosa', price: '5.00', star: true, desc: 'Orange · apple · mango · pineapple · cranberry.' },
+      ]},
+      { label: 'Soft Drinks & More', items: [
+        { name: 'Flavored Iced Tea / Lemonade', price: '4.00', desc: 'Raspberry · peach · strawberry · mango.' },
+        { name: 'Iced Tea', price: '3.00', desc: 'Classic or Arnold Palmer.' },
+        { name: 'Fountain Drinks', price: '3.00', desc: 'Coke/Diet · Sprite · Orange · Root Beer · Mr. Pibb · Pink Lemonade.' },
+        { name: 'Hong Kong Milk Tea · Thai Tea', price: '5.00' },
+        { name: 'Coffee / Tea', price: '3.00' },
+      ]},
     ]
   },
 ];

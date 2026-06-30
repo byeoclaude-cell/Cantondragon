@@ -33,8 +33,13 @@
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
 
   <link rel="stylesheet" href="css/tailwind-compiled.css" />
-  <link rel="stylesheet" href="css/styles.css?v=17" />
-  <!-- Leaflet CSS is lazy-loaded by main.js when the Visit section nears the viewport -->
+  <link rel="stylesheet" href="css/styles.css?v=27" />
+  <!-- Leaflet is lazy-loaded — dns-prefetch + preconnect to cut first-request latency -->
+  <link rel="dns-prefetch" href="//unpkg.com" />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="dns-prefetch" href="//a.tile.openstreetmap.org" />
+  <link rel="dns-prefetch" href="//b.tile.openstreetmap.org" />
+  <link rel="dns-prefetch" href="//c.tile.openstreetmap.org" />
 
 
   <!-- Structured data for local SEO -->
@@ -73,12 +78,14 @@
     <nav class="mx-auto flex max-w-8xl items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
       <a href="#home" class="group flex items-center" aria-label="Canton Dragon Asian Grill &amp; Bar home">
         <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar"
+             width="438" height="258"
              class="h-24 w-auto transition-opacity duration-300 group-hover:opacity-80 sm:h-32" />
       </a>
 
       <div class="hidden items-center gap-9 lg:flex">
         <a href="#about" class="nav-link">Our Story</a>
         <a href="#signatures" class="nav-link">Highlights</a>
+        <a href="#bar" class="nav-link">Bar</a>
         <a href="#menu" class="nav-link">Menu</a>
         <a href="#specials" class="nav-link">Specials</a>
         <a href="#gallery" class="nav-link">Gallery</a>
@@ -111,7 +118,7 @@
 
       <!-- Top: logo + close -->
       <div class="relative flex items-center justify-between">
-        <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar" class="h-12 w-auto" style="opacity:.75" />
+        <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar" width="438" height="258" class="h-12 w-auto" style="opacity:.75" />
         <button id="mobileClose" class="mobile-overlay-close" aria-label="Close navigation" data-close>
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
@@ -123,14 +130,15 @@
       <nav class="relative mt-9 flex flex-col" aria-label="Primary navigation">
         <a href="#about"      class="mobile-overlay-link" data-close style="--d:.05s">Our Story</a>
         <a href="#signatures" class="mobile-overlay-link" data-close style="--d:.10s">Highlights</a>
-        <a href="#menu"       class="mobile-overlay-link" data-close style="--d:.15s">Menu</a>
-        <a href="#specials"   class="mobile-overlay-link" data-close style="--d:.20s">Specials</a>
-        <a href="#gallery"    class="mobile-overlay-link" data-close style="--d:.25s">Gallery</a>
-        <a href="#visit"      class="mobile-overlay-link" data-close style="--d:.30s">Visit</a>
+        <a href="#bar"        class="mobile-overlay-link" data-close style="--d:.15s">Bar</a>
+        <a href="#menu"       class="mobile-overlay-link" data-close style="--d:.20s">Menu</a>
+        <a href="#specials"   class="mobile-overlay-link" data-close style="--d:.25s">Specials</a>
+        <a href="#gallery"    class="mobile-overlay-link" data-close style="--d:.30s">Gallery</a>
+        <a href="#visit"      class="mobile-overlay-link" data-close style="--d:.35s">Visit</a>
       </nav>
 
       <!-- CTA group -->
-      <div class="mobile-cta-group relative mt-auto flex flex-col gap-3" style="--d:.36s">
+      <div class="mobile-cta-group relative mt-auto flex flex-col gap-3" style="--d:.41s">
         <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="btn-gold w-full justify-center">Order Online</a>
         <a href="tel:+14804518866" class="btn-outline w-full justify-center">Call (480) 451-8866</a>
       </div>
@@ -143,7 +151,7 @@
       <div class="sticky top-0 h-[100svh] w-full overflow-hidden">
         <!-- full-bleed duotone hero — charcoal+gold art treatment (zoom driven by JS on scroll) -->
         <img id="heroImg" src="assets/others/hero-duotone.webp" alt="" aria-hidden="true"
-             fetchpriority="high"
+             width="1920" height="3068" fetchpriority="high"
              class="absolute inset-0 h-full w-full object-cover"
              style="object-position: 28% 42%; transform: scale(1.7);" />
         <div class="absolute inset-0 bg-gradient-to-b from-charcoal/65 via-charcoal/45 to-charcoal/90"></div>
@@ -171,8 +179,9 @@
                 Where the <span class="italic hero-accent">Wok</span><br />Meets Refinement
               </h1>
               <p class="hero-text mt-4 sm:mt-6 max-w-xl font-serif text-xl leading-relaxed text-ivory/80">
-                Wok-fired Chinese classics, fresh local produce, and craft cocktails — serving Scottsdale since 2004.
+                Wok-fired Chinese classics, fresh produce, and craft cocktails — serving Scottsdale since 2004.
               </p>
+              <p class="hero-text mt-2 text-sm text-ivory/45" style="--d:.08s">Mon–Fri 11am–8:30pm &nbsp;·&nbsp; Sat 3–8:30pm</p>
               <div class="hero-anim hero-btns mt-9 flex flex-wrap items-center gap-4">
                 <a href="#menu" class="btn-gold">Explore the Menu</a>
                 <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="btn-ghost">
@@ -222,6 +231,7 @@
           <div class="reveal-clip overflow-hidden rounded-[2rem] shadow-2xl">
             <img src="assets/others/interiornarrow.webp"
                  alt="Canton Dragon dining room" loading="lazy"
+                 width="1091" height="1600"
                  style="object-position: center 40%;"
                  class="aspect-[4/5] w-full object-cover transition-transform duration-[1.2s] hover:scale-105" />
           </div>
@@ -229,6 +239,7 @@
             <div class="bezel-photo-inner">
               <img src="assets/others/table%20of%20food.webp"
                    alt="A spread of Canton Dragon dishes" loading="lazy"
+                   width="1600" height="892"
                    class="aspect-square w-full object-cover" />
             </div>
           </div>
@@ -277,23 +288,51 @@
 
     <!-- ============ HIGHLIGHTS ============ -->
     <section id="signatures" class="relative bg-charcoal text-ivory">
-      <span id="bar"      style="position:absolute;top:0" aria-hidden="true"></span>
-      <span id="desserts" style="position:absolute;top:0" aria-hidden="true"></span>
-
       <!-- Section header -->
       <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14 pt-16 sm:pt-20 pb-10">
         <div class="reveal-up flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p class="section-eyebrow eyebrow-pill">Highlights</p>
-            <h2 class="mt-3 font-display text-4xl font-700 sm:text-5xl leading-tight">Four reasons to stay<br class="hidden sm:block" /> a little longer.</h2>
+            <h2 class="mt-3 font-display text-4xl font-700 sm:text-5xl leading-snug">Four reasons to stay a little longer.</h2>
           </div>
-          <p class="font-serif text-lg text-ivory/40 sm:text-right leading-relaxed">Cocktails &amp; Wine<br class="hidden sm:block" />Beer · Desserts · The Kitchen</p>
+          <p class="font-serif text-lg text-ivory/55 sm:text-right leading-relaxed">Cocktails &amp; Wine<br class="hidden sm:block" />Beer · Desserts · The Kitchen</p>
         </div>
       </div>
 
       <!-- 4-panel image reveal cards -->
-      <div id="highlightsGrid" class="hl2-grid mx-auto max-w-8xl px-6 sm:px-10 lg:px-14 pb-16 sm:pb-24">
+      <div id="highlightsGrid" class="hl2-grid mx-auto max-w-8xl px-6 sm:px-10 lg:px-14 mt-6 pb-10">
         <!-- JS injected -->
+      </div>
+
+      <!-- Bridge CTA -->
+      <div class="reveal-up mx-auto max-w-8xl px-6 sm:px-10 lg:px-14 pb-16 sm:pb-24 pt-2 text-center">
+        <a href="#menu" class="btn-gold">Explore the Full Menu</a>
+      </div>
+    </section>
+
+    <!-- ============ BAR ============ -->
+    <section id="bar" class="py-24 sm:py-32 bg-charcoal-800">
+      <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
+        <div class="flex flex-col items-center text-center">
+          <p class="reveal-up section-eyebrow eyebrow-pill">The Bar</p>
+          <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">Craft cocktails, full bar</h2>
+          <p class="mt-4 max-w-xl font-serif text-lg text-ivory/70">
+            Twenty-one handcrafted cocktails, imported beer, a curated wine list and a full spirits bar. Happy Hour weekdays, 12&ndash;7pm.
+          </p>
+        </div>
+
+        <!-- Category tabs -->
+        <div class="reveal-up sticky top-[80px] z-30 mt-10 -mx-6 px-6 sm:mx-0 sm:px-0" style="--d:.16s">
+          <div class="menu-tabs flex gap-2 overflow-x-auto rounded-full border border-ivory/10 bg-charcoal/90 p-1.5 backdrop-blur" id="barTabs" role="tablist" aria-label="Bar categories">
+            <!-- JS injected -->
+          </div>
+        </div>
+
+        <div id="barPanels" class="mt-12"><!-- JS injected --></div>
+
+        <p class="mt-12 text-center text-sm text-ivory/60">
+          Prices and availability subject to change. Please drink responsibly &mdash; must be 21+ to order alcoholic beverages.
+        </p>
       </div>
     </section>
 
@@ -341,6 +380,7 @@
             <article class="promo-card bezel-inner group">
               <div class="relative overflow-hidden" style="aspect-ratio:3/4">
                 <img src="assets/promos/promoart.webp" alt="Summer 2026 Cocktail Menu" loading="lazy"
+                     width="610" height="787"
                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <span class="promo-badge promo-badge--lacquer">Summer 2026</span>
               </div>
@@ -358,6 +398,7 @@
               <div class="relative overflow-hidden" style="aspect-ratio:3/4">
                 <img src="assets/promos/wine.webp"
                      alt="Wine bottles at Canton Dragon bar" loading="lazy"
+                     width="842" height="621"
                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <span class="promo-badge promo-badge--gold">Limited Time</span>
               </div>
@@ -449,9 +490,9 @@
           </div>
         </div>
 
-        <div class="reveal-img bezel-outer">
-          <div class="bezel-inner">
-            <div id="visitMap" class="min-h-[260px] sm:min-h-[420px] w-full"></div>
+        <div class="reveal-img bezel-outer" style="display:flex;flex-direction:column">
+          <div class="bezel-inner" style="flex:1;display:flex;flex-direction:column">
+            <div id="visitMap" class="w-full" style="flex:1;min-height:260px"></div>
           </div>
         </div>
       </div>
@@ -463,7 +504,7 @@
     <div class="mx-auto grid max-w-8xl gap-10 px-6 py-10 sm:gap-12 sm:py-16 sm:px-10 md:grid-cols-[1.4fr_1fr_1fr] lg:px-14">
       <div>
         <div class="flex items-center">
-          <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar" class="h-16 w-auto sm:h-28" />
+          <img src="assets/logo/logo4.webp" alt="Canton Dragon Asian Grill &amp; Bar" width="438" height="258" class="h-16 w-auto sm:h-28" />
         </div>
         <p class="mt-5 max-w-xs font-serif text-lg leading-relaxed text-ivory/60">
           Wok-fired Chinese cuisine and a full bar in Scottsdale, Arizona. Family-owned since 2004.
@@ -474,7 +515,10 @@
         <h3 class="text-xs uppercase tracking-[0.25em] text-gold-500">Explore</h3>
         <ul class="mt-5 space-y-3 text-ivory/70">
           <li><a href="#about" class="footer-link">Our Story</a></li>
+          <li><a href="#signatures" class="footer-link">Highlights</a></li>
+          <li><a href="#bar" class="footer-link">Bar</a></li>
           <li><a href="#menu" class="footer-link">Menu</a></li>
+          <li><a href="#specials" class="footer-link">Specials</a></li>
           <li><a href="#gallery" class="footer-link">Gallery</a></li>
           <li><a href="#visit" class="footer-link">Visit</a></li>
           <li><a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="footer-link">Order Online</a></li>
@@ -513,7 +557,7 @@
   </div>
 
   <!-- Leaflet JS is lazy-loaded by main.js when the Visit section nears the viewport -->
-  <script src="js/menu-data.js?v=12"></script>
-  <script src="js/main.js?v=13"></script>
+  <script src="js/menu-data.js?v=19"></script>
+  <script src="js/main.js?v=20"></script>
 </body>
 </html>

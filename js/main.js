@@ -293,6 +293,18 @@
         return `<img class="hl2-bg-img${j === 0 ? ' active' : ''}" src="${src}" alt="${d.label}" loading="${j < 2 ? 'eager' : 'lazy'}"${made} />`;
       }).join('');
 
+      // Dot controls — one per image, first starts active
+      const dots = imgs.length > 1
+        ? `<div class="hl2-dots" role="group" aria-label="Browse images">${imgs.map((_, j) =>
+            `<button class="hl2-dot${j === 0 ? ' active' : ''}" aria-label="Image ${j + 1}"></button>`
+          ).join('')}</div>`
+        : '';
+
+      // CTA link — scrolls to the right section and activates the right tab
+      const cta = d.link
+        ? `<a class="hl2-card__cta" href="#${d.link}"${d.tabId ? ` data-tab="${d.tabId}"` : ''}>Explore <span aria-hidden="true">→</span></a>`
+        : '';
+
       // Initial tag from first image's made property, if present
       const firstImg   = imgs[0];
       const initialTag = (firstImg && typeof firstImg !== 'string' && firstImg.made) ? firstImg.made : d.tag;
@@ -310,6 +322,8 @@
             <div class="hl2-card__bottom">
               <h3 class="hl2-card__title">${d.name}</h3>
               <p class="hl2-card__desc">${d.desc}</p>
+              ${cta}
+              ${dots}
             </div>
           </div>
         </article>`;
@@ -323,20 +337,39 @@
 
     function startCycling(card) {
       const imgs  = Array.from(card.querySelectorAll('.hl2-bg-img'));
-      if (imgs.length < 2) return;
+      const dotBtns = Array.from(card.querySelectorAll('.hl2-dot'));
       const tagEl = card.querySelector('.hl2-card__tag');
+      if (imgs.length < 2) return;
       let cur = 0;
-      setInterval(() => {
+      let timer = null;
+
+      function show(n) {
         imgs[cur].classList.remove('active');
-        cur = (cur + 1) % imgs.length;
+        dotBtns[cur]?.classList.remove('active');
+        cur = (n !== undefined ? n : (cur + 1)) % imgs.length;
         imgs[cur].classList.add('active');
-        // Update pill when this image has made metadata
+        dotBtns[cur]?.classList.add('active');
         if (tagEl && imgs[cur].dataset.made) {
           const isHouseMade = imgs[cur].dataset.made === 'House-Made';
           tagEl.textContent = imgs[cur].dataset.made;
           tagEl.classList.toggle('hl2-card__tag--curated', !isHouseMade);
         }
-      }, 4000);
+      }
+
+      function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => show(), 4000);
+      }
+
+      startTimer();
+
+      dotBtns.forEach((dot, i) => {
+        dot.addEventListener('click', e => {
+          e.stopPropagation();
+          show(i);
+          startTimer();
+        });
+      });
     }
 
     if (prefersReduced || !('IntersectionObserver' in window)) {
@@ -418,35 +451,11 @@
     });
   }
 
-  /* ---------- Menu tabs + panels ---------- */
-  function renderMenu() {
-    const tabsEl   = $('#menuTabs');
-    const panelsEl = $('#menuPanels');
-    if (!tabsEl || !panelsEl || typeof MENU === 'undefined') return;
-
-    tabsEl.innerHTML = MENU.map((cat, i) => `
-      <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab"
-              aria-selected="${i === 0}" data-target="${cat.id}">${cat.label}</button>
-    `).join('');
-
-    panelsEl.innerHTML = MENU.map((cat, i) => `
-      <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="panel-${cat.id}" role="tabpanel">
-        ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ink-muted">${cat.note}</p>` : ''}
-        <div class="mx-auto grid max-w-5xl gap-x-14 gap-y-0 md:grid-cols-2">
-          ${cat.items.map(it => `
-            <div class="menu-item">
-              <div class="menu-item__lead">
-                <div class="min-w-0">
-                  <span class="menu-item__name">${it.name}</span>
-                  ${it.spice ? '<span class="spice-tag ml-2">Spicy</span>' : ''}
-                  ${it.desc ? `<p class="menu-item__desc">${it.desc}</p>` : ''}
-                </div>
-              </div>
-              <span class="menu-item__dots" aria-hidden="true"></span>
-              <span class="menu-item__price">${it.price}</span>
-            </div>`).join('')}
-        </div>
-      </div>`).join('');
+  /* ---------- Shared tab-strip wiring (sliding indicator + panel switching) ----------
+     Used by both the food Menu and the Bar. Tabs reference panels by full element id
+     via data-target, so independent tab strips can coexist on the same page. */
+  function wireTabs(tabsEl, panelsEl) {
+    if (!tabsEl || !panelsEl) return;
 
     // Sliding pill indicator that glides under the active tab
     const indicator = document.createElement('span');
@@ -478,7 +487,6 @@
     // Tab switching
     $$('.menu-tab', tabsEl).forEach(tab => {
       tab.addEventListener('click', () => {
-        const id = tab.dataset.target;
         $$('.menu-tab', tabsEl).forEach(t => {
           const active = t === tab;
           t.classList.toggle('active', active);
@@ -486,7 +494,7 @@
         });
         moveIndicator(tab);
         $$('.menu-panel', panelsEl).forEach(p => p.classList.add('hidden'));
-        const panel = $('#panel-' + id);
+        const panel = document.getElementById(tab.dataset.target);
         if (panel) {
           panel.classList.remove('hidden');
           // subtle fade-in on switch
@@ -509,6 +517,79 @@
         tabsEl.scrollTo({ left: Math.max(0, Math.min(targetLeft, maxLeft)), behavior: prefersReduced ? 'auto' : 'smooth' });
       });
     });
+  }
+
+  function renderMenuItem(it) {
+    return `
+      <div class="menu-item">
+        <div class="menu-item__lead">
+          <div class="min-w-0">
+            <div class="menu-item__name-row">
+              <span class="menu-item__name">${it.name}</span>
+              ${it.spice ? '<span class="spice-tag">Spicy</span>' : ''}
+              ${it.popular ? '<span class="popular-tag">★ Popular</span>' : ''}
+              ${it.star ? '<span class="signature-tag">Signature</span>' : ''}
+            </div>
+            ${it.desc ? `<p class="menu-item__desc">${it.desc}</p>` : ''}
+          </div>
+        </div>
+        <span class="menu-item__dots" aria-hidden="true"></span>
+        ${it.price ? `<span class="menu-item__price">${it.price}</span>` : ''}
+      </div>`;
+  }
+
+  /* ---------- Menu tabs + panels ---------- */
+  function renderMenu() {
+    const tabsEl   = $('#menuTabs');
+    const panelsEl = $('#menuPanels');
+    if (!tabsEl || !panelsEl || typeof MENU === 'undefined') return;
+
+    tabsEl.innerHTML = MENU.map((cat, i) => `
+      <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab"
+              aria-selected="${i === 0}" data-target="panel-${cat.id}">${cat.label}</button>
+    `).join('');
+
+    panelsEl.innerHTML = MENU.map((cat, i) => `
+      <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="panel-${cat.id}" role="tabpanel">
+        ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ink-muted">${cat.note}</p>` : ''}
+        <div class="mx-auto grid max-w-5xl gap-x-14 gap-y-0 md:grid-cols-2">
+          ${cat.items.map(renderMenuItem).join('')}
+        </div>
+      </div>`).join('');
+
+    wireTabs(tabsEl, panelsEl);
+  }
+
+  /* ---------- Bar tabs + panels (cocktails, beer, wine, spirits, sake & more) ---------- */
+  function renderBar() {
+    const tabsEl   = $('#barTabs');
+    const panelsEl = $('#barPanels');
+    if (!tabsEl || !panelsEl || typeof BAR === 'undefined') return;
+
+    tabsEl.innerHTML = BAR.map((cat, i) => `
+      <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab"
+              aria-selected="${i === 0}" data-target="barpanel-${cat.id}">${cat.label}</button>
+    `).join('');
+
+    panelsEl.innerHTML = BAR.map((cat, i) => {
+      const body = cat.groups
+        ? cat.groups.map(g => `
+            <div class="menu-group">
+              <h3 class="menu-group__label">${g.label}</h3>
+              <div class="mx-auto grid max-w-5xl gap-x-14 gap-y-0 md:grid-cols-2">
+                ${g.items.map(renderMenuItem).join('')}
+              </div>
+            </div>`).join('')
+        : `<div class="mx-auto grid max-w-5xl gap-x-14 gap-y-0 md:grid-cols-2">${cat.items.map(renderMenuItem).join('')}</div>`;
+
+      return `
+        <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="barpanel-${cat.id}" role="tabpanel">
+          ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ink-muted">${cat.note}</p>` : ''}
+          ${body}
+        </div>`;
+    }).join('');
+
+    wireTabs(tabsEl, panelsEl);
   }
 
   /* ---------- Gallery + lightbox ---------- */
@@ -672,12 +753,12 @@
     const lat = 33.5952, lng = -111.8560;
     const map = L.map(el, {
       center: [lat, lng],
-      zoom: 15,
+      zoom: 16,
       scrollWheelZoom: false,
       zoomControl: true
     });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
       subdomains: 'abcd',
       maxZoom: 19
@@ -700,6 +781,13 @@
         { maxWidth: 190 }
       )
       .openPopup();
+
+    // Recalculate size once layout settles, then watch for future container resizes
+    // (the bezel-outer grows to match the left column height after flex layout resolves).
+    setTimeout(() => map.invalidateSize(), 120);
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(() => map.invalidateSize()).observe(el);
+    }
   }
 
   /* ---------- Accolade strip — hover lift + number glow ---------- */
@@ -844,11 +932,23 @@
     `).join('');
   }
 
+  /* ---------- Highlights card CTA: scroll to section + activate tab ---------- */
+  document.addEventListener('click', e => {
+    const cta = e.target.closest('.hl2-card__cta[data-tab]');
+    if (!cta) return;
+    e.preventDefault();
+    const section = document.getElementById(cta.getAttribute('href').replace('#', ''));
+    if (section) section.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth' });
+    const tab = document.querySelector(`[data-target="${cta.dataset.tab}"]`);
+    if (tab) tab.click();
+  });
+
   /* ---------- Init ---------- */
   renderHighlights();
   setupHighlightsSwitcher();
   setupCardStacks();
   renderMenu();
+  renderBar();
   renderPromos();
   renderGallery();
   initMap();
