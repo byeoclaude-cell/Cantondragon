@@ -56,7 +56,7 @@
       "postalCode": "85258",
       "addressCountry": "US"
     },
-    "openingHours": "Mo-Su 11:00-20:30",
+    "openingHours": ["Mo-Fr 11:00-20:30", "Sa 15:00-20:30"],
     "acceptsReservations": "True",
     "menu": "https://cantondragonscottsdale.com/menu"
   }
@@ -177,7 +177,9 @@
                 <a href="#menu" class="btn-gold">Explore the Menu</a>
                 <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="btn-ghost">
                   Order Online
-                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="btn-ghost-icon" aria-hidden="true">
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
                 </a>
               </div>
             </div>
@@ -208,7 +210,7 @@
         </div>
         <div class="reveal-up px-4 py-8 text-center" style="--d:.18s">
           <p class="stat-num font-display text-3xl text-gold-400" data-count="4.5" data-prefix="★ " data-decimals="1">★ 4.5</p>
-          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/60">Guest Rated</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ivory/60">Google Reviews</p>
         </div>
       </div>
     </section>
@@ -233,7 +235,7 @@
         </div>
 
         <div>
-          <p class="reveal-up section-eyebrow">Our Story</p>
+          <p class="reveal-up section-eyebrow eyebrow-pill">Our Story</p>
           <h2 class="reveal-clip mt-4 font-display font-700 text-ivory" style="--d:.06s; font-size:clamp(2.75rem,5.2vw,4.5rem); line-height:1.02;">
             A Scottsdale heritage,<br /><span class="brush-underline">wok-fired</span> to order.
           </h2>
@@ -284,7 +286,7 @@
 
       <div class="reveal-up px-6 py-16 sm:px-14 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 border-b border-ivory/10">
         <div>
-          <p class="section-eyebrow text-gold-400">Highlights</p>
+          <p class="section-eyebrow eyebrow-pill">Highlights</p>
           <h2 class="mt-3 font-display text-4xl font-700 sm:text-5xl leading-tight">Cocktails & Wine · Beer · Desserts · The Kitchen</h2>
           <p class="mt-3 max-w-lg font-serif text-lg text-ivory/70">Four reasons to stay a little longer.</p>
         </div>
@@ -308,7 +310,7 @@
     <section id="menu" class="py-24 sm:py-32">
       <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
         <div class="flex flex-col items-center text-center">
-          <p class="reveal-up section-eyebrow">The Menu</p>
+          <p class="reveal-up section-eyebrow eyebrow-pill">The Menu</p>
           <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">Cooked to order, every time</h2>
           <p class="mt-4 max-w-xl font-serif text-lg text-ivory/70">
             Dine in, take out, or order online. Dinner entrées served with steamed white or brown rice.
@@ -336,7 +338,7 @@
       <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
         <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16 sm:mb-20">
           <div>
-            <p class="reveal-up section-eyebrow">What's New</p>
+            <p class="reveal-up section-eyebrow eyebrow-pill">What's New</p>
             <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl leading-tight" style="--d:.06s">Seasonal Specials</h2>
             <p class="mt-4 max-w-lg font-serif text-lg text-ivory/70">New additions and limited-time dishes — fresh from the kitchen.</p>
           </div>
@@ -346,13 +348,13 @@
           <!-- Summer 2026 cocktail menu -->
           <div class="bezel-outer" style="align-self:start">
             <article class="promo-card bezel-inner group">
-              <div class="relative overflow-hidden">
+              <div class="relative overflow-hidden" style="aspect-ratio:3/4">
                 <img src="assets/promos/promoart.webp" alt="Summer 2026 Cocktail Menu" loading="lazy"
-                     class="w-full block transition-transform duration-700 group-hover:scale-105" />
+                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <span class="promo-badge promo-badge--lacquer">Summer 2026</span>
               </div>
               <div class="bg-charcoal p-6" style="display:flex;flex-direction:column;gap:0.5rem">
-                <p class="section-eyebrow text-gold-400">The Bar</p>
+                <p class="section-eyebrow eyebrow-pill">The Bar</p>
                 <h3 class="font-display text-3xl text-ivory leading-tight">Cocktail Menu</h3>
                 <p class="font-serif text-sm text-ivory/65 leading-relaxed">Seasonal sips crafted with fresh ingredients — ask your server for this summer's selections.</p>
               </div>
@@ -362,14 +364,14 @@
           <!-- Wine by the bottle promo card -->
           <div class="bezel-outer" style="align-self:start">
             <article class="promo-card bezel-inner group">
-              <div class="relative overflow-hidden" style="aspect-ratio:16/9">
+              <div class="relative overflow-hidden" style="aspect-ratio:3/4">
                 <img src="assets/promos/wine.webp"
                      alt="Wine bottles at Canton Dragon bar" loading="lazy"
                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <span class="promo-badge promo-badge--gold">Limited Time</span>
               </div>
               <div class="bg-charcoal p-6" style="display:flex;flex-direction:column;gap:0.75rem">
-                <p class="section-eyebrow text-gold-400">The Bar</p>
+                <p class="section-eyebrow eyebrow-pill">The Bar</p>
                 <div>
                   <h3 class="font-display text-3xl text-ivory leading-tight">Wine by the Bottle</h3>
                   <p class="font-display text-ivory/50" style="font-size:1rem;margin-top:0.25rem">Any bottle · <span class="text-gold-400 font-700" style="font-size:2.5rem;line-height:1">$35</span></p>
@@ -405,7 +407,7 @@
     <section id="visit" class="bg-charcoal-800 py-24 sm:py-32">
       <div class="mx-auto grid max-w-8xl gap-12 px-6 sm:px-10 lg:grid-cols-2 lg:gap-16 lg:px-14">
         <div>
-          <p class="reveal-up section-eyebrow">Visit Us</p>
+          <p class="reveal-up section-eyebrow eyebrow-pill">Visit Us</p>
           <h2 class="reveal-up mt-4 font-display text-4xl font-700 sm:text-5xl" style="--d:.06s">We'd love to host you</h2>
 
           <dl class="reveal-up mt-10 space-y-7" style="--d:.12s">
@@ -429,8 +431,9 @@
               <div>
                 <dt class="text-xs uppercase tracking-[0.2em] text-ivory/60">Hours</dt>
                 <dd class="mt-1 font-serif text-lg text-ivory">
-                  Open Daily · 11:00am – 8:30pm
-                  <span class="mt-1 block text-sm text-ivory/60">Dine-in until 8:00pm · Take-out until close</span>
+                  Mon–Fri · 11:00am – 8:30pm
+                  <span class="mt-1 block text-lg text-ivory">Sat · 3:00pm – 8:30pm</span>
+                  <span class="mt-1 block text-sm text-ivory/60">Sunday closed · Dine-in until 8:00pm</span>
                   <span class="mt-1 block text-sm text-gold-600">Happy Hour: Mon–Fri, 12–7pm</span>
                 </dd>
               </div>
@@ -492,7 +495,7 @@
         <address class="mt-5 space-y-3 not-italic text-ivory/70">
           <p>10190 N 90th St #101<br />Scottsdale, AZ 85258</p>
           <p><a href="tel:+14804518866" class="footer-link">(480) 451-8866</a></p>
-          <p>Open Daily · 11am – 8:30pm</p>
+          <p>Mon–Fri · 11am–8:30pm<br />Sat · 3–8:30pm · Sun Closed</p>
         </address>
         <div class="mt-5 flex gap-3">
           <a href="https://www.facebook.com/1647028818843850" target="_blank" rel="noopener" class="social-btn social-btn--dark" aria-label="Facebook"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.45-4.05 4.15v2.3H7.8V13h2.4v8h3.3z"/></svg></a>

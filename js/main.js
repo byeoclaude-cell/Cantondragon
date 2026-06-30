@@ -290,9 +290,9 @@
           <div class="max-w-xl relative z-10">
             <div class="flex items-center justify-between mb-5">
               <span class="section-eyebrow text-ivory/30">N° ${num} / 0${total}</span>
-              <span class="section-eyebrow text-gold-400">${d.tag}</span>
+              <span class="section-eyebrow eyebrow-pill">${d.tag}</span>
             </div>
-            <p class="section-eyebrow text-gold-400 mb-3">${d.label}</p>
+            <p class="section-eyebrow eyebrow-pill mb-3">${d.label}</p>
             <h3 class="font-display text-3xl xl:text-4xl text-ivory leading-tight mb-4">${d.name}</h3>
             <p class="font-serif text-lg text-ivory/55 leading-relaxed">${d.desc}</p>
           </div>

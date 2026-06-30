@@ -80,8 +80,31 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
   color: var(--ivory);
   border: 1px solid rgba(251,247,240,.35);
   backdrop-filter: blur(4px);
+  padding-right: 0.45rem;
 }
 .btn-ghost:hover { background: rgba(251,247,240,.16); border-color: rgba(251,247,240,.6); }
+
+/* Button-in-Button: nested icon circle sits flush against the right edge */
+.btn-ghost-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 9999px;
+  background: rgba(251,247,240,.10);
+  border: 1px solid rgba(251,247,240,.18);
+  flex-shrink: 0;
+  transition: transform .5s var(--ease-out), background-color .35s var(--ease), border-color .35s var(--ease);
+}
+.btn-ghost:hover .btn-ghost-icon {
+  transform: translate(2px, -1.5px) scale(1.1);
+  background: rgba(251,247,240,.18);
+  border-color: rgba(251,247,240,.35);
+}
+.btn-ghost:active .btn-ghost-icon {
+  transform: translate(1px, 0px) scale(1.0);
+}
 
 .btn-outline {
   background: transparent;
@@ -249,6 +272,19 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
 }
 /* Eyebrows with an explicit gold class keep their color (two-class specificity wins cascade) */
 .section-eyebrow.text-gold-400 { color: var(--gold-400); }
+
+/* Pill badge variant — wraps section eyebrows in a hairline gold-tinted capsule */
+.eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.2rem 0.8rem;
+  border: 1px solid rgba(200,162,75,.22);
+  background: rgba(200,162,75,.07);
+  color: var(--gold-400);
+}
+/* Suppress the underline draw-in — the pill frame replaces it */
+.section-eyebrow.eyebrow-pill::after { display: none; }
 
 .info-icon {
   display: grid;
