@@ -241,31 +241,27 @@
           </h2>
           <div class="mt-6 space-y-5 font-serif text-lg leading-relaxed text-ivory/70">
             <p>
-              Since 2004, Canton Dragon has been a family-owned staple here in Scottsdale—a place
-              built on the idea that great food tastes best in a room where you instantly feel at home.
+              Since 2004, Canton Dragon has been a family-owned fixture in Scottsdale, built on a simple
+              belief: exceptional Cantonese cuisine is best enjoyed in a place that feels like home.
             </p>
             <p class="hidden sm:block">
-              Our kitchen is guided by our head chef, who is deeply rooted in the art of traditional
-              Cantonese cooking. If you ask him, he’ll tell you his secret is simple: step back and let
-              the ingredients do the talking. He obsesses over the quality of our meats and the freshness
-              of our produce, cutting everything by hand and building every single sauce entirely from
-              scratch. You won’t find processed shortcuts or heavy fillers here—just clean, vibrant flavors.
+              At the heart of our kitchen is a chef devoted to the traditions of Cantonese cooking. His
+              philosophy is understated yet uncompromising—let remarkable ingredients speak for themselves.
+              Premium meats, market-fresh produce, hand-cut vegetables, and sauces crafted from scratch come
+              together without shortcuts, delivering flavors that are vibrant, balanced, and authentic.
             </p>
             <p class="hidden sm:block">
-              He takes Chinese classics you grew up loving and makes them the way they were always meant
-              to be made. Having spent decades perfecting his craft behind the line, watching him command
-              the roaring heat of the wok is pure poetry. Every single plate is cooked to order under his
-              watchful eye, whether you’re craving the familiar comfort of sizzling seafood noodle and
-              crisp General Tso’s, or looking to try one of his personal specialties, like our Mongolian
-              beef and slow-roasted duck.
+              With decades spent mastering the wok, he brings classic Chinese favorites to life with precision
+              and artistry, while signature dishes such as our Mongolian Beef and slow-roasted duck showcase
+              the depth of his craft. Every plate is prepared to order with meticulous care.
             </p>
             <p>
-              Whether you’re gathering around a big table with family or just pulling up to the bar for a
-              happy hour cocktail, warm sake, or a glass of wine, we’re glad you’re here. Welcome to the family.
+              Whether you’re celebrating around the table with family or unwinding at the bar with a
+              handcrafted cocktail, warm sake, or a glass of wine, we’re honored to welcome you. From our
+              family to yours, welcome to Canton Dragon.
             </p>
           </div>
           <div class="reveal-up mt-9 flex flex-wrap gap-4" style="--d:.18s">
-            <a href="#signatures" class="btn-dark">See Our Signatures</a>
             <a href="#visit" class="btn-outline">Plan Your Visit</a>
           </div>
         </div>
@@ -279,30 +275,25 @@
       <div class="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-charcoal to-transparent"></div>
     </div>
 
-    <!-- ============ HIGHLIGHTS — Bar · Desserts · Signatures (3-panel) ============ -->
+    <!-- ============ HIGHLIGHTS ============ -->
     <section id="signatures" class="relative bg-charcoal text-ivory">
-      <span id="bar"     style="position:absolute;top:0" aria-hidden="true"></span>
+      <span id="bar"      style="position:absolute;top:0" aria-hidden="true"></span>
       <span id="desserts" style="position:absolute;top:0" aria-hidden="true"></span>
 
-      <div class="reveal-up px-6 py-16 sm:px-14 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 border-b border-ivory/10">
-        <div>
-          <p class="section-eyebrow eyebrow-pill">Highlights</p>
-          <h2 class="mt-3 font-display text-4xl font-700 sm:text-5xl leading-tight">Cocktails & Wine · Beer · Desserts · The Kitchen</h2>
-          <p class="mt-3 max-w-lg font-serif text-lg text-ivory/70">Four reasons to stay a little longer.</p>
-        </div>
-        <div class="hidden md:flex items-center gap-3 section-eyebrow text-ivory/30">
-          <span>SCROLL</span>
-          <svg width="56" height="8" viewBox="0 0 56 8" fill="none" aria-hidden="true">
-            <path d="M0 4 L51 4 M46 0 L51 4 L46 8" stroke="currentColor" stroke-width="1"/>
-          </svg>
-          <span>HORIZONTAL</span>
+      <!-- Section header -->
+      <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14 pt-16 sm:pt-20 pb-10">
+        <div class="reveal-up flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="section-eyebrow eyebrow-pill">Highlights</p>
+            <h2 class="mt-3 font-display text-4xl font-700 sm:text-5xl leading-tight">Four reasons to stay<br class="hidden sm:block" /> a little longer.</h2>
+          </div>
+          <p class="font-serif text-lg text-ivory/40 sm:text-right leading-relaxed">Cocktails &amp; Wine<br class="hidden sm:block" />Beer · Desserts · The Kitchen</p>
         </div>
       </div>
 
-      <div id="featuredPin">
-        <div id="featuredTrack" class="pin-track">
-          <div id="featuredSlider" class="pin-slider"><!-- JS injected --></div>
-        </div>
+      <!-- 4-panel image reveal cards -->
+      <div id="highlightsGrid" class="hl2-grid mx-auto max-w-8xl px-6 sm:px-10 lg:px-14 pb-16 sm:pb-24">
+        <!-- JS injected -->
       </div>
     </section>
 
@@ -522,10 +513,7 @@
   </div>
 
   <!-- Leaflet JS is lazy-loaded by main.js when the Visit section nears the viewport -->
-  <!-- Scroll progress bar for the horizontal pin section -->
-  <div id="featuredProgress" class="featured-progress-bar" aria-hidden="true"></div>
-
-  <script src="js/menu-data.js?v=11"></script>
-  <script src="js/main.js?v=12"></script>
+  <script src="js/menu-data.js?v=12"></script>
+  <script src="js/main.js?v=13"></script>
 </body>
 </html>

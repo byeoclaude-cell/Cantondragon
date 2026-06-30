@@ -275,142 +275,88 @@
     }
   }
 
-  /* ---------- Featured 3-panel section (Bar · Desserts · Signatures) ---------- */
-  function renderFeatured() {
-    const slider = document.getElementById('featuredSlider');
-    if (!slider || typeof FEATURED === 'undefined') return;
-    const total = FEATURED.length;
-    slider.innerHTML = FEATURED.map((d, i) => {
-      const num  = String(i + 1).padStart(2, '0');
-      const imgs = d.images || [];
+  /* ---------- Highlights section (tab switcher — replaces scroll-jacking) ---------- */
+  /* ---------- Highlight#2 — render 4 image-reveal cards ---------- */
+  function renderHighlights() {
+    const grid = document.getElementById('highlightsGrid');
+    if (!grid || typeof FEATURED === 'undefined') return;
 
-      const infoCol = `
-        <div class="pin-info" style="justify-content:flex-end;">
-          <div class="pin-ghost">${d.label.toUpperCase()}</div>
-          <div class="max-w-xl relative z-10">
-            <div class="flex items-center justify-between mb-5">
-              <span class="section-eyebrow text-ivory/30">N° ${num} / 0${total}</span>
-              <span class="section-eyebrow eyebrow-pill">${d.tag}</span>
+    grid.innerHTML = FEATURED.map((d, i) => {
+      const num   = String(i + 1).padStart(2, '0');
+      const imgs  = d.images || [];
+      const delay = (i * 0.14).toFixed(2);
+
+      // Support both plain string images and {src, made} objects
+      const bgImgs = imgs.map((img, j) => {
+        const src  = typeof img === 'string' ? img : img.src;
+        const made = typeof img !== 'string' && img.made ? ` data-made="${img.made}"` : '';
+        return `<img class="hl2-bg-img${j === 0 ? ' active' : ''}" src="${src}" alt="${d.label}" loading="${j < 2 ? 'eager' : 'lazy'}"${made} />`;
+      }).join('');
+
+      // Initial tag from first image's made property, if present
+      const firstImg   = imgs[0];
+      const initialTag = (firstImg && typeof firstImg !== 'string' && firstImg.made) ? firstImg.made : d.tag;
+      const tagCurated = initialTag !== 'House-Made' ? ' hl2-card__tag--curated' : '';
+
+      return `
+        <article class="hl2-card" style="--delay:${delay}s" aria-label="${d.label}">
+          <div class="hl2-card__bg">${bgImgs}</div>
+          <div class="hl2-card__overlay"></div>
+          <div class="hl2-card__content">
+            <div class="hl2-card__top">
+              <span class="hl2-card__num">${num}</span>
+              <span class="hl2-card__tag${tagCurated}">${initialTag}</span>
             </div>
-            <p class="section-eyebrow eyebrow-pill mb-3">${d.label}</p>
-            <h3 class="font-display text-3xl xl:text-4xl text-ivory leading-tight mb-4">${d.name}</h3>
-            <p class="font-serif text-lg text-ivory/55 leading-relaxed">${d.desc}</p>
+            <div class="hl2-card__bottom">
+              <h3 class="hl2-card__title">${d.name}</h3>
+              <p class="hl2-card__desc">${d.desc}</p>
+            </div>
           </div>
-        </div>`;
-
-      const stackCol = `
-        <div class="pin-img card-stack-host">
-          ${imgs.map((src, j) => `
-            <div class="card-stack-item" data-idx="${j}">
-              <img src="${src}" alt="${d.label}" loading="${j < 2 ? 'eager' : 'lazy'}" draggable="false" />
-            </div>`).join('')}
-          <div class="card-stack-dots">
-            ${imgs.map((_, j) => `<button class="card-dot" data-goto="${j}" aria-label="Image ${j + 1}"></button>`).join('')}
-          </div>
-        </div>`;
-
-      return `<div class="pin-panel">${infoCol}${stackCol}</div>`;
+        </article>`;
     }).join('');
-
-    // Mobile pagination — reuses the card-stack's elongating-dot language for cohesion.
-    const track = document.getElementById('featuredTrack');
-    if (track && !track.querySelector('.pin-pagination')) {
-      const nav = document.createElement('div');
-      nav.className = 'pin-pagination';
-      nav.innerHTML = FEATURED.map((d, i) =>
-        `<button class="pin-dot${i === 0 ? ' active' : ''}" data-goto="${i}" aria-label="Go to ${d.label}"></button>`
-      ).join('');
-      track.appendChild(nav);
-    }
   }
 
-  /* ---------- Scroll driver for the featured pin section ---------- */
-  function setupFeaturedScroll() {
-    const pin    = document.getElementById('featuredPin');
-    const track  = document.getElementById('featuredTrack');
-    const slider = document.getElementById('featuredSlider');
-    if (!pin || !track || !slider) return;
-    if (prefersReduced || window.innerWidth < 768) return;
+  /* ---------- Highlight#2 — reveal + image cycling ---------- */
+  function setupHighlightsSwitcher() {
+    const cards = Array.from(document.querySelectorAll('.hl2-card'));
+    if (!cards.length) return;
 
-    const panels = Array.from(slider.querySelectorAll('.pin-panel'));
-    const count  = panels.length;
-    if (!count) return;
-
-    // Force panel widths to the track's exact pixel width (bypasses 100vw/scrollbar quirks)
-    let panelW = 0;
-    function syncPanelWidths() {
-      panelW = track.offsetWidth;
-      panels.forEach(p => { p.style.width = panelW + 'px'; p.style.flexBasis = panelW + 'px'; });
-    }
-    syncPanelWidths();
-
-    function setHeight() { pin.style.height = (count * window.innerHeight) + 'px'; }
-    setHeight();
-
-    const progressBar = document.getElementById('featuredProgress');
-
-    let rafId = null;
-    function update() {
-      rafId = null;
-      const scrolledPast = -pin.getBoundingClientRect().top;
-      const range = pin.offsetHeight - window.innerHeight;
-      const t = Math.max(0, Math.min(1, scrolledPast / range));
-      slider.style.transform = `translateX(${(-(count - 1) * panelW * t).toFixed(1)}px)`;
-      if (progressBar) {
-        const inZone = scrolledPast > 0 && scrolledPast < range;
-        progressBar.classList.toggle('visible', inZone);
-        progressBar.style.width = (t * 100).toFixed(1) + '%';
-      }
+    function startCycling(card) {
+      const imgs  = Array.from(card.querySelectorAll('.hl2-bg-img'));
+      if (imgs.length < 2) return;
+      const tagEl = card.querySelector('.hl2-card__tag');
+      let cur = 0;
+      setInterval(() => {
+        imgs[cur].classList.remove('active');
+        cur = (cur + 1) % imgs.length;
+        imgs[cur].classList.add('active');
+        // Update pill when this image has made metadata
+        if (tagEl && imgs[cur].dataset.made) {
+          const isHouseMade = imgs[cur].dataset.made === 'House-Made';
+          tagEl.textContent = imgs[cur].dataset.made;
+          tagEl.classList.toggle('hl2-card__tag--curated', !isHouseMade);
+        }
+      }, 4000);
     }
 
-    window.addEventListener('scroll', () => { if (!rafId) rafId = requestAnimationFrame(update); }, { passive: true });
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 768) {
-        pin.style.height = '';
-        slider.style.transform = '';
-        panels.forEach(p => { p.style.width = ''; p.style.flexBasis = ''; });
-      } else {
-        syncPanelWidths();
-        setHeight();
-        update();
-      }
-    });
-    update();
-  }
+    if (prefersReduced || !('IntersectionObserver' in window)) {
+      cards.forEach(c => { c.classList.add('in'); startCycling(c); });
+      return;
+    }
 
-  /* ---------- Featured pagination (mobile swipe carousel) ---------- */
-  function setupFeaturedPagination() {
-    const slider = document.getElementById('featuredSlider');
-    const nav    = document.querySelector('.pin-pagination');
-    if (!slider || !nav) return;
-    const panels = Array.from(slider.querySelectorAll('.pin-panel'));
-    const dots   = Array.from(nav.querySelectorAll('.pin-dot'));
-    if (panels.length < 2 || dots.length !== panels.length) return;
-
-    const setActive = (idx) => dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-
-    // Highlight the panel whose centre is nearest the scroller's centre.
-    const sync = () => {
-      const sr = slider.getBoundingClientRect();
-      const mid = sr.left + sr.width / 2;
-      let best = 0, bestD = Infinity;
-      panels.forEach((p, i) => {
-        const r = p.getBoundingClientRect();
-        const d = Math.abs((r.left + r.width / 2) - mid);
-        if (d < bestD) { bestD = d; best = i; }
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const card  = e.target;
+        const delay = parseFloat(card.style.getPropertyValue('--delay') || '0') * 1000;
+        card.classList.add('in');
+        // Start cycling after the reveal transition completes
+        setTimeout(() => startCycling(card), 1800 + delay);
+        obs.unobserve(card);
       });
-      setActive(best);
-    };
-    slider.addEventListener('scroll', sync, { passive: true });
+    }, { threshold: 0.12, rootMargin: '0px 0px -4% 0px' });
 
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const i = +dot.dataset.goto;
-        panels[i].scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
-        setActive(i);
-      });
-    });
-    sync();
+    cards.forEach(c => io.observe(c));
   }
 
   /* ---------- Card stacks (vertical image cycling) ---------- */
@@ -497,7 +443,7 @@
                 </div>
               </div>
               <span class="menu-item__dots" aria-hidden="true"></span>
-              <span class="menu-item__price">$${it.price}</span>
+              <span class="menu-item__price">${it.price}</span>
             </div>`).join('')}
         </div>
       </div>`).join('');
@@ -899,9 +845,8 @@
   }
 
   /* ---------- Init ---------- */
-  renderFeatured();
-  setupFeaturedScroll();
-  setupFeaturedPagination();
+  renderHighlights();
+  setupHighlightsSwitcher();
   setupCardStacks();
   renderMenu();
   renderPromos();

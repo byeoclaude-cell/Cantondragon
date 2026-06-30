@@ -41,16 +41,16 @@ const FEATURED = [
   {
     label: 'Desserts',
     name:  'A Sweet Finale',
-    tag:   'House-Made',
-    desc:  'Seven house-made and imported desserts — from a rich lava cheesecake to vibrant ube cake and golden honey banana. The perfect ending to a wok-fired meal.',
+    tag:   'Curated',
+    desc:  'Seven desserts — some house-made from scratch, others curated from the best. From vibrant ube cake and golden honey banana to rich cheesecake and dark chocolate layers.',
     images: [
-      'assets/Dessert/Ube.webp',
-      'assets/Dessert/cheesecake.webp',
-      'assets/Dessert/HoneyBanana.webp',
-      'assets/Dessert/DarkChoc.webp',
-      'assets/Dessert/WhiteChoc.webp',
-      'assets/Dessert/Fryapple.webp',
-      'assets/Dessert/ICECREAMCAKE.webp',
+      { src: 'assets/Dessert/Ube.webp',          made: 'Curated'    },
+      { src: 'assets/Dessert/cheesecake.webp',   made: 'Curated'    },
+      { src: 'assets/Dessert/HoneyBanana.webp',  made: 'House-Made' },
+      { src: 'assets/Dessert/DarkChoc.webp',     made: 'Curated'    },
+      { src: 'assets/Dessert/WhiteChoc.webp',    made: 'Curated'    },
+      { src: 'assets/Dessert/Fryapple.webp',     made: 'House-Made' },
+      { src: 'assets/Dessert/ICECREAMCAKE.webp', made: 'House-Made' },
     ],
   },
   {
@@ -224,9 +224,9 @@ const MENU = [
     items: [
       { name: 'Canton Sampler', price: '16.99', desc: 'Egg roll (2), crab puff (2), chicken satay (2) & fried shrimp.' },
       { name: 'Chicken Lettuce Wraps', price: '15.99' },
-      { name: 'Korean Kalbi (Short Ribs)', price: '11.99' },
       { name: 'Angus Beef Skewers (2)', price: '11.99' },
       { name: 'Spicy Sichuan Dumpling', price: '10.99', spice: true },
+      { name: 'Spicy Thai Curry Puff', price: '9.99', spice: true },
       { name: 'Spicy Chicken Wings', price: '10.99', desc: 'Spicy salt & pepper.', spice: true },
       { name: 'Shrimp Toast', price: '9.99' },
       { name: 'Chicken Satay (2)', price: '8.99' },
@@ -241,6 +241,7 @@ const MENU = [
       { name: 'Scallion Pancake', price: '4.99' },
       { name: 'Vegetable Egg Roll (2)', price: '2.99' },
       { name: 'Chicken Egg Roll (1)', price: '2.99' },
+      { name: 'Crispy Chips', price: '2.99', desc: 'Bowl.' },
     ]
   },
   {
@@ -297,11 +298,11 @@ const MENU = [
       { name: 'Roast Duck', price: '26.99', desc: 'Boneless duck slowly roasted until crispy and golden in a light sauce.' },
       { name: 'Butterfish (Whole)', price: '20.99', desc: 'Charbroiled with sea salt, red onion, white pepper, cilantro & lime juice.' },
       { name: 'Atlantic Salmon', price: '19.99', desc: 'Charbroiled with teriyaki sauce.' },
-      { name: 'Combo Egg Fu Yung', price: '19.99', desc: 'Shrimp, chicken & BBQ pork, Canton style with egg & cabbage, brown sauce. Single protein 18.99.' },
+      { name: 'Combo Egg Fu Yung', price: '19.99', desc: 'Shrimp, chicken & BBQ pork, Canton style with egg & cabbage, brown sauce. Shrimp only $19.99 · Chicken or BBQ pork $18.99.' },
       { name: 'Salt & Pepper Squids', price: '18.99', desc: 'Fried squid with peppers & onion in spicy pepper & salt.', spice: true },
+      { name: 'Salt & Pepper Fish', price: '18.99', desc: 'Fried fish with red pepper, green pepper & onion in spicy salt & pepper.', spice: true },
       { name: 'Happy Family', price: '18.99', desc: 'Shrimp, chicken & beef with broccoli, carrot, celery & zucchini in brown sauce.' },
       { name: 'Salt & Pepper Pork Chop', price: '17.99', desc: 'Fried pork chop with peppers & onion in spicy pepper & salt.', spice: true },
-      { name: 'Sweet & Sour Pork', price: '17.99', desc: 'Fried pork with pepper, onion & pineapple in house sweet & sour sauce.' },
     ]
   },
   {
@@ -323,7 +324,7 @@ const MENU = [
       { name: 'Chicken Vegetables', price: '17.99', desc: 'Bai choy, broccoli, carrot, zucchini & string bean in white sauce.' },
       { name: 'Chicken String Bean', price: '17.99', desc: 'String bean & carrot in light brown garlic sauce.' },
       { name: 'Chicken Chop Suey', price: '17.99', desc: 'Bean sprouts, bai choy, snow peas & carrot in white sauce.' },
-      { name: 'Moo Goo Kai Pan', price: '17.99', desc: 'Mushroom, zucchini, snow peas & carrot in white sauce.' },
+      { name: 'Moo Goo Gai Pan', price: '17.99', desc: 'Mushroom, zucchini, snow peas & carrot in white sauce.' },
     ]
   },
   {

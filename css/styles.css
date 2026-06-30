@@ -668,35 +668,192 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
 .sig-card:hover .sig-card__overlay { transform: translateY(0); }
 @media (hover: none) { .sig-card__overlay { transform: translateY(0); } }
 
-/* ── Horizontal-scroll pin panels — shared by Bar, Desserts, Signatures ── */
-.pin-track {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-.pin-slider {
-  display: flex;
-  width: 100%;
-  height: 62svh;
-  will-change: transform;
-}
-.pin-panel {
-  flex: 0 0 auto;
-  width: 100%;
-  height: 62svh;
+/* ── Highlight#2 — 4-panel image reveal cards ──────────────
+   Four portrait cards visible simultaneously. Each card's
+   background image slowly scales + fades in on scroll entry,
+   with staggered delay per card. No switching — all four
+   panels are always in view. */
+.hl2-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  overflow: visible;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
 }
+.hl2-card {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  min-height: max(600px, 62svh);
+  background: #1C1714;
+  box-shadow: 0 0 0 1px rgba(200,162,75,.07),
+              0 24px 48px -12px rgba(0,0,0,.55);
+  transition: box-shadow 0.45s var(--ease), transform 0.5s var(--ease-out);
+}
+/* Gold hairline border materialises on hover */
+.hl2-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(200,162,75,0);
+  pointer-events: none;
+  z-index: 6;
+  transition: border-color 0.45s var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hl2-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 0 1px rgba(200,162,75,.25),
+                0 36px 68px -12px rgba(0,0,0,.72);
+  }
+  .hl2-card:hover::after { border-color: rgba(200,162,75,.28); }
+}
+
+/* Background container — reveal animates on .in; hover nudges scale */
+.hl2-card__bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.09);
+  will-change: transform, opacity;
+  transition: transform 2.2s cubic-bezier(.16,.84,.44,1) var(--delay, 0s),
+              opacity 1.6s ease var(--delay, 0s);
+}
+.hl2-card.in .hl2-card__bg {
+  transform: scale(1);
+  opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hl2-card:hover .hl2-card__bg {
+    transform: scale(1.04);
+    transition: transform 1s cubic-bezier(.16,.84,.44,1);
+  }
+}
+
+/* Stacked images — crossfade between them; only .active is visible */
+.hl2-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--img-grade) brightness(0.82);
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.hl2-bg-img.active { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .hl2-card:hover .hl2-bg-img.active {
+    filter: var(--img-grade) brightness(1.0);
+    transition: filter 0.5s ease;
+  }
+}
+
+/* Gradient scrim — protects legibility of text at top + bottom */
+.hl2-card__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(14,11,9,.18) 0%,
+    transparent 28%,
+    transparent 44%,
+    rgba(14,11,9,.72) 74%,
+    rgba(14,11,9,.94) 100%
+  );
+}
+
+/* Foreground content */
+.hl2-card__content {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem;
+}
+@media (min-width: 1024px) { .hl2-card__content { padding: 1.5rem; } }
+
+.hl2-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.hl2-card__num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 0.75rem;
+  font-style: italic;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: rgba(251,247,240,.32);
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.7s ease calc(var(--delay, 0s) + 0.5s);
+}
+.hl2-card.in .hl2-card__num { opacity: 1; }
+
+.hl2-card__tag {
+  flex: none;
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #2a1d05;
+  background: var(--gold);
+  padding: 0.22rem 0.65rem;
+  border-radius: 9999px;
+  line-height: 1.65;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.5s ease calc(var(--delay, 0s) + 0.38s),
+              transform 0.6s var(--ease-out) calc(var(--delay, 0s) + 0.38s);
+}
+.hl2-card.in .hl2-card__tag {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hl2-card__tag--curated {
+  background: transparent;
+  border: 1px solid rgba(251,247,240,.45);
+  color: rgba(251,247,240,.9);
+  transition: opacity 0.5s ease calc(var(--delay, 0s) + 0.38s),
+              transform 0.6s var(--ease-out) calc(var(--delay, 0s) + 0.38s),
+              background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+
+/* Bottom text block fades up after the image finishes revealing */
+.hl2-card__bottom {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.75s ease calc(var(--delay, 0s) + 0.58s),
+              transform 0.85s var(--ease-out) calc(var(--delay, 0s) + 0.58s);
+}
+.hl2-card.in .hl2-card__bottom {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hl2-card__title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1rem, 1.55vw, 1.4rem);
+  font-weight: 700;
+  color: var(--ivory);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+.hl2-card__desc {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: rgba(251,247,240,.48);
+}
+
 .pin-info {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 3rem;
   background: var(--pin-bg, #14100E);
   overflow: visible;
@@ -798,86 +955,22 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   align-items: baseline;
 }
 
-/* Carousel pagination — hidden by default (desktop is scroll-jacked); the mobile
-   query below flips it to flex. Mirrors the card-stack's elongating active dot so
-   the language stays consistent. Defined before the media query so the mobile
-   display:flex override wins on source order. */
-.pin-pagination {
-  display: none;
-  justify-content: center;
-  gap: 9px;
-  margin-top: -0.25rem;
-  padding-bottom: 0.25rem;
-}
-.pin-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 9999px;
-  background: rgba(251,247,240,.22);
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: width .45s var(--ease), background-color .45s var(--ease);
-}
-.pin-dot.active {
-  width: 24px;
-  background: var(--gold-400);
-}
-
-/* Mobile: native horizontal swipe carousel — each panel is isolated and full
-   width, so the card-stack fan can't bleed into the copy. Scroll-snap gives a
-   designed swipe (not a shrunk desktop), with a peek of the next panel as the
-   affordance. */
+/* ── Highlight#2 mobile overrides ──────────────────────────
+   2×2 grid on tablets/phones; single column on very small
+   screens. Description text hidden to keep cards clean. */
 @media (max-width: 767px) {
-  #featuredPin { height: auto !important; }
-  .pin-track {
-    position: static !important;
-    height: auto !important;
-    overflow: visible;
-    display: block;
-    padding-top: 0;
+  .hl2-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
   }
-  .pin-slider {
-    flex-direction: row;
-    transform: none !important;
-    height: auto;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    gap: 1rem;
-    padding: 0 1.25rem 1.5rem;
-    scrollbar-width: none;
-  }
-  .pin-slider::-webkit-scrollbar { display: none; }
-  .pin-panel {
-    flex: 0 0 85%;
-    width: 85%;
-    height: auto;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-    scroll-snap-align: center;
-    border-radius: 1.25rem;
-    overflow: visible;
-    /* Bezel outer shell on mobile (overflow:hidden would clip it off) */
-    padding: 4px;
-    background: rgba(22,18,15,.98);
-    border: 1px solid rgba(251,247,240,.09);
-    box-shadow: 0 20px 50px -10px rgba(0,0,0,.65), 0 0 0 1px rgba(200,162,75,.07);
-  }
-  .pin-info {
-    padding: 1.75rem 1.5rem;
-    border-radius: 0 0 calc(1.25rem - 4px) calc(1.25rem - 4px);
-    overflow: hidden;
-  }
-  .pin-img {
-    height: 280px;
-    overflow: hidden;
-    border-radius: calc(1.25rem - 4px) calc(1.25rem - 4px) 0 0;
-  }
-  .pin-ghost { font-size: clamp(2.5rem, 12vw, 4.5rem); }
-  /* Keep the cycle dots inside the now-clipped image area */
-  .card-stack-dots { right: 0.6rem; }
-  .pin-pagination { display: flex; }
+  .hl2-card { min-height: 340px; }
+  .hl2-card__content { padding: 0.9rem; }
+  .hl2-card__title { font-size: clamp(0.88rem, 4vw, 1.05rem); }
+  .hl2-card__desc { display: none; }
+}
+@media (max-width: 380px) {
+  .hl2-grid { grid-template-columns: 1fr; }
+  .hl2-card { min-height: 300px; }
 }
 
 /* ---------- Additional micro-interactions ---------- */
@@ -1111,25 +1204,6 @@ dl .flex:hover .info-icon {
   #accolades > div > *:nth-child(4)  { border-left: 1px solid rgba(251,247,240,.1); }
 }
 
-/* ── Featured scroll progress bar ───────────────────────────
-   A thin gold line pinned to the bottom of the viewport that
-   fills left-to-right as the user scrolls through the three
-   horizontal highlight panels. Appears only while pinned. */
-.featured-progress-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 0%;
-  background: var(--gold);
-  box-shadow: 0 0 10px rgba(200,162,75,.55);
-  z-index: 45;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .4s var(--ease);
-  will-change: width, opacity;
-}
-.featured-progress-bar.visible { opacity: 1; }
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
