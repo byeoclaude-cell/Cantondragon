@@ -538,37 +538,119 @@
       </div>`;
   }
 
+  /* ---------- Category groups (top-level tier above the fine tabs) ----------
+     Reduces the flat 11-tab Menu / 6-tab Bar strips to a handful of top-level
+     groups; picking a group filters the existing fine-tab strip down to its
+     members and auto-selects the first one. Order here is deliberate reading
+     order, not derived from array position. */
+  const MENU_GROUP_ORDER = ['Starters', 'Entrées', 'Noodles & Rice', 'Lunch Specials', 'Desserts'];
+  const BAR_GROUP_ORDER  = ['Cocktails', 'Beer & Wine', 'Spirits & More'];
+
+  function groupOrderFor(categories, order) {
+    const present = new Set(categories.map(c => c.group));
+    const known = order.filter(g => present.has(g));
+    const extra = [...present].filter(g => !known.includes(g));
+    return known.concat(extra);
+  }
+
+  /* Sliding-indicator tab strip that filters a second (fine) tab strip by
+     data-group, then defers the actual switch to the fine strip's own click
+     handler (wired by wireTabs) — no duplicated panel-switching logic. */
+  function wireGroupTabs(groupTabsEl, subTabsEl) {
+    if (!groupTabsEl || !subTabsEl) return;
+    const groupTabs = $$('.menu-tab', groupTabsEl);
+    if (!groupTabs.length) return;
+
+    const indicator = document.createElement('span');
+    indicator.className = 'menu-tab-indicator';
+    groupTabsEl.appendChild(indicator);
+    const moveIndicator = (tab) => {
+      if (!tab) return;
+      indicator.style.width = tab.offsetWidth + 'px';
+      indicator.style.left = tab.offsetLeft + 'px';
+    };
+    const seat = () => moveIndicator($('.menu-tab.active', groupTabsEl));
+    requestAnimationFrame(seat);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(seat);
+    window.addEventListener('resize', seat);
+
+    function showGroup(group, { simulateClick } = {}) {
+      let firstMatch = null;
+      $$('.menu-tab', subTabsEl).forEach(t => {
+        const match = t.dataset.group === group;
+        t.classList.toggle('hidden', !match);
+        if (match && !firstMatch) firstMatch = t;
+      });
+      if (firstMatch && simulateClick) firstMatch.click();
+    }
+
+    groupTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        groupTabs.forEach(t => {
+          const active = t === tab;
+          t.classList.toggle('active', active);
+          t.setAttribute('aria-selected', active);
+        });
+        moveIndicator(tab);
+        showGroup(tab.dataset.group, { simulateClick: true });
+      });
+    });
+
+    // Initial filter: the first sub-tab in the first group is already the
+    // default-active one (array order puts it first), so no simulated click.
+    showGroup(groupTabs[0].dataset.group);
+  }
+
   /* ---------- Menu tabs + panels ---------- */
   function renderMenu() {
+    const groupTabsEl = $('#menuGroupTabs');
     const tabsEl   = $('#menuTabs');
     const panelsEl = $('#menuPanels');
     if (!tabsEl || !panelsEl || typeof MENU === 'undefined') return;
 
+    if (groupTabsEl) {
+      const groups = groupOrderFor(MENU, MENU_GROUP_ORDER);
+      groupTabsEl.innerHTML = groups.map((g, i) => `
+        <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab"
+                aria-selected="${i === 0}" data-group="${g}">${g}</button>
+      `).join('');
+    }
+
     tabsEl.innerHTML = MENU.map((cat, i) => `
       <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab"
-              aria-selected="${i === 0}" data-target="panel-${cat.id}">${cat.label}</button>
+              aria-selected="${i === 0}" data-target="panel-${cat.id}" data-group="${cat.group}">${cat.label}</button>
     `).join('');
 
     panelsEl.innerHTML = MENU.map((cat, i) => `
       <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="panel-${cat.id}" role="tabpanel">
-        ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ink-muted">${cat.note}</p>` : ''}
+        ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ivory/60">${cat.note}</p>` : ''}
         <div class="mx-auto grid max-w-5xl gap-x-14 gap-y-0 md:grid-cols-2">
           ${cat.items.map(renderMenuItem).join('')}
         </div>
       </div>`).join('');
 
     wireTabs(tabsEl, panelsEl);
+    wireGroupTabs(groupTabsEl, tabsEl);
   }
 
   /* ---------- Bar tabs + panels (cocktails, beer, wine, spirits, sake & more) ---------- */
   function renderBar() {
+    const groupTabsEl = $('#barGroupTabs');
     const tabsEl   = $('#barTabs');
     const panelsEl = $('#barPanels');
     if (!tabsEl || !panelsEl || typeof BAR === 'undefined') return;
 
+    if (groupTabsEl) {
+      const groups = groupOrderFor(BAR, BAR_GROUP_ORDER);
+      groupTabsEl.innerHTML = groups.map((g, i) => `
+        <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab"
+                aria-selected="${i === 0}" data-group="${g}">${g}</button>
+      `).join('');
+    }
+
     tabsEl.innerHTML = BAR.map((cat, i) => `
       <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab"
-              aria-selected="${i === 0}" data-target="barpanel-${cat.id}">${cat.label}</button>
+              aria-selected="${i === 0}" data-target="barpanel-${cat.id}" data-group="${cat.group}">${cat.label}</button>
     `).join('');
 
     panelsEl.innerHTML = BAR.map((cat, i) => {
@@ -585,12 +667,13 @@
       return `
         <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="barpanel-${cat.id}" role="tabpanel">
           ${cat.hero ? `<img src="${cat.hero}" alt="${cat.label}" class="bar-hero-img" width="800" height="450" loading="lazy" />` : ''}
-          ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ink-muted">${cat.note}</p>` : ''}
+          ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ivory/60">${cat.note}</p>` : ''}
           ${body}
         </div>`;
     }).join('');
 
     wireTabs(tabsEl, panelsEl);
+    wireGroupTabs(groupTabsEl, tabsEl);
   }
 
   /* ---------- Gallery + lightbox ---------- */

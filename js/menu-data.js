@@ -223,7 +223,7 @@ const GALLERY = [
 /* Full menu, grouped by tab. spice:true adds a chili tag. */
 const MENU = [
   {
-    id: 'appetizers', label: 'Appetizers',
+    id: 'appetizers', label: 'Appetizers', group: 'Starters',
     note: 'Perfect for sharing.',
     items: [
       { name: 'Canton Sampler', price: '16.99', desc: 'Egg roll (2), crab puff (2), chicken satay (2) & fried shrimp.' },
@@ -249,7 +249,7 @@ const MENU = [
     ]
   },
   {
-    id: 'soups-salads', label: 'Soups & Salads',
+    id: 'soups-salads', label: 'Soups & Salads', group: 'Starters',
     items: [
       { name: 'Wonton Soup', price: 'Cup 7.99 / Bowl 12.99', desc: 'Pork wontons, shrimp & chicken with vegetables in house chicken broth.' },
       { name: 'Sizzling Rice Soup', price: 'Cup 6.99 / Bowl 11.99', desc: 'Shrimp & chicken with vegetables, sizzling crispy rice on top.' },
@@ -264,7 +264,7 @@ const MENU = [
     ]
   },
   {
-    id: 'lunch', label: 'Lunch Specials',
+    id: 'lunch', label: 'Lunch Specials', group: 'Lunch Specials',
     note: 'Served 11am–3pm, Mon–Fri with steamed rice, egg roll, and soup or salad. Sub soft noodle +$4.99 or fried rice +$2.99.',
     items: [
       { name: 'Mongolian Beef', price: '16.99' },
@@ -296,7 +296,7 @@ const MENU = [
     ]
   },
   {
-    id: 'chef', label: "Chef's Signatures",
+    id: 'chef', label: "Chef's Signatures", group: 'Entrées',
     items: [
       { name: 'Beef Mignon', price: '27.99', desc: 'Chunks of tender beef quick-stirred with onion in rich roasted black-pepper sauce.' },
       { name: 'Roast Duck', price: '26.99', desc: 'Boneless duck slowly roasted until crispy and golden in a light sauce.' },
@@ -310,7 +310,7 @@ const MENU = [
     ]
   },
   {
-    id: 'chicken', label: 'Chicken',
+    id: 'chicken', label: 'Chicken', group: 'Entrées',
     note: 'White meat. Dinner entrées served with steamed rice — all $17.99.',
     items: [
       { name: 'Sweet & Sour Chicken', price: '17.99', desc: 'Fried chicken, red pepper, onion & pineapple in house sweet & sour sauce.' },
@@ -332,7 +332,7 @@ const MENU = [
     ]
   },
   {
-    id: 'beef', label: 'Beef',
+    id: 'beef', label: 'Beef', group: 'Entrées',
     note: 'Tenderloin. Served with steamed rice.',
     items: [
       { name: 'Beef Mignon', price: '27.99', desc: 'Tender beef quick-stirred with onion in roasted black-pepper sauce.' },
@@ -345,7 +345,7 @@ const MENU = [
     ]
   },
   {
-    id: 'shrimp', label: 'Jumbo Shrimp',
+    id: 'shrimp', label: 'Jumbo Shrimp', group: 'Entrées',
     note: 'Served with steamed rice — all $18.99.',
     items: [
       { name: 'Kung Pao Shrimp', price: '18.99', desc: 'Zucchini, red bell pepper & peanuts in spicy kung pao sauce.', spice: true },
@@ -357,7 +357,7 @@ const MENU = [
     ]
   },
   {
-    id: 'veg', label: 'Vegetables',
+    id: 'veg', label: 'Vegetables', group: 'Entrées',
     items: [
       { name: 'Vegetable Delight', price: '15.99', desc: 'Bai choy, broccoli, snow peas, carrot, celery, zucchini & string bean in white sauce.' },
       { name: 'Kung Pao Vegetable', price: '15.99', desc: 'Zucchini & bell peppers with assorted vegetables & peanuts in spicy kung pao sauce.', spice: true },
@@ -367,7 +367,7 @@ const MENU = [
     ]
   },
   {
-    id: 'noodles', label: 'Noodles',
+    id: 'noodles', label: 'Noodles', group: 'Noodles & Rice',
     note: 'Lo mein, chow fun, chow mein & noodle soups.',
     items: [
       { name: 'Cantonese Chow Mein', price: '20.99', desc: 'Pan-fried thin egg noodles with shrimp, chicken, beef & vegetables.' },
@@ -382,7 +382,7 @@ const MENU = [
     ]
   },
   {
-    id: 'mushu-rice', label: 'Mu Shu & Fried Rice',
+    id: 'mushu-rice', label: 'Mu Shu & Fried Rice', group: 'Noodles & Rice',
     note: 'Mu shu served with 4 flour tortillas & hoisin.',
     items: [
       { name: 'Mu Shu Shrimp', price: '17.99', desc: 'Stir-fried with cabbage & egg in hoisin; wrap like a burrito.' },
@@ -396,7 +396,7 @@ const MENU = [
     ]
   },
   {
-    id: 'desserts', label: 'Desserts',
+    id: 'desserts', label: 'Desserts', group: 'Desserts',
     items: [
       { name: 'Lava Cheesecake', popular: true, price: '10.00' },
       { name: 'Ube Cheesecake', price: '9.00' },
@@ -418,7 +418,7 @@ const MENU = [
    ============================================================ */
 const BAR = [
   {
-    id: 'cocktails', label: 'Cocktails',
+    id: 'cocktails', label: 'Cocktails', group: 'Cocktails',
     note: 'Happy Hour: $3 off every cocktail, Monday–Friday 12–7pm. All cocktails $15 unless noted.',
     items: [
       { name: 'Passion Lover', price: '15.00', desc: 'Absolut Mango vodka, lime juice, peach schnapps & syrup, Chambord raspberry liqueur and Passoã — served frozen.' },
@@ -445,7 +445,7 @@ const BAR = [
     ]
   },
   {
-    id: 'beer', label: 'Beer',
+    id: 'beer', label: 'Beer', group: 'Beer & Wine',
     note: 'All bottles $6 — all day, every day.',
     groups: [
       { label: 'United States', items: [
@@ -475,7 +475,7 @@ const BAR = [
     ]
   },
   {
-    id: 'wine', label: 'Wine',
+    id: 'wine', label: 'Wine', group: 'Beer & Wine',
     note: 'Happy Hour: $3 off every glass, Monday–Friday 12–7pm.',
     groups: [
       { label: 'White Wine', items: [
@@ -492,7 +492,7 @@ const BAR = [
     ]
   },
   {
-    id: 'spirits', label: 'Spirits',
+    id: 'spirits', label: 'Spirits', group: 'Spirits & More',
     note: 'Ask your server for pricing — well spirits $6.',
     groups: [
       { label: 'Vodka', items: [
@@ -516,7 +516,7 @@ const BAR = [
     ]
   },
   {
-    id: 'sake', label: 'Sake & More',
+    id: 'sake', label: 'Sake & More', group: 'Spirits & More',
     groups: [
       { label: 'Sake & Plum Wine', items: [
         { name: 'Tozai Junmai Nigori Sake', price: '15.00' },
@@ -538,7 +538,7 @@ const BAR = [
     ]
   },
   {
-    id: 'summer', label: 'Summer Specials',
+    id: 'summer', label: 'Summer Specials', group: 'Cocktails',
     note: 'Cocktails $15 · Happy Hour $3 off, Mon–Fri 12–7pm · Zero Proof mocktails $8 all day.',
     groups: [
       { label: 'Cocktails', items: [

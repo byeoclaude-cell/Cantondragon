@@ -328,12 +328,24 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
 .menu-tab.active { background: var(--lacquer); color: var(--ivory); }
 
 /* Shrink the pill to hug the tabs rather than stretching full-width */
-#menuTabs, #barTabs {
+#menuTabs, #barTabs, #menuGroupTabs, #barGroupTabs {
   width: fit-content;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Primary group tier — larger, bolder, bare (no capsule chrome) so it reads as
+   the top level above the smaller pill-capsule fine-tab strip beneath it. */
+.menu-tabs--primary .menu-tab {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: .4rem 1.1rem;
+  color: rgba(251,247,240,.45);
+}
+.menu-tabs--primary .menu-tab:hover { color: var(--ivory); }
+.menu-tabs--primary .menu-tab.active { color: var(--ivory); }
 
 /* Hide scrollbar on the tab strip but keep it scrollable */
 .menu-tabs { scrollbar-width: none; }
@@ -1234,7 +1246,7 @@ dl .flex:hover .info-icon {
     inset 0 1px 0 rgba(255,255,255,.04),
     0 32px 64px -12px rgba(0,0,0,.65),
     0 0 0 1px rgba(200,162,75,.05);
-  transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1),
+  transition: transform 0.4s var(--ease-out),
               box-shadow 0.4s var(--ease);
 }
 /* Lift only when wrapping a promo card */
