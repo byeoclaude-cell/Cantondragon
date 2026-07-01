@@ -670,6 +670,19 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
 .menu-tab.active { background: transparent; color: var(--ivory); }
 .menu-tab.active:hover { background: transparent; }
 
+/* Summer Specials pill: art-deco gold fan tile stands in for the flat lacquer
+   fill, bordered so it still reads as a pill against the dark page background. */
+.menu-tab-indicator--summer {
+  background-image: url('../assets/patterns/fan-deco.svg?v=2');
+  background-size: 30px 30px;
+  background-repeat: repeat;
+  background-position: center;
+  border: 1px solid rgba(217,188,115,0.45);
+}
+.menu-tab.active[data-target="barpanel-summer"] {
+  text-shadow: 0 1px 4px rgba(0,0,0,0.85), 0 0 2px rgba(0,0,0,0.6);
+}
+
 /* Count-up stats use tabular figures so they don't jitter while animating */
 .stat-num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 

@@ -399,7 +399,7 @@ const MENU = [
     id: 'desserts', label: 'Desserts', group: 'Desserts',
     items: [
       { name: 'Lava Cheesecake', popular: true, price: '10.00' },
-      { name: 'Ube Cheesecake', price: '9.00' },
+      { name: 'Ube Cheesecake', price: '10.00' },
       { name: 'Marquise Mousse Cake', price: '9.00' },
       { name: 'Triple Chocolate Mousse Cake', price: '9.00' },
       { name: 'Honey Banana', star: true, desc: 'House-made.', price: '9.00' },

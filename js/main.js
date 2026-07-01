@@ -467,6 +467,7 @@
       // subtracting scrollLeft would double-count the scroll once the strip scrolls.
       indicator.style.width = tab.offsetWidth + 'px';
       indicator.style.left = tab.offsetLeft + 'px';
+      indicator.classList.toggle('menu-tab-indicator--summer', tab.dataset.target === 'barpanel-summer');
     };
     const activeTab = () => $('.menu-tab.active', tabsEl);
     const seat = () => moveIndicator(activeTab());
