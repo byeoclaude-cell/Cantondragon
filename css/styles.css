@@ -31,6 +31,14 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Deliberate brand-matched keyboard-focus ring, replacing the browser default
+   outline. :focus-visible (not :focus) so it only appears for keyboard/
+   assistive-tech navigation, not incidental mouse clicks. */
+:focus-visible {
+  outline: 2px solid var(--gold-400);
+  outline-offset: 3px;
+}
+
 /* Fraunces is variable — let optical sizing track the type scale, and tune display copy.
    Oldstyle figures + ligatures give running serif text an editorial, set-by-hand feel
    (stats override back to tabular lining figures via .stat-num). */
@@ -342,7 +350,7 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   font-size: 1.05rem;
   font-weight: 700;
   padding: .4rem 1.1rem;
-  color: rgba(251,247,240,.45);
+  color: rgba(251,247,240,.6);
 }
 .menu-tabs--primary .menu-tab:hover { color: var(--ivory); }
 .menu-tabs--primary .menu-tab.active { color: var(--ivory); }
@@ -350,6 +358,15 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
 /* Hide scrollbar on the tab strip but keep it scrollable */
 .menu-tabs { scrollbar-width: none; }
 .menu-tabs::-webkit-scrollbar { display: none; }
+
+/* Mobile-only separator — complements the desktop-only <br class="hidden sm:block">
+   in the Highlights sub-heading. On mobile the <br> collapses to nothing, so this
+   dot fills the gap; on sm+ the line break itself is the separator, so this hides.
+   (Precompiled Tailwind here has no sm:hidden utility, hence the bespoke class.) */
+.mobile-only-dot { display: inline; }
+@media (min-width: 640px) {
+  .mobile-only-dot { display: none; }
+}
 
 /* ---------- Menu item rows ---------- */
 .menu-item {
@@ -846,21 +863,9 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
 .hl2-card__top {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 0.5rem;
 }
-.hl2-card__num {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 0.75rem;
-  font-style: italic;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: rgba(251,247,240,.32);
-  letter-spacing: 0.05em;
-  opacity: 0;
-  transition: opacity 0.7s ease calc(var(--delay, 0s) + 0.5s);
-}
-.hl2-card.in .hl2-card__num { opacity: 1; }
 
 .hl2-card__tag {
   flex: none;

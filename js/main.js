@@ -282,7 +282,6 @@
     if (!grid || typeof FEATURED === 'undefined') return;
 
     grid.innerHTML = FEATURED.map((d, i) => {
-      const num   = String(i + 1).padStart(2, '0');
       const imgs  = d.images || [];
       const delay = (i * 0.14).toFixed(2);
 
@@ -316,7 +315,6 @@
           <div class="hl2-card__overlay"></div>
           <div class="hl2-card__content">
             <div class="hl2-card__top">
-              <span class="hl2-card__num">${num}</span>
               <span class="hl2-card__tag${tagCurated}">${initialTag}</span>
             </div>
             <div class="hl2-card__bottom">
@@ -576,11 +574,15 @@
 
     function showGroup(group, { simulateClick } = {}) {
       let firstMatch = null;
+      let matchCount = 0;
       $$('.menu-tab', subTabsEl).forEach(t => {
         const match = t.dataset.group === group;
         t.classList.toggle('hidden', !match);
-        if (match && !firstMatch) firstMatch = t;
+        if (match) { matchCount++; if (!firstMatch) firstMatch = t; }
       });
+      // A single-member group has nothing to choose between — the group tab
+      // itself already made the choice, so the fine-tab strip is pure noise.
+      subTabsEl.classList.toggle('hidden', matchCount <= 1);
       if (firstMatch && simulateClick) firstMatch.click();
     }
 
