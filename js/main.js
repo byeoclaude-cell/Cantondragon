@@ -620,12 +620,12 @@
     }
 
     tabsEl.innerHTML = MENU.map((cat, i) => `
-      <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab"
-              aria-selected="${i === 0}" data-target="panel-${cat.id}" data-group="${cat.group}">${cat.label}</button>
+      <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab" id="menutab-${cat.id}"
+              aria-selected="${i === 0}" aria-controls="panel-${cat.id}" data-target="panel-${cat.id}" data-group="${cat.group}">${cat.label}</button>
     `).join('');
 
     panelsEl.innerHTML = MENU.map((cat, i) => `
-      <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="panel-${cat.id}" role="tabpanel">
+      <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="panel-${cat.id}" role="tabpanel" aria-labelledby="menutab-${cat.id}">
         ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ivory/60">${cat.note}</p>` : ''}
         <div class="mx-auto grid max-w-5xl gap-x-14 gap-y-0 md:grid-cols-2">
           ${cat.items.map(renderMenuItem).join('')}
@@ -652,8 +652,8 @@
     }
 
     tabsEl.innerHTML = BAR.map((cat, i) => `
-      <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab"
-              aria-selected="${i === 0}" data-target="barpanel-${cat.id}" data-group="${cat.group}">${cat.label}</button>
+      <button class="menu-tab ${i === 0 ? 'active' : ''}" role="tab" id="bartab-${cat.id}"
+              aria-selected="${i === 0}" aria-controls="barpanel-${cat.id}" data-target="barpanel-${cat.id}" data-group="${cat.group}">${cat.label}</button>
     `).join('');
 
     panelsEl.innerHTML = BAR.map((cat, i) => {
@@ -668,7 +668,7 @@
         : `<div class="mx-auto grid max-w-5xl gap-x-14 gap-y-0 md:grid-cols-2">${cat.items.map(renderMenuItem).join('')}</div>`;
 
       return `
-        <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="barpanel-${cat.id}" role="tabpanel">
+        <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="barpanel-${cat.id}" role="tabpanel" aria-labelledby="bartab-${cat.id}">
           ${cat.hero ? `<img src="${cat.hero}" alt="${cat.label}" class="bar-hero-img" width="800" height="450" loading="lazy" />` : ''}
           ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ivory/60">${cat.note}</p>` : ''}
           ${body}
