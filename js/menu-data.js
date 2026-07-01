@@ -537,6 +537,27 @@ const BAR = [
       ]},
     ]
   },
+  {
+    id: 'summer', label: 'Summer Specials',
+    note: 'Cocktails $15 · Happy Hour $3 off, Mon–Fri 12–7pm · Zero Proof mocktails $8 all day.',
+    groups: [
+      { label: 'Cocktails', items: [
+        { name: 'Lychee Mojito',         price: '15.00', desc: 'Lychee syrup, rum, lime juice, fresh mint and club soda.' },
+        { name: 'Pamplemousse Spritz',   price: '15.00', popular: true, desc: 'Pamplemousse liqueur, gin blanco tequila, Prosecco and club soda.' },
+        { name: 'Scarlet Spritz',        price: '15.00', desc: 'Blood orange liqueur, gin, lemon juice and sparkling wine.' },
+        { name: 'Crimson Old Fashioned', price: '15.00', desc: 'Bourbon, blood orange liqueur and orange bitters.' },
+      ]},
+      { label: 'Zero Proof', items: [
+        { name: 'Melon Mirage',  price: '8.00', popular: true, desc: 'Watermelon, lime, fresh mint and sprite. With a choice of popping boba.' },
+        { name: 'Jade Pearl',    price: '8.00', desc: 'Lychee, cucumber, fresh mint, lime and club soda. With a choice of popping boba.' },
+        { name: 'Tokyo Glow',    price: '8.00', desc: 'Yuzu, pineapple and sparkling water. With a choice of popping boba.' },
+        { name: 'Tropical Fizz', price: '8.00', popular: true, desc: 'Orange, pineapple, ginger beer and vanilla. With a choice of popping boba.' },
+      ]},
+      { label: 'Summer Crush Flight', items: [
+        { name: 'Jade Pearl · Tokyo Glow · Melon Mirage · Tropical Fizz', price: '18.00', desc: 'A mocktail flight of four zero proof drinks.' },
+      ]},
+    ],
+  },
 ];
 
 /* ============================================================

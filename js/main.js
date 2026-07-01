@@ -584,6 +584,7 @@
 
       return `
         <div class="menu-panel ${i === 0 ? '' : 'hidden'}" id="barpanel-${cat.id}" role="tabpanel">
+          ${cat.hero ? `<img src="${cat.hero}" alt="${cat.label}" class="bar-hero-img" width="800" height="450" loading="lazy" />` : ''}
           ${cat.note ? `<p class="mx-auto mb-8 max-w-2xl text-center font-serif text-lg italic text-ink-muted">${cat.note}</p>` : ''}
           ${body}
         </div>`;

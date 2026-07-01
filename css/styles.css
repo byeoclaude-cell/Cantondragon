@@ -425,6 +425,18 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   margin-bottom: 1rem;
 }
 
+/* ---------- Bar hero image (Summer Specials promo banner) ---------- */
+.bar-hero-img {
+  display: block;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 2rem;
+  border-radius: 0.75rem;
+  object-fit: cover;
+  aspect-ratio: 16/9;
+  box-shadow: 0 4px 24px rgba(0,0,0,.45);
+}
+
 /* ---------- Decorative dragon-scale pattern ---------- */
 .scale-pattern {
   background-image: radial-gradient(circle at 50% 100%, transparent 9px, var(--gold) 9px, var(--gold) 10px, transparent 10px);
