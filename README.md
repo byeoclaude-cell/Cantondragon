@@ -53,6 +53,25 @@ python -m http.server 4321
   (e.g. `(480) 451-8866`). Phone appears in the nav drawer, Visit section, footer,
   and the JSON-LD structured data block.
 
+## Scheduling a break / vacation closure
+
+Two places, both must be edited together:
+
+1. **`js/break-notice.js`** — fill in `CONFIG.start`, `CONFIG.end`, `CONFIG.reopen`
+   (`YYYY-MM-DD`). This drives everything visitors see: a dismissible banner,
+   the "Order Online" buttons switching to "Reopens [date]", and a note on the
+   hero and Visit-section hours. It turns on and off automatically based on
+   today's date — no need to remember to blank it out after the break ends.
+2. **`index.html`** — add a matching entry to `specialOpeningHoursSpecification`
+   in the `Restaurant` JSON-LD block (see the comment directly above that
+   `<script>` tag for the exact snippet and field meanings). This one does
+   *not* update itself: JSON-LD is static HTML read by search crawlers, so it
+   has to be added and removed by hand, using the same dates as step 1.
+
+Also update the hours on the restaurant's Google Business Profile — that's
+what most search results and Google Maps actually show, independent of this
+site.
+
 ## Photography
 
 Food, interior, drink and promo images live in `assets/` (the restaurant's own

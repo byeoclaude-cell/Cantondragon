@@ -1350,3 +1350,52 @@ dl .flex:hover .info-icon {
   line-height: 0.88;
   letter-spacing: -0.025em;
 }
+
+/* ---------- Break / vacation notice (js/break-notice.js) ----------
+   Only appears in the DOM when js/break-notice.js finds an active
+   window in its CONFIG block — no config, no banner. */
+.break-banner {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 65;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  padding: .7rem 3rem;
+  background: var(--lacquer);
+  color: var(--ivory);
+  text-align: center;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform .45s var(--ease-out), opacity .3s ease;
+}
+.break-banner.is-dismissing { transform: translateY(-100%); opacity: 0; }
+.break-banner__inner { display: flex; align-items: center; gap: .6rem; max-width: 62rem; }
+.break-banner__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-400); flex-shrink: 0; }
+.break-banner__text { font-size: .85rem; line-height: 1.5; }
+.break-banner__text strong { font-weight: 600; color: var(--gold-400); }
+.break-banner__dismiss {
+  position: absolute;
+  right: .9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--ivory);
+  opacity: .7;
+  transition: opacity .2s ease, background-color .2s ease;
+}
+.break-banner__dismiss:hover { opacity: 1; background: rgba(251,247,240,.14); }
+
+/* Push the fixed navbar and page content down to make room for the banner.
+   #navbar's ID specificity beats the Tailwind .top-0 utility without !important. */
+body.has-break-banner #navbar { top: var(--banner-h, 0px); transition: top .45s var(--ease-out); }
+body.has-break-banner { padding-top: var(--banner-h, 0px); transition: padding-top .45s var(--ease-out); }
+
+/* Paused state for the Order Online CTAs while on break */
+.is-paused { opacity: .55; box-shadow: none; }

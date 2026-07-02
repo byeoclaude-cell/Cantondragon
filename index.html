@@ -54,7 +54,22 @@
   <link rel="dns-prefetch" href="//c.tile.openstreetmap.org" />
 
 
-  <!-- Structured data for local SEO -->
+  <!-- Structured data for local SEO
+       Scheduling a break? This block is static HTML — crawlers read it without
+       running JS, so it must be edited here directly (js/break-notice.js only
+       controls what visitors see in the browser). Fill in
+       specialOpeningHoursSpecification below using the SAME start/end dates
+       as js/break-notice.js CONFIG, e.g.:
+         {
+           "@type": "OpeningHoursSpecification",
+           "opens": "00:00",
+           "closes": "00:00",
+           "validFrom": "2026-07-14",
+           "validThrough": "2026-07-21"
+         }
+       opens/closes both "00:00" is schema.org's documented way to mark a
+       date range fully closed. Remove the entry (leave the array empty)
+       once the break is over. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -80,6 +95,7 @@
     },
     "hasMap": "https://maps.google.com/?q=Canton+Dragon+Asian+Grill+%26+Bar,+10190+N+90th+St+%23101,+Scottsdale,+AZ+85258",
     "openingHours": ["Mo-Fr 11:00-20:30", "Sa 15:00-20:30"],
+    "specialOpeningHoursSpecification": [],
     "acceptsReservations": true,
     "menu": "https://cantondragonscottsdale.com/#menu",
     "sameAs": [
@@ -291,7 +307,7 @@
               <p class="hero-text mt-4 sm:mt-6 max-w-xl font-serif text-xl leading-relaxed text-ivory/80">
                 Wok-fired Chinese classics, fresh produce, and craft cocktails — serving Scottsdale since 2004.
               </p>
-              <p class="hero-text mt-2 text-sm text-ivory/45" style="--d:.08s">Mon–Fri 11am–8:30pm &nbsp;·&nbsp; Sat 3–8:30pm</p>
+              <p id="heroSchedule" class="hero-text mt-2 text-sm text-ivory/45" style="--d:.08s">Mon–Fri 11am–8:30pm &nbsp;·&nbsp; Sat 3–8:30pm</p>
               <div class="hero-anim hero-btns mt-9 flex flex-wrap items-center gap-4">
                 <a href="#menu" class="btn-gold">Explore the Menu</a>
                 <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="btn-ghost">
@@ -603,7 +619,7 @@
               <span class="info-icon"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               <div>
                 <dt class="text-xs uppercase tracking-[0.2em] text-ivory/60">Hours</dt>
-                <dd class="mt-1 font-serif text-lg text-ivory">
+                <dd id="visitHours" class="mt-1 font-serif text-lg text-ivory">
                   Mon–Fri · 11:00am – 8:30pm
                   <span class="mt-1 block text-lg text-ivory">Sat · 3:00pm – 8:30pm</span>
                   <span class="mt-1 block text-sm text-ivory/60">Sunday closed · Dine-in until 8:00pm</span>
@@ -700,6 +716,7 @@
 
   <!-- Leaflet JS is lazy-loaded by main.js when the Visit section nears the viewport -->
   <script src="js/menu-data.js?v=24"></script>
+  <script src="js/break-notice.js?v=1"></script>
   <script src="js/main.js?v=27"></script>
 </body>
 </html>
