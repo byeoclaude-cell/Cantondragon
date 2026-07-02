@@ -1392,6 +1392,17 @@ dl .flex:hover .info-icon {
 }
 .break-banner__dismiss:hover { opacity: 1; background: rgba(251,247,240,.14); }
 
+/* Mobile: 3rem side padding and centered wrapped text were sized for a
+   one-line desktop message — on narrow screens the copy wraps to 2-3 lines,
+   so left-align it and reclaim the padding instead of centering a paragraph. */
+@media (max-width: 640px) {
+  .break-banner { justify-content: flex-start; padding: .65rem 2.5rem .65rem 1rem; text-align: left; }
+  .break-banner__inner { align-items: flex-start; }
+  .break-banner__dot { margin-top: .5em; }
+  .break-banner__text { font-size: .8rem; }
+  .break-banner__dismiss { right: .5rem; }
+}
+
 /* Push the fixed navbar and page content down to make room for the banner.
    #navbar's ID specificity beats the Tailwind .top-0 utility without !important. */
 body.has-break-banner #navbar { top: var(--banner-h, 0px); transition: top .45s var(--ease-out); }
