@@ -7,7 +7,7 @@
   <meta name="description" content="Wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, AZ. Family-owned since 2004. Dine in, take out or order online." />
   <meta name="theme-color" content="#7B1113" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://cantondragonscottsdale.com/" />
+  <link rel="canonical" href="https://www.cantondragonscottsdale.com/" />
 
   <!-- Icons: SVG universal, WebP modern fallback, Apple touch -->
   <link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg" />
@@ -16,11 +16,11 @@
 
   <!-- Open Graph -->
   <meta property="og:site_name" content="Canton Dragon Asian Grill & Bar" />
-  <meta property="og:url" content="https://cantondragonscottsdale.com/" />
+  <meta property="og:url" content="https://www.cantondragonscottsdale.com/" />
   <meta property="og:title" content="Canton Dragon Asian Grill & Bar — Scottsdale, AZ" />
   <meta property="og:description" content="Wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Family-owned since 2004." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://cantondragonscottsdale.com/assets/others/table%20of%20food.webp" />
+  <meta property="og:image" content="https://www.cantondragonscottsdale.com/assets/others/table%20of%20food.webp" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="A spread of Canton Dragon's wok-fired dishes on a restaurant table" />
@@ -29,7 +29,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Canton Dragon Asian Grill & Bar — Scottsdale, AZ" />
   <meta name="twitter:description" content="Wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, Arizona. Family-owned since 2004." />
-  <meta name="twitter:image" content="https://cantondragonscottsdale.com/assets/others/table%20of%20food.webp" />
+  <meta name="twitter:image" content="https://www.cantondragonscottsdale.com/assets/others/table%20of%20food.webp" />
   <meta name="twitter:image:alt" content="A spread of Canton Dragon's wok-fired dishes on a restaurant table" />
   <meta property="og:locale" content="en_US" />
 
@@ -73,13 +73,15 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Restaurant",
+    "@type": "ChineseRestaurant",
+    "@id": "https://www.cantondragonscottsdale.com/#restaurant",
     "name": "Canton Dragon Asian Grill & Bar",
+    "description": "Wok-fired Chinese classics, fresh seafood and craft cocktails in Scottsdale, AZ. Family-owned since 2004. Dine in, take out or order online.",
     "servesCuisine": ["Chinese", "Asian", "American Chinese"],
     "priceRange": "$$",
     "telephone": "+1-480-451-8866",
-    "url": "https://cantondragonscottsdale.com",
-    "image": "https://cantondragonscottsdale.com/assets/others/table%20of%20food.webp",
+    "url": "https://www.cantondragonscottsdale.com",
+    "image": "https://www.cantondragonscottsdale.com/assets/others/table%20of%20food.webp",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "10190 N 90th St #101",
@@ -94,10 +96,23 @@
       "longitude": -111.8571
     },
     "hasMap": "https://maps.google.com/?q=Canton+Dragon+Asian+Grill+%26+Bar,+10190+N+90th+St+%23101,+Scottsdale,+AZ+85258",
-    "openingHours": ["Mo-Fr 11:00-20:30", "Sa 15:00-20:30"],
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "11:00",
+        "closes": "20:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "15:00",
+        "closes": "20:30"
+      }
+    ],
     "specialOpeningHoursSpecification": [],
     "acceptsReservations": true,
-    "menu": "https://cantondragonscottsdale.com/#menu",
+    "menu": "https://www.cantondragonscottsdale.com/#menu",
     "sameAs": [
       "https://www.facebook.com/1647028818843850",
       "https://www.instagram.com/canton_dragon/",
