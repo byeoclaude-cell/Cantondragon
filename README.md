@@ -3,9 +3,14 @@
 A fast, elegant, fully responsive marketing site for Canton Dragon Asian Grill &amp; Bar
 (Scottsdale, AZ), built to replace the current cantondragonscottsdale.com.
 
-Single-page site: hero, story, chef's signatures, full tabbed menu, bar/happy-hour,
-gallery with lightbox, and a visit section with map + contact. Tasteful scroll
-animations throughout, with full `prefers-reduced-motion` support.
+Marketing site: hero, story, chef's signatures, full tabbed menu, bar/happy-hour,
+a Highlights section whose four cards each link out to their own full-page photo
+gallery, and a visit section with map + contact. Tasteful scroll animations
+throughout, with full `prefers-reduced-motion` support.
+
+For day-to-day content tasks (scheduling a closure, swapping photos, editing
+the menu, deploying) see **[RUNBOOK.md](RUNBOOK.md)** — this file covers
+architecture and setup instead.
 
 ## Tech
 
@@ -21,15 +26,28 @@ animations throughout, with full `prefers-reduced-motion` support.
 
 ```
 canton-dragon/
-├── index.html                # Page markup, SEO/social meta, JSON-LD
+├── index.html                    # Home page markup, SEO/social meta, JSON-LD
+├── gallery-drinks.html           # Full-page gallery for the Cocktails & Wine card
+├── gallery-beer.html             # ...Beer card
+├── gallery-desserts.html         # ...Desserts card
+├── gallery-kitchen.html          # ...The Kitchen card
+├── privacy.html
 ├── css/
-│   ├── tailwind-compiled.css # Precompiled Tailwind utilities (linked in <head>)
-│   └── styles.css            # Brand styles, components, animations
+│   ├── tailwind-compiled.css     # Precompiled Tailwind utilities (linked in <head>)
+│   └── styles.css                # Brand styles, components, animations
 ├── js/
-│   ├── menu-data.js          # ALL menu + gallery + signature content (edit here)
-│   └── main.js               # Nav, reveals, hero/pin scroll, menu tabs, lightbox, map
-├── assets/                   # Real photography, logo, promos, duotone hero image
-├── tailwind.config.js        # Theme tokens (colors, fonts) for recompiles
+│   ├── menu-data.js              # Menu/bar/highlights content (edit here) — see RUNBOOK.md
+│   ├── gallery-categories.js     # Auto-generated; do not edit by hand (see below)
+│   ├── gallery-page.js           # Shared renderer for the gallery-*.html pages
+│   ├── break-notice.js           # Vacation/closure banner config
+│   └── main.js                   # Nav, reveals, menu tabs, highlights cards, map
+├── scripts/
+│   └── build-gallery-categories.js # Scans assets/{drinks,beer,Dessert,Entrees}/
+│                                    # and regenerates js/gallery-categories.js
+├── assets/                       # Real photography, logo, promos, duotone hero image
+├── tailwind.config.js            # Theme tokens (colors, fonts) for recompiles
+├── RUNBOOK.md                    # Day-to-day content/ops tasks
+├── PRODUCT.md / DESIGN.md         # Product brief / visual design system
 └── README.md
 ```
 
@@ -45,40 +63,28 @@ python -m http.server 4321
 
 ## Editing content
 
-- **Menu items / prices / descriptions** → `js/menu-data.js` (the `MENU` array).
-  Add `spice: true` to flag a dish. Categories map 1:1 to the menu tabs.
-- **Signature dishes** → `SIGNATURES` array in the same file.
-- **Gallery photos** → `GALLERY` array. Swap in real photography (see below).
+Covered in detail in **[RUNBOOK.md](RUNBOOK.md)**, including which arrays in
+`js/menu-data.js` actually drive the live page (a few — `DRINKS`, `SIGNATURES`,
+`DESSERTS`, `PROMOS` — are leftover and unused; don't edit those expecting a
+change). Short version:
+
+- **Menu / bar items, prices, descriptions** → `MENU` / `BAR` arrays in `js/menu-data.js`.
+- **Highlights card photos + their gallery pages** → drop files in the matching
+  `assets/` folder and run `node scripts/build-gallery-categories.js`.
+- **Seasonal Specials cards** → hand-written HTML in `index.html`, `#specials`.
 - **Hours / address / phone / social links** → search `index.html` for the value
-  (e.g. `(480) 451-8866`). Phone appears in the nav drawer, Visit section, footer,
-  and the JSON-LD structured data block.
-
-## Scheduling a break / vacation closure
-
-Two places, both must be edited together:
-
-1. **`js/break-notice.js`** — fill in `CONFIG.start`, `CONFIG.end`, `CONFIG.reopen`
-   (`YYYY-MM-DD`). This drives everything visitors see: a dismissible banner,
-   the "Order Online" buttons switching to "Reopens [date]", and a note on the
-   hero and Visit-section hours. It turns on and off automatically based on
-   today's date — no need to remember to blank it out after the break ends.
-2. **`index.html`** — add a matching entry to `specialOpeningHoursSpecification`
-   in the `Restaurant` JSON-LD block (see the comment directly above that
-   `<script>` tag for the exact snippet and field meanings). This one does
-   *not* update itself: JSON-LD is static HTML read by search crawlers, so it
-   has to be added and removed by hand, using the same dates as step 1.
-
-Also update the hours on the restaurant's Google Business Profile — that's
-what most search results and Google Maps actually show, independent of this
-site.
+  (e.g. `(480) 451-8866`).
+- **Scheduling a break / vacation closure** → see RUNBOOK.md; involves both
+  `js/break-notice.js` and a JSON-LD block in `index.html`.
 
 ## Photography
 
 Food, interior, drink and promo images live in `assets/` (the restaurant's own
-photography, served locally as optimized WebP). To swap an image, drop the new file
-into the matching `assets/` subfolder and update its reference in `js/menu-data.js`
-(menu/gallery/signatures) or the `<img src>` tags in `index.html` (hero,
-About section, `og:image`/`twitter:image` meta, and JSON-LD `image`).
+photography, served locally as optimized WebP). For Highlights card / gallery
+photos specifically, see RUNBOOK.md — it's a folder-drop + script workflow, not
+manual `<img>` edits. For everything else (hero, About section, `og:image`/
+`twitter:image` meta, JSON-LD `image`), swap the file in its `assets/`
+subfolder and update the `<img src>` / meta tag directly in `index.html`.
 
 The **hero** is a charcoal+gold *duotone* still — `assets/others/hero-duotone.webp`
 (`#heroImg`), zoomed and revealed on scroll by `main.js`. There is no hero video.
@@ -116,8 +122,9 @@ npx tailwindcss -i ./css/tailwind-input.css -o ./css/tailwind-compiled.css --min
 ## Accessibility &amp; performance notes
 
 - Semantic landmarks, skip link, labeled icon buttons, visible focus states.
-- Modal overlays (mobile drawer, image lightbox) **trap focus**, move focus in on
-  open, and restore it to the trigger on close; `Esc` closes both.
+- The mobile nav drawer **traps focus**, moves focus in on open, and restores
+  it to the trigger on close. The gallery-page lightboxes move focus to the
+  close button and restore it on close; `Esc` closes both.
 - Lazy-loaded images; hero image is `fetchpriority="high"`.
 - All motion respects `prefers-reduced-motion`.
 - Verified responsive at 375 / 768 / 1024 / 1440px.

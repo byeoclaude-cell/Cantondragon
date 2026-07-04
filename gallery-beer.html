@@ -23,7 +23,7 @@
 
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <link rel="stylesheet" href="css/tailwind-compiled.css" />
-  <link rel="stylesheet" href="css/styles.css?v=41" />
+  <link rel="stylesheet" href="css/styles.css?v=42" />
 </head>
 
 <body class="bg-charcoal font-sans text-ivory antialiased selection:bg-gold/30" data-gallery-category="beer">
@@ -95,10 +95,13 @@
     <button class="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full bg-ivory/10 text-ivory hover:bg-ivory/20" aria-label="Close image" id="lightboxClose">
       <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
     </button>
-    <img id="lightboxImg" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-xl shadow-2xl" />
+    <div class="flex flex-col items-center gap-4 max-w-[90vw] my-auto py-4">
+      <img id="lightboxImg" src="" alt="" class="max-h-[68vh] max-w-full rounded-xl shadow-2xl" />
+      <p id="lightboxCaption" class="font-serif text-lg text-ivory/85 text-center"></p>
+    </div>
   </div>
 
-  <script src="js/gallery-categories.js?v=3"></script>
-  <script src="js/gallery-page.js?v=1"></script>
+  <script src="js/gallery-categories.js?v=6"></script>
+  <script src="js/gallery-page.js?v=2"></script>
 </body>
 </html>

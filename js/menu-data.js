@@ -43,13 +43,13 @@ const FEATURED = [
    dessert photo, add a line here too, or its card pill falls back to the
    category's default tag ("Curated"). */
 const DESSERT_MADE = {
-  'cheesecake.webp':   'Curated',
-  'Ube.webp':           'Curated',
-  'HoneyBanana.webp':   'House-Made',
-  'DarkChoc.webp':      'Curated',
-  'WhiteChoc.webp':     'Curated',
-  'Fryapple.webp':      'House-Made',
-  'ICECREAMCAKE.webp':  'House-Made',
+  'Lava Cheesecake.webp':      'Curated',
+  'Ube Cheesecake.webp':       'Curated',
+  'Honey Banana.webp':         'House-Made',
+  'Triple dark chocolate.webp':'Curated',
+  'White Chocolate.webp':      'Curated',
+  'Fried Apples.webp':         'House-Made',
+  'Fried Ice Cream Cake.webp': 'House-Made',
 };
 
 /* Maps a FEATURED entry's categoryKey to its per-image tag lookup, if any. */

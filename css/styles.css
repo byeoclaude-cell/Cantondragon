@@ -1356,6 +1356,12 @@ dl .flex:hover .info-icon {
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
 
+/* ── Gallery-page lightbox (gallery-*.html) ────────────────
+   Scrollable so a tall image + caption never gets silently clipped
+   off-screen on short viewports — overflow-y-auto isn't in the
+   precompiled Tailwind build, so it's a plain rule here instead. */
+#lightbox { overflow-y: auto; }
+
 /* ── Gallery editorial heading ──────────────────────────── */
 .gallery-editorial-head {
   font-size: clamp(2rem, 8vw, 6.5rem);

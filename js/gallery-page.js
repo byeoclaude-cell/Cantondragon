@@ -27,6 +27,7 @@
     const grid = document.getElementById('galleryGrid');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
     const closeBtn = document.getElementById('lightboxClose');
     if (!grid || !lightbox) return;
 
@@ -36,6 +37,7 @@
       lastFocused = document.activeElement;
       lightboxImg.src = src;
       lightboxImg.alt = alt;
+      if (lightboxCaption) lightboxCaption.textContent = alt;
       lightbox.classList.remove('hidden');
       lightbox.classList.add('flex');
       document.body.style.overflow = 'hidden';
@@ -46,6 +48,7 @@
       lightbox.classList.add('hidden');
       lightbox.classList.remove('flex');
       lightboxImg.src = '';
+      if (lightboxCaption) lightboxCaption.textContent = '';
       document.body.style.overflow = '';
       if (lastFocused) lastFocused.focus();
     }

@@ -9,48 +9,52 @@
 const GALLERY_CATEGORIES = {
   drinks: [
     {
+      "img": "assets/drinks/Espresso Martini.webp",
+      "alt": "Espresso Martini"
+    },
+    {
+      "img": "assets/drinks/Lychee Martini.webp",
+      "alt": "Lychee Martini"
+    },
+    {
+      "img": "assets/drinks/Lychee Mojito.png",
+      "alt": "Lychee Mojito"
+    },
+    {
+      "img": "assets/drinks/Mai Tai.webp",
+      "alt": "Mai Tai"
+    },
+    {
+      "img": "assets/drinks/Manhattan.webp",
+      "alt": "Manhattan"
+    },
+    {
+      "img": "assets/drinks/Mocktail Flight.jpeg",
+      "alt": "Mocktail Flight"
+    },
+    {
+      "img": "assets/drinks/Old Fashioned.webp",
+      "alt": "Old Fashioned"
+    },
+    {
+      "img": "assets/drinks/Prickly Pear.webp",
+      "alt": "Prickly Pear"
+    },
+    {
       "img": "assets/drinks/TokyoGlow.webp",
       "alt": "Tokyo Glow"
     },
     {
-      "img": "assets/drinks/YuzuMarga.webp",
-      "alt": "Yuzu Marga"
-    },
-    {
-      "img": "assets/drinks/lycheemart.webp",
-      "alt": "Lycheemart"
-    },
-    {
-      "img": "assets/drinks/mocktailflight.jpeg",
-      "alt": "Mocktailflight"
+      "img": "assets/drinks/Yuzu Margarita.webp",
+      "alt": "Yuzu Margarita"
     },
     {
       "img": "assets/drinks/mojitos.webp",
       "alt": "Mojitos"
     },
     {
-      "img": "assets/drinks/oldfashionfront_genSwap.webp",
-      "alt": "Oldfashionfront Gen Swap"
-    },
-    {
-      "img": "assets/drinks/orchid (1).webp",
-      "alt": "Orchid (1)"
-    },
-    {
       "img": "assets/drinks/pamplemousse.webp",
       "alt": "Pamplemousse"
-    },
-    {
-      "img": "assets/drinks/pomelli_photoshoot_image_9_16_0609 (4).webp",
-      "alt": "Pomelli Photoshoot Image 9 16 0609 (4)"
-    },
-    {
-      "img": "assets/drinks/prickly (1).webp",
-      "alt": "Prickly (1)"
-    },
-    {
-      "img": "assets/drinks/stem.webp",
-      "alt": "Stem"
     }
   ],
   beer: [
@@ -59,20 +63,20 @@ const GALLERY_CATEGORIES = {
       "alt": "Asahi"
     },
     {
-      "img": "assets/beer/Luckybuddha.webp",
-      "alt": "Luckybuddha"
+      "img": "assets/beer/Lucky buddha.webp",
+      "alt": "Lucky Buddha"
     },
     {
       "img": "assets/beer/Singha.webp",
       "alt": "Singha"
     },
     {
-      "img": "assets/beer/kirinichiban.webp",
-      "alt": "Kirinichiban"
+      "img": "assets/beer/kirin ichiban.webp",
+      "alt": "Kirin Ichiban"
     },
     {
-      "img": "assets/beer/kirinlight.webp",
-      "alt": "Kirinlight"
+      "img": "assets/beer/kirin light.webp",
+      "alt": "Kirin Light"
     },
     {
       "img": "assets/beer/tsingtao.webp",
@@ -81,82 +85,82 @@ const GALLERY_CATEGORIES = {
   ],
   desserts: [
     {
-      "img": "assets/Dessert/DarkChoc.webp",
-      "alt": "Dark Choc"
+      "img": "assets/Dessert/Fried Apples.webp",
+      "alt": "Fried Apples"
     },
     {
-      "img": "assets/Dessert/Fryapple.webp",
-      "alt": "Fryapple"
+      "img": "assets/Dessert/Fried Ice Cream Cake.webp",
+      "alt": "Fried Ice Cream Cake"
     },
     {
-      "img": "assets/Dessert/HoneyBanana.webp",
+      "img": "assets/Dessert/Honey Banana.webp",
       "alt": "Honey Banana"
     },
     {
-      "img": "assets/Dessert/ICECREAMCAKE.webp",
-      "alt": "ICECREAMCAKE"
+      "img": "assets/Dessert/Lava Cheesecake.webp",
+      "alt": "Lava Cheesecake"
     },
     {
-      "img": "assets/Dessert/Ube.webp",
-      "alt": "Ube"
+      "img": "assets/Dessert/Triple dark chocolate.webp",
+      "alt": "Triple Dark Chocolate"
     },
     {
-      "img": "assets/Dessert/WhiteChoc.webp",
-      "alt": "White Choc"
+      "img": "assets/Dessert/Ube Cheesecake.webp",
+      "alt": "Ube Cheesecake"
     },
     {
-      "img": "assets/Dessert/cheesecake.webp",
-      "alt": "Cheesecake"
+      "img": "assets/Dessert/White Chocolate.webp",
+      "alt": "White Chocolate"
     }
   ],
   kitchen: [
     {
-      "img": "assets/Entrees/beefchowfun.webp",
-      "alt": "Beefchowfun"
+      "img": "assets/Entrees/BBQ Pork Fried Rice.webp",
+      "alt": "BBQ Pork Fried Rice"
     },
     {
-      "img": "assets/Entrees/butterfish.jpg",
-      "alt": "Butterfish"
+      "img": "assets/Entrees/Beef Chow Fun.webp",
+      "alt": "Beef Chow Fun"
     },
     {
-      "img": "assets/Entrees/lemonchx.webp",
-      "alt": "Lemonchx"
+      "img": "assets/Entrees/Fried Butterfish.jpg",
+      "alt": "Fried Butterfish"
     },
     {
-      "img": "assets/Entrees/mongolianbeef.webp",
-      "alt": "Mongolianbeef"
+      "img": "assets/Entrees/Lemon Chicken.webp",
+      "alt": "Lemon Chicken"
     },
     {
-      "img": "assets/Entrees/onionrings.webp",
-      "alt": "Onionrings"
+      "img": "assets/Entrees/Mongolian Beef.webp",
+      "alt": "Mongolian Beef"
     },
     {
-      "img": "assets/Entrees/porkfriedrice.webp",
-      "alt": "Porkfriedrice"
+      "img": "assets/Entrees/Onion Rings.webp",
+      "alt": "Onion Rings"
     },
     {
-      "img": "assets/Entrees/shrimpbrocolli.webp",
-      "alt": "Shrimpbrocolli"
+      "img": "assets/Entrees/Shrimp Broccoli.webp",
+      "alt": "Shrimp Broccoli"
     },
     {
-      "img": "assets/Entrees/shrimplomein.webp",
-      "alt": "Shrimplomein"
+      "img": "assets/Entrees/Shrimp Lo Mein.webp",
+      "alt": "Shrimp Lo Mein"
     },
     {
-      "img": "assets/Entrees/shrimptoast.webp",
-      "alt": "Shrimptoast"
+      "img": "assets/Entrees/Shrimp Toast.webp",
+      "alt": "Shrimp Toast"
     },
     {
-      "img": "assets/Entrees/teriyakichx.webp",
-      "alt": "Teriyakichx"
+      "img": "assets/Entrees/Teriyaki Chicken.webp",
+      "alt": "Teriyaki Chicken"
     },
     {
-      "img": "assets/Entrees/thaicurrynoodle.webp",
-      "alt": "Thaicurrynoodle"
+      "img": "assets/Entrees/Thai Curry Noodle.webp",
+      "alt": "Thai Curry Noodle"
     },
     {
-      "img": "assets/Entrees/tofuveg.webp",
-      "alt": "Tofuveg"
+      "img": "assets/Entrees/Tofu Vegetables.webp",
+      "alt": "Tofu Vegetables"
     }
   ],
 };
