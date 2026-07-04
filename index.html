@@ -42,7 +42,7 @@
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
 
   <link rel="stylesheet" href="css/tailwind-compiled.css" />
-  <link rel="stylesheet" href="css/styles.css?v=38" />
+  <link rel="stylesheet" href="css/styles.css?v=41" />
   <!-- Leaflet is lazy-loaded — dns-prefetch + preconnect to cut first-request latency -->
   <link rel="dns-prefetch" href="//unpkg.com" />
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
@@ -229,7 +229,6 @@
         <a href="#bar" class="nav-link">Bar</a>
         <a href="#menu" class="nav-link">Menu</a>
         <a href="#specials" class="nav-link">Specials</a>
-        <a href="#gallery" class="nav-link">Gallery</a>
         <a href="#visit" class="nav-link">Visit</a>
         <a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener"
            class="btn-gold">Order Online<span class="sr-only"> (opens in a new tab)</span></a>
@@ -274,8 +273,7 @@
         <a href="#bar"        class="mobile-overlay-link" data-close style="--d:.15s">Bar</a>
         <a href="#menu"       class="mobile-overlay-link" data-close style="--d:.20s">Menu</a>
         <a href="#specials"   class="mobile-overlay-link" data-close style="--d:.25s">Specials</a>
-        <a href="#gallery"    class="mobile-overlay-link" data-close style="--d:.30s">Gallery</a>
-        <a href="#visit"      class="mobile-overlay-link" data-close style="--d:.35s">Visit</a>
+        <a href="#visit"      class="mobile-overlay-link" data-close style="--d:.30s">Visit</a>
       </nav>
 
       <!-- CTA group -->
@@ -591,22 +589,6 @@
       </div>
     </section>
 
-    <!-- ============ GALLERY ============ -->
-    <section id="gallery" class="py-24 sm:py-32">
-      <div class="mx-auto max-w-8xl px-6 sm:px-10 lg:px-14">
-        <div>
-          <h2 class="reveal-clip gallery-editorial-head font-display font-700 text-ivory">
-            A taste of<br />the table.
-          </h2>
-          <p class="mt-7 max-w-md font-serif text-lg text-ivory/55">
-            From the wok to the table — a glimpse of what's waiting. Tap any photo to view it larger.
-          </p>
-        </div>
-
-        <div id="galleryGrid" class="mt-12 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4"><!-- JS injected --></div>
-      </div>
-    </section>
-
     <!-- ============ VISIT ============ -->
     <section id="visit" class="bg-charcoal-800 py-24 sm:py-32">
       <div class="mx-auto grid max-w-8xl gap-12 px-6 sm:px-10 lg:grid-cols-2 lg:gap-16 lg:px-14">
@@ -691,7 +673,6 @@
           <li><a href="#bar" class="footer-link">Bar</a></li>
           <li><a href="#menu" class="footer-link">Menu</a></li>
           <li><a href="#specials" class="footer-link">Specials</a></li>
-          <li><a href="#gallery" class="footer-link">Gallery</a></li>
           <li><a href="#visit" class="footer-link">Visit</a></li>
           <li><a href="https://cantondragon.hrpos.heartland.us/menu" target="_blank" rel="noopener" class="footer-link">Order Online<span class="sr-only"> (opens in a new tab)</span></a></li>
         </ul>
@@ -721,17 +702,10 @@
     </div>
   </footer>
 
-  <!-- Lightbox -->
-  <div id="lightbox" class="fixed inset-0 z-[70] hidden items-center justify-center bg-charcoal/90 p-6 backdrop-blur-sm">
-    <button class="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full bg-ivory/10 text-ivory hover:bg-ivory/20" aria-label="Close image" id="lightboxClose">
-      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
-    </button>
-    <img id="lightboxImg" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-xl shadow-2xl" />
-  </div>
-
   <!-- Leaflet JS is lazy-loaded by main.js when the Visit section nears the viewport -->
-  <script src="js/menu-data.js?v=24"></script>
+  <script src="js/menu-data.js?v=28"></script>
+  <script src="js/gallery-categories.js?v=3"></script>
   <script src="js/break-notice.js?v=1"></script>
-  <script src="js/main.js?v=27"></script>
+  <script src="js/main.js?v=31"></script>
 </body>
 </html>

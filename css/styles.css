@@ -785,6 +785,11 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   box-shadow: 0 0 0 1px rgba(200,162,75,.07),
               0 24px 48px -12px rgba(0,0,0,.55);
   transition: box-shadow 0.45s var(--ease), transform 0.5s var(--ease-out);
+  cursor: pointer;
+}
+.hl2-card:focus-visible {
+  outline: 2px solid var(--gold-400);
+  outline-offset: 3px;
 }
 /* Gold hairline border materialises on hover */
 .hl2-card::after {
@@ -935,11 +940,17 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   color: rgba(251,247,240,.58);
 }
 
+.hl2-card__ctas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 0.85rem;
+}
 .hl2-card__cta {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  margin-top: 0.85rem;
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -948,6 +959,8 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
   transition: color .25s ease;
 }
 .hl2-card__cta:hover { color: var(--ivory); }
+.hl2-card__cta--secondary { color: rgba(251,247,240,.4); }
+.hl2-card__cta--secondary:hover { color: rgba(251,247,240,.75); }
 /* Arrow nudges right on hover via transform (no layout thrash) */
 .hl2-card__cta span { display: inline-block; transition: transform .25s var(--ease); }
 .hl2-card__cta:hover span { transform: translateX(4px); }
@@ -1410,3 +1423,27 @@ body.has-break-banner { padding-top: var(--banner-h, 0px); transition: padding-t
 
 /* Paused state for the Order Online CTAs while on break */
 .is-paused { opacity: .55; box-shadow: none; }
+
+/* Leaflet ships white/default chrome — restyle to match the charcoal/gold
+   theme instead of leaving a stock-map-widget box on an otherwise dark page. */
+.leaflet-control-zoom a {
+  background: #1C1714 !important;
+  color: var(--ivory) !important;
+  border-color: rgba(251,247,240,.16) !important;
+}
+.leaflet-control-zoom a:hover { background: #262019 !important; color: var(--gold-400) !important; }
+.leaflet-popup-content-wrapper {
+  background: #1C1714 !important;
+  color: var(--ivory) !important;
+  border: 1px solid rgba(200,162,75,.25);
+  box-shadow: 0 24px 48px -12px rgba(0,0,0,.55);
+}
+.leaflet-popup-tip { background: #1C1714 !important; box-shadow: none; }
+.leaflet-popup-close-button { color: rgba(251,247,240,.6) !important; }
+.leaflet-popup-close-button:hover { color: var(--ivory) !important; }
+.leaflet-container a.leaflet-popup-close-button { top: 6px; right: 6px; }
+.leaflet-control-attribution {
+  background: rgba(20,16,14,.72) !important;
+  color: rgba(251,247,240,.55) !important;
+}
+.leaflet-control-attribution a { color: rgba(251,247,240,.75) !important; }

@@ -1,0 +1,5 @@
+updating website images in highlights
+ open windows terminal
+
+cd H:\ClaudeCode\canton-dragon
+node scripts/build-gallery-categories.js

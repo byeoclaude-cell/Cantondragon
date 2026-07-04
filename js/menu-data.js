@@ -4,77 +4,56 @@
    Edit prices / descriptions here; the page renders from this.
    ============================================================ */
 
-/* Three-panel featured section — card stack per category */
+/* Three-panel featured section — card stack per category.
+   Preview images come from GALLERY_CATEGORIES[categoryKey] (js/gallery-categories.js),
+   which is generated from the matching assets/ folder — see scripts/build-gallery-categories.js. */
 const FEATURED = [
   {
     label: 'Cocktails & Wine',
     name:  'Craft Cocktails and Wine',
     tag:   'Happy Hour Daily',
-    link:  'bar', tabId: 'barpanel-cocktails',
+    link:  'bar', tabId: 'barpanel-cocktails', gallery: 'gallery-drinks.html', categoryKey: 'drinks',
     desc:  'Yuzu margaritas, Pamplemousses spritz and a curated wine list from Kim Crawford to DAOU. Pull up Monday–Friday, 12–7pm — every cocktail or glass of wine is $3 off.',
-    images: [
-      'assets/drinks/TokyoGlow.webp',
-      'assets/drinks/orchid (1).webp',
-      'assets/drinks/YuzuMarga.webp',
-      'assets/drinks/lycheemart.webp',
-      'assets/drinks/prickly (1).webp',
-      'assets/drinks/mojitos.webp',
-      'assets/drinks/pamplemousse.webp',
-      'assets/drinks/oldfashionfront_genSwap.webp',
-      'assets/drinks/pomelli_photoshoot_image_9_16_0609 (4).webp',
-      'assets/drinks/stem.webp',
-    ],
   },
   {
     label: 'Beer',
     name:  'Asian Imports, Bottled',
     tag:   'Cold & Crisp',
-    link:  'bar', tabId: 'barpanel-beer',
+    link:  'bar', tabId: 'barpanel-beer', gallery: 'gallery-beer.html', categoryKey: 'beer',
     desc:  'Six imported Asian lagers in the bottle — Tsingtao, Asahi, Kirin Ichiban, Kirin Light, Singha and Lucky Buddha. Light, clean and made to pair with wok fire.',
-    images: [
-      'assets/beer/tsingtao.webp',
-      'assets/beer/Asahi.webp',
-      'assets/beer/kirinichiban.webp',
-      'assets/beer/kirinlight.webp',
-      'assets/beer/Singha.webp',
-      'assets/beer/Luckybuddha.webp',
-    ],
   },
   {
     label: 'Desserts',
     name:  'A Sweet Finale',
     tag:   'Curated',
-    link:  'menu', tabId: 'panel-desserts',
+    link:  'menu', tabId: 'panel-desserts', gallery: 'gallery-desserts.html', categoryKey: 'desserts',
     desc:  'Seven desserts — some house-made from scratch, others curated from the best. From vibrant ube cake and golden honey banana to rich cheesecake and dark chocolate layers.',
-    images: [
-      { src: 'assets/Dessert/cheesecake.webp',   made: 'Curated'    },
-      { src: 'assets/Dessert/Ube.webp',          made: 'Curated'    },
-      { src: 'assets/Dessert/HoneyBanana.webp',  made: 'House-Made' },
-      { src: 'assets/Dessert/DarkChoc.webp',     made: 'Curated'    },
-      { src: 'assets/Dessert/WhiteChoc.webp',    made: 'Curated'    },
-      { src: 'assets/Dessert/Fryapple.webp',     made: 'House-Made' },
-      { src: 'assets/Dessert/ICECREAMCAKE.webp', made: 'House-Made' },
-    ],
   },
   {
     label: "The Kitchen",
     name:  "The Dishes We're Known For",
     tag:   'House Classics',
-    link:  'menu', tabId: 'panel-chef',
-    desc:  'Four defining dishes — Mongolian beef, shrimp lo mein, roast duck and happy family. Each one made to order, each one a reason to come back.',
-    images: [
-      'assets/Entrees/shrimplomein.webp',
-      'assets/Entrees/porkfriedrice.webp',
-      'assets/Entrees/beefchowfun.webp',
-      'assets/Entrees/mongolianbeef.webp',
-      'assets/Entrees/lemonchx.webp',
-      'assets/Entrees/shrimpbrocolli.webp',
-      'assets/Entrees/teriyakichx.webp',
-      'assets/Entrees/thaicurrynoodle.webp',
-      'assets/Entrees/tofuveg.webp',
-    ],
+    link:  'menu', tabId: 'panel-chef', gallery: 'gallery-kitchen.html', categoryKey: 'kitchen',
+    desc:  'Mongolian beef, shrimp lo mein, beef chow fun and more — the dishes that built our reputation. Each one made to order, each one a reason to come back.',
   },
 ];
+
+/* Per-image "Curated" / "House-Made" tag for the Desserts card, keyed by
+   filename in assets/Dessert/. Not auto-generated — when you add a new
+   dessert photo, add a line here too, or its card pill falls back to the
+   category's default tag ("Curated"). */
+const DESSERT_MADE = {
+  'cheesecake.webp':   'Curated',
+  'Ube.webp':           'Curated',
+  'HoneyBanana.webp':   'House-Made',
+  'DarkChoc.webp':      'Curated',
+  'WhiteChoc.webp':     'Curated',
+  'Fryapple.webp':      'House-Made',
+  'ICECREAMCAKE.webp':  'House-Made',
+};
+
+/* Maps a FEATURED entry's categoryKey to its per-image tag lookup, if any. */
+const MADE_TAGS = { desserts: DESSERT_MADE };
 
 /* Curated bar — 5 cocktail hero panels */
 const DRINKS = [
@@ -200,24 +179,6 @@ const DESSERTS = [
     desc: 'Caramelized apple wrapped in a shatteringly crisp crust, dusted with cinnamon sugar. The dessert that ends every Canton Dragon experience on the highest note.',
     img:  'assets/Dessert/Fryapple.webp',
   },
-];
-
-/* Gallery — real Canton Dragon photography. */
-const GALLERY = [
-  { img: 'assets/Entrees/beefchowfun.webp',        alt: 'Beef chow fun — wide rice noodles with beef and bean sprouts' },
-  { img: 'assets/Entrees/mongolianbeef.webp',       alt: 'Mongolian beef with scallions in a rich savory sauce' },
-  { img: 'assets/Entrees/lemonchx.webp',            alt: 'Lemon chicken — crispy chicken in bright lemon glaze' },
-  { img: 'assets/Entrees/thaicurrynoodle.webp',     alt: 'Thai curry noodle bowl with fragrant coconut broth' },
-  { img: 'assets/Entrees/tofuveg.webp',             alt: 'Tofu vegetable stir-fry' },
-  { img: 'assets/Entrees/teriyakichx.webp',         alt: 'Teriyaki chicken glazed and plated' },
-  { img: 'assets/others/table%20of%20food.webp',    alt: 'A full spread of Canton Dragon dishes family-style' },
-  { img: 'assets/others/interiornarrow.webp',       alt: 'Canton Dragon dining room' },
-  { img: 'assets/promos/mocktailflight.jpeg',       alt: 'A flight of house mocktails' },
-  { img: 'assets/drinks/pamplemousse.webp',         alt: 'Pamplemousse — a bright grapefruit cocktail' },
-  { img: 'assets/drinks/Singha.webp',               alt: 'Singha — Thai lager served ice-cold' },
-  { img: 'assets/drinks/pomelli_photoshoot_image_9_16_0609%20(4).webp', alt: 'Pomelli — a craft cocktail at the bar' },
-  { img: 'assets/appertizers/onionrings.webp',      alt: 'Golden crispy onion rings' },
-  { img: 'assets/appertizers/shrimptoast.webp',     alt: 'Shrimp toast — crisp golden appetizer' },
 ];
 
 /* Full menu, grouped by tab. spice:true adds a chili tag. */

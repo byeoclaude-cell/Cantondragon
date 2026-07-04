@@ -282,14 +282,16 @@
     if (!grid || typeof FEATURED === 'undefined') return;
 
     grid.innerHTML = FEATURED.map((d, i) => {
-      const imgs  = d.images || [];
+      const imgs  = (typeof GALLERY_CATEGORIES !== 'undefined' && GALLERY_CATEGORIES[d.categoryKey]) || [];
       const delay = (i * 0.14).toFixed(2);
 
-      // Support both plain string images and {src, made} objects
+      // Per-image "made" tag, if this category has one (see MADE_TAGS in menu-data.js)
+      const madeMap = (typeof MADE_TAGS !== 'undefined' && MADE_TAGS[d.categoryKey]) || null;
+      const madeFor = img => madeMap && madeMap[img.img.split('/').pop()];
+
       const bgImgs = imgs.map((img, j) => {
-        const src  = typeof img === 'string' ? img : img.src;
-        const made = typeof img !== 'string' && img.made ? ` data-made="${img.made}"` : '';
-        return `<img class="hl2-bg-img${j === 0 ? ' active' : ''}" src="${src}" alt="${d.label}" loading="${j < 2 ? 'eager' : 'lazy'}"${made} />`;
+        const made = madeFor(img);
+        return `<img class="hl2-bg-img${j === 0 ? ' active' : ''}" src="${img.img}" alt="${img.alt}" loading="${j < 2 ? 'eager' : 'lazy'}"${made ? ` data-made="${made}"` : ''} />`;
       }).join('');
 
       // Dot controls — one per image, first starts active
@@ -299,18 +301,18 @@
           ).join('')}</div>`
         : '';
 
-      // CTA link — scrolls to the right section and activates the right tab
-      const cta = d.link
-        ? `<a class="hl2-card__cta" href="#${d.link}"${d.tabId ? ` data-tab="${d.tabId}"` : ''}>Explore <span aria-hidden="true">→</span></a>`
-        : '';
+      // CTA links — primary opens the full photo gallery for this category;
+      // secondary scrolls to the right section and activates the right tab
+      const ctas = `<div class="hl2-card__ctas">
+          ${d.gallery ? `<a class="hl2-card__cta hl2-card__cta--primary" href="${d.gallery}">View Gallery <span aria-hidden="true">→</span></a>` : ''}
+          ${d.link ? `<a class="hl2-card__cta hl2-card__cta--secondary" href="#${d.link}"${d.tabId ? ` data-tab="${d.tabId}"` : ''}>View Menu <span aria-hidden="true">→</span></a>` : ''}
+        </div>`;
 
-      // Initial tag from first image's made property, if present
-      const firstImg   = imgs[0];
-      const initialTag = (firstImg && typeof firstImg !== 'string' && firstImg.made) ? firstImg.made : d.tag;
-      const tagCurated = initialTag !== 'House-Made' ? ' hl2-card__tag--curated' : '';
+      const initialTag  = (imgs[0] && madeFor(imgs[0])) || d.tag;
+      const tagCurated  = initialTag !== 'House-Made' ? ' hl2-card__tag--curated' : '';
 
       return `
-        <article class="hl2-card" style="--delay:${delay}s" aria-label="${d.label}">
+        <article class="hl2-card" style="--delay:${delay}s" tabindex="0" role="link" aria-label="${d.label} — view gallery"${d.gallery ? ` data-gallery="${d.gallery}"` : ''}>
           <div class="hl2-card__bg">${bgImgs}</div>
           <div class="hl2-card__overlay"></div>
           <div class="hl2-card__content">
@@ -320,7 +322,7 @@
             <div class="hl2-card__bottom">
               <h3 class="hl2-card__title">${d.name}</h3>
               <p class="hl2-card__desc">${d.desc}</p>
-              ${cta}
+              ${ctas}
               ${dots}
             </div>
           </div>
@@ -332,6 +334,24 @@
   function setupHighlightsSwitcher() {
     const cards = Array.from(document.querySelectorAll('.hl2-card'));
     if (!cards.length) return;
+
+    // Whole card opens its gallery page — except clicks on links/buttons
+    // inside it (dots, "View Gallery", "View Menu"), which handle themselves.
+    cards.forEach(card => {
+      const url = card.dataset.gallery;
+      if (!url) return;
+      card.addEventListener('click', e => {
+        if (e.target.closest('a, button')) return;
+        window.location.href = url;
+      });
+      card.addEventListener('keydown', e => {
+        if (e.target.closest('a, button')) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          window.location.href = url;
+        }
+      });
+    });
 
     function startCycling(card) {
       const imgs  = Array.from(card.querySelectorAll('.hl2-bg-img'));
@@ -679,48 +699,6 @@
     wireGroupTabs(groupTabsEl, tabsEl);
   }
 
-  /* ---------- Gallery + lightbox ---------- */
-  function renderGallery() {
-    const grid = $('#galleryGrid');
-    if (!grid || typeof GALLERY === 'undefined') return;
-    // varied row spans for an editorial masonry feel
-    const spans = ['row-span-2', '', '', 'row-span-2', '', 'row-span-2', '', ''];
-    grid.classList.add('auto-rows-[170px]', 'sm:auto-rows-[210px]');
-    grid.innerHTML = GALLERY.map((g, i) => `
-      <button class="gallery-item reveal-img ${spans[i % spans.length]}" style="--d:${(i % 4) * 0.06}s" data-src="${g.img}" aria-label="View larger: ${g.alt}">
-        <img src="${g.img}" alt="${g.alt}" loading="lazy" />
-        <span class="gallery-caption" aria-hidden="true">${g.alt.split(' — ')[0]}</span>
-      </button>`).join('');
-
-    const lightbox = $('#lightbox');
-    const lightboxImg = $('#lightboxImg');
-    const closeBtn = $('#lightboxClose');
-    const lbTrap = createFocusTrap(lightbox);
-
-    function open(src, alt) {
-      lightboxImg.src = src;
-      lightboxImg.alt = alt;
-      lightbox.classList.remove('hidden');
-      lightbox.classList.add('flex');
-      document.body.style.overflow = 'hidden';
-      lbTrap.activate(closeBtn); // focus close button, trap inside the lightbox
-    }
-    function close() {
-      if (lightbox.classList.contains('hidden')) return;
-      lightbox.classList.add('hidden');
-      lightbox.classList.remove('flex');
-      lightboxImg.src = '';
-      document.body.style.overflow = '';
-      lbTrap.release(); // restore focus to the gallery thumbnail that opened it
-    }
-    $$('.gallery-item', grid).forEach(btn => {
-      btn.addEventListener('click', () => open(btn.dataset.src, btn.querySelector('img').alt));
-    });
-    closeBtn.addEventListener('click', close);
-    lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
-  }
-
   /* ---------- Smooth-scroll for same-page anchors (offset for navbar) ---------- */
   function setupAnchors() {
     $$('a[href^="#"]').forEach(a => {
@@ -845,7 +823,7 @@
       zoomControl: true
     });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
       subdomains: 'abcd',
       maxZoom: 19
@@ -1037,7 +1015,6 @@
   renderMenu();
   renderBar();
   renderPromos();
-  renderGallery();
   initMap();
   setupAnchors();
   setupMagnetic();
