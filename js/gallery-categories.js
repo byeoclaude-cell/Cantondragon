@@ -9,6 +9,10 @@
 const GALLERY_CATEGORIES = {
   drinks: [
     {
+      "img": "assets/drinks/Classic Mojito.webp",
+      "alt": "Classic Mojito"
+    },
+    {
       "img": "assets/drinks/Espresso Martini.webp",
       "alt": "Espresso Martini"
     },
@@ -47,10 +51,6 @@ const GALLERY_CATEGORIES = {
     {
       "img": "assets/drinks/Yuzu Margarita.webp",
       "alt": "Yuzu Margarita"
-    },
-    {
-      "img": "assets/drinks/mojitos.webp",
-      "alt": "Mojitos"
     },
     {
       "img": "assets/drinks/pamplemousse.webp",

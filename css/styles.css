@@ -1357,10 +1357,30 @@ dl .flex:hover .info-icon {
 }
 
 /* ── Gallery-page lightbox (gallery-*.html) ────────────────
-   Scrollable so a tall image + caption never gets silently clipped
-   off-screen on short viewports — overflow-y-auto isn't in the
-   precompiled Tailwind build, so it's a plain rule here instead. */
+   .lightbox-frame is capped at the available viewport height; its
+   flex children share that space, with the image (flex + min-height:0)
+   shrinking first via object-fit:contain so image + caption together
+   always fit without scrolling, regardless of photo size or aspect
+   ratio. overflow-y:auto stays as a safety net for pathological cases
+   (e.g. a caption long enough to wrap several lines on a short window).
+   Plain CSS, not Tailwind utilities — several of these (overflow-y-auto,
+   arbitrary max-w-[90vw]) aren't in the precompiled Tailwind build. */
 #lightbox { overflow-y: auto; }
+#lightbox .lightbox-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 90vw;
+  max-height: 100%;
+}
+#lightbox .lightbox-img {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-width: 100%;
+  object-fit: contain;
+}
+#lightbox .lightbox-caption { flex: none; }
 
 /* ── Gallery editorial heading ──────────────────────────── */
 .gallery-editorial-head {
