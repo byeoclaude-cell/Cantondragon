@@ -894,6 +894,28 @@
     });
   }
 
+  /* ---------- Scroll-spy — highlight the current section's nav link ---------- */
+  function setupScrollSpy() {
+    const ids = ['about', 'signatures', 'bar', 'menu', 'specials', 'visit'];
+    const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+    const links = $$('.nav-link, .mobile-overlay-link');
+    if (!sections.length || !links.length) return;
+
+    function setActive(id) {
+      links.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    }
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+
+    sections.forEach(s => io.observe(s));
+  }
+
   /* ---------- Visit — map container hover ring ---------- */
   function setupVisitSection() {
     const section = document.getElementById('visit');
@@ -1022,5 +1044,6 @@
   setupAccolades();
   setupAboutMicro();
   setupVisitSection();
+  setupScrollSpy();
   observeReveals(); // after dynamic content is in the DOM
 })();

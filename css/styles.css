@@ -167,6 +167,8 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 }
 .nav-link:hover { color: var(--gold-400); }
 .nav-link:hover::after { transform: scaleX(1); }
+.nav-link.active { color: var(--gold-400); }
+.nav-link.active::after { transform: scaleX(1); }
 
 /* Scrolled state — deepens the glass as you move down the page */
 #navbar.scrolled {
@@ -176,6 +178,7 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 }
 #navbar.scrolled .nav-link { color: var(--ivory); }
 #navbar.scrolled .nav-link:hover { color: var(--gold-400); }
+#navbar.scrolled .nav-link.active { color: var(--gold-400); }
 #navbar.scrolled #menuBtn { color: var(--ivory); }
 
 /* ── Hamburger morph ─────────────────────────────────────── */
@@ -258,6 +261,7 @@ h1.font-display, h2.font-display { letter-spacing: -0.02em; }
 }
 nav .mobile-overlay-link:last-child { border-bottom: none; }
 .mobile-overlay-link:hover { color: var(--gold-400); }
+.mobile-overlay-link.active { color: var(--gold-400); }
 .mobile-overlay-link.in { opacity: 1; transform: translateY(0); }
 
 /* CTA group — same entry animation, no text overrides */
