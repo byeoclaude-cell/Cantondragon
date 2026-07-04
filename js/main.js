@@ -894,6 +894,42 @@
     });
   }
 
+  /* ---------- Tab row scroll-hint fades (Bar/Menu category pickers) ---------- */
+  function setupTabScrollFades() {
+    const rows = $$('.tab-scroll');
+    if (!rows.length) return;
+
+    function update(wrap) {
+      const el = wrap.querySelector('.menu-tabs');
+      if (!el) return;
+      const max = el.scrollWidth - el.clientWidth;
+      wrap.classList.toggle('fade-left', el.scrollLeft > 4);
+      wrap.classList.toggle('fade-right', el.scrollLeft < max - 4);
+    }
+
+    rows.forEach(wrap => {
+      const el = wrap.querySelector('.menu-tabs');
+      if (!el) return;
+      update(wrap);
+      el.addEventListener('scroll', () => update(wrap), { passive: true });
+    });
+    window.addEventListener('resize', () => rows.forEach(update), { passive: true });
+    // Tab labels render after this runs and web fonts may reflow their width — recheck once settled.
+    setTimeout(() => rows.forEach(update), 300);
+  }
+
+  /* ---------- Back-to-top button ---------- */
+  function setupBackToTop() {
+    const btn = $('#backToTop');
+    if (!btn) return;
+    const onScroll = () => btn.classList.toggle('visible', window.scrollY > window.innerHeight);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+    });
+  }
+
   /* ---------- Scroll-spy — highlight the current section's nav link ---------- */
   function setupScrollSpy() {
     const ids = ['about', 'signatures', 'bar', 'menu', 'specials', 'visit'];
@@ -1045,5 +1081,7 @@
   setupAboutMicro();
   setupVisitSection();
   setupScrollSpy();
+  setupTabScrollFades();
+  setupBackToTop();
   observeReveals(); // after dynamic content is in the DOM
 })();

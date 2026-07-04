@@ -324,6 +324,29 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
 .footer-link { transition: color .2s ease; }
 .footer-link:hover { color: var(--gold-400); }
 
+/* ---------- Back-to-top button — appears after scrolling past the hero ---------- */
+.back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  height: 2.75rem;
+  width: 2.75rem;
+  border-radius: 9999px;
+  color: var(--ivory);
+  background: rgba(20,16,14,.72);
+  border: 1px solid rgba(251,247,240,.22);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity .3s var(--ease), transform .3s var(--ease), background-color .3s var(--ease), color .3s var(--ease);
+}
+.back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.back-to-top:hover { background: var(--gold); color: #2a1d05; border-color: var(--gold); }
+
 /* ---------- Menu tabs ---------- */
 .menu-tab {
   flex: none;
@@ -362,6 +385,28 @@ nav .mobile-overlay-link:last-child { border-bottom: none; }
 /* Hide scrollbar on the tab strip but keep it scrollable */
 .menu-tabs { scrollbar-width: none; }
 .menu-tabs::-webkit-scrollbar { display: none; }
+
+/* Edge fades hint that the tab row scrolls horizontally — since the native
+   scrollbar is hidden above, this is the only affordance visitors get.
+   JS (setupTabScrollFades) toggles .fade-left/.fade-right based on actual
+   scroll position, so a fade never shows when there's nothing more to reveal. */
+.tab-scroll { position: relative; }
+.tab-scroll::before,
+.tab-scroll::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 32px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.tab-scroll::before { left: 0;  background: linear-gradient(to right, rgba(20,16,14,.92), transparent); }
+.tab-scroll::after  { right: 0; background: linear-gradient(to left,  rgba(20,16,14,.92), transparent); }
+.tab-scroll.fade-left::before { opacity: 1; }
+.tab-scroll.fade-right::after { opacity: 1; }
 
 /* Mobile-only separator — complements the desktop-only <br class="hidden sm:block">
    in the Highlights sub-heading. On mobile the <br> collapses to nothing, so this

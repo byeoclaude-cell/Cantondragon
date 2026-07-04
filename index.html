@@ -42,7 +42,7 @@
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
 
   <link rel="stylesheet" href="css/tailwind-compiled.css" />
-  <link rel="stylesheet" href="css/styles.css?v=44" />
+  <link rel="stylesheet" href="css/styles.css?v=45" />
   <!-- Leaflet is lazy-loaded — dns-prefetch + preconnect to cut first-request latency -->
   <link rel="dns-prefetch" href="//unpkg.com" />
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
@@ -461,11 +461,15 @@
 
         <!-- Category tabs -->
         <div class="reveal-up sticky top-[80px] z-30 mt-10 -mx-6 px-6 sm:mx-0 sm:px-0 bg-charcoal-800/90 backdrop-blur py-4" style="--d:.16s">
-          <div class="menu-tabs menu-tabs--primary flex gap-2 overflow-x-auto" id="barGroupTabs" role="tablist" aria-label="Bar menu groups">
-            <!-- JS injected -->
+          <div class="tab-scroll">
+            <div class="menu-tabs menu-tabs--primary flex gap-2 overflow-x-auto" id="barGroupTabs" role="tablist" aria-label="Bar menu groups">
+              <!-- JS injected -->
+            </div>
           </div>
-          <div class="menu-tabs mt-2 flex gap-2 overflow-x-auto rounded-full border border-ivory/10 bg-charcoal/90 p-1.5 backdrop-blur" id="barTabs" role="tablist" aria-label="Bar categories">
-            <!-- JS injected -->
+          <div class="tab-scroll mt-2">
+            <div class="menu-tabs flex gap-2 overflow-x-auto rounded-full border border-ivory/10 bg-charcoal/90 p-1.5 backdrop-blur" id="barTabs" role="tablist" aria-label="Bar categories">
+              <!-- JS injected -->
+            </div>
           </div>
         </div>
 
@@ -489,11 +493,15 @@
 
         <!-- Category tabs -->
         <div class="reveal-up sticky top-[80px] z-30 mt-10 -mx-6 px-6 sm:mx-0 sm:px-0 bg-charcoal/90 backdrop-blur py-4" style="--d:.16s">
-          <div class="menu-tabs menu-tabs--primary flex gap-2 overflow-x-auto" id="menuGroupTabs" role="tablist" aria-label="Menu groups">
-            <!-- JS injected -->
+          <div class="tab-scroll">
+            <div class="menu-tabs menu-tabs--primary flex gap-2 overflow-x-auto" id="menuGroupTabs" role="tablist" aria-label="Menu groups">
+              <!-- JS injected -->
+            </div>
           </div>
-          <div class="menu-tabs mt-2 flex gap-2 overflow-x-auto rounded-full border border-ivory/10 bg-charcoal-800/90 p-1.5 backdrop-blur" id="menuTabs" role="tablist" aria-label="Menu categories">
-            <!-- JS injected -->
+          <div class="tab-scroll mt-2">
+            <div class="menu-tabs flex gap-2 overflow-x-auto rounded-full border border-ivory/10 bg-charcoal-800/90 p-1.5 backdrop-blur" id="menuTabs" role="tablist" aria-label="Menu categories">
+              <!-- JS injected -->
+            </div>
           </div>
         </div>
 
@@ -702,10 +710,14 @@
     </div>
   </footer>
 
+  <button id="backToTop" class="back-to-top" aria-label="Back to top" type="button">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
   <!-- Leaflet JS is lazy-loaded by main.js when the Visit section nears the viewport -->
   <script src="js/menu-data.js?v=30"></script>
   <script src="js/gallery-categories.js?v=7"></script>
   <script src="js/break-notice.js?v=1"></script>
-  <script src="js/main.js?v=32"></script>
+  <script src="js/main.js?v=33"></script>
 </body>
 </html>
